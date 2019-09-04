@@ -14,6 +14,9 @@
 Route::get('/', function () {
     return view('index');
 });
+Route::get('/nueva-reserva', function () {
+    return view('nuevaReserva');
+});
 
 Auth::routes();
 

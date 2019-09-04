@@ -37,7 +37,7 @@ class ReservaController extends Controller
      */
     public function create()
     {
-        //
+        echo 'crear';
     }
 
     /**
