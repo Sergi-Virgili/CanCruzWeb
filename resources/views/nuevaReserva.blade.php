@@ -11,9 +11,13 @@
                     
                    NUEVA RESERVA
 
-                   <form action='reserva/create' method='post'>
-                   <input type='text'>
-                   <input type='submit' value='ENVIAR'>
+                   <form action='reserva' method='POST'>
+                  
+                   <input type='text' placeholder= Nombre name='name'>
+                   <input type='email' placeholder= Email name='email'>
+                   <input type='date'placeholder= Fecha name='date'>
+                   <input type='text' value='Comentario' name='commentary'>
+                   <input type='submit' value='RESERVAR'>
 
                    
                    

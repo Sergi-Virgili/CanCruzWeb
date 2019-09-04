@@ -22,6 +22,7 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('home/reservas', 'ReservaController@index');
-Route::get('home/reservas', 'ReservaController@index');
+
+
 Route::resource('reserva','ReservaController');
+

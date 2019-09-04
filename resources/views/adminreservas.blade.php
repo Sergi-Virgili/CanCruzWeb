@@ -14,16 +14,12 @@
                         Fecha: {{ $reserva->date }}, 
                         Mensaje: {{ $reserva->message }}, 
                         Email: {{ $reserva->email }}
-                        <form action="reserva/{{$reserva->id}}" method="POST">
-                        @csrf
-                        @method('DELETE')
-                        <input type="submit" value="destruir pàra siempre">
-                        </form>
-                        
-                        
-                        
-                        
-                         </li>
+                            <form action="reserva/{{$reserva->id}}" method="POST">
+                                @csrf
+                                @method('DELETE')
+                            <input type="submit" value="destruir pàra siempre">
+                            </form>
+                        </li>
                     @endforeach
                 </div>
             </div>

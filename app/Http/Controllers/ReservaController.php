@@ -3,14 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Reserva;
+use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class ReservaController extends Controller
 {   
     public function __construct()
     {
-        $this->middleware('auth');
-
+       
+       
     }
 
     /**
@@ -20,14 +22,14 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        $reservas = Reserva::all();
-    
-
-
-        return view('adminreservas', ['reservas'=>$reservas]);
-    
-
-
+        //$this->middleware('auth');
+            if (!Auth::check())
+            {
+                return redirect('auth/login');
+            
+            }
+            $reservas = Reserva::all();
+            return view('adminreservas', ['reservas'=>$reservas]);
     }
 
     /**
@@ -37,7 +39,8 @@ class ReservaController extends Controller
      */
     public function create()
     {
-        echo 'crear';
+        $reserva = new Reserva();
+        return redirect('nueva-reserva');
     }
 
     /**
@@ -48,7 +51,18 @@ class ReservaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $reserva = new Reserva();
+        $reserva->name = $request->name;
+
+        $reserva->save();
+        return Redirect::to('home');
+        
+
+
+        //$name = $request->input('name');
+
+       // $name = $request->input('name');
+        //return view('home');
     }
 
     /**
