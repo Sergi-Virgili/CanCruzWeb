@@ -12,6 +12,7 @@ class ReservaController extends Controller
     public function __construct()
     {
        
+
        
     }
 
@@ -22,10 +23,10 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        //$this->middleware('auth');
+        $this->middleware('auth');
             if (!Auth::check())
             {
-                return redirect('auth/login');
+                return redirect('home');
             
             }
             $reservas = Reserva::all();
@@ -39,8 +40,8 @@ class ReservaController extends Controller
      */
     public function create()
     {
-        $reserva = new Reserva();
-        return redirect('nueva-reserva');
+       
+        return view('nuevaReserva');
     }
 
     /**
@@ -51,18 +52,25 @@ class ReservaController extends Controller
      */
     public function store(Request $request)
     {
+
+        $data = $request->validate([
+            'name'=> 'required',
+            'email'=> 'required',
+            'date'=> 'required',
+            'message'=> 'required'
+
+        ]);
+
         $reserva = new Reserva();
         $reserva->name = $request->name;
+        $reserva->email = $request->email;
+        $reserva->message = $request->message;
+        $reserva->date = $request->date;
 
         $reserva->save();
-        return Redirect::to('home');
-        
+       
 
-
-        //$name = $request->input('name');
-
-       // $name = $request->input('name');
-        //return view('home');
+        return redirect('nueva-reserva');
     }
 
     /**
