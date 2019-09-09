@@ -5,32 +5,37 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">reservas</div>
-
+                <div class="card-header">Reservas</div>
                 <div class="card-body">
                     <ul class="list-group">
                     @foreach ($reservas as $reserva)
-                    <li class="list-group-item">Reserva a Nombre de: {{ $reserva->name }}, 
-                        Fecha: {{ $reserva->date }}, 
-                        Mensaje: {{ $reserva->message }}, 
-                        Email: {{ $reserva->email }}
+                        <div>
+                            <li class="list-group-item">Reserva a Nombre de: {{ $reserva->name }}
+                            <br> 
+                            Fecha Entrada: {{ $reserva->entry_date }}
+                            <br>
+                            Fecha Salida: {{ $reserva->out_date }}
+                            <br>
+                            Mensaje: {{ $reserva->message }}
+                            <br>
+                            Email: {{ $reserva->email }}
+                        </div>
+                        <div>
                             <form action="reserva/{{$reserva->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                            <input type="submit" value="x" class="btn btn-danger">
+                                <input type="submit" value="Delete" class="btn btn-danger">
                             </form>
                             <form action="reserva/{{$reserva->id}}" method="POST">
                                 @csrf
                                 @method('PUT')
-                            <input type="submit" value="edit" class="btn btn-dark">
+                                <input type="submit" value="Edit" class="btn btn-dark">
                             </form>
                         </li>
-                        
+                        </div>
                     @endforeach
                     </ul>
-
                 </div>
-                
             </div>
             <form action="nueva-reserva" method="GET">
                 {{ csrf_field() }}
