@@ -33,10 +33,9 @@
                 
             </div>
             <form action="nueva-reserva" method="GET">
-                            {{ csrf_field() }}
-                             
-                            <input type="submit" value="Nueva Reserva" class="btn btn-dark">
-                            </form>
+                {{ csrf_field() }}
+                <input type="submit" value="Nueva Reserva" class="btn btn-dark">
+            </form>
         </div>
     </div>
 </div>
