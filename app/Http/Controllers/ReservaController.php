@@ -11,9 +11,7 @@ class ReservaController extends Controller
 {   
     public function __construct()
     {
-       
 
-       
     }
 
     /**
@@ -23,14 +21,14 @@ class ReservaController extends Controller
      */
     public function index()
     {
-        $this->middleware('auth');
-            if (!Auth::check())
-            {
-                return redirect('home');
+        // $this->middleware('auth');
+            // if (!Auth::check())
+            // {
+            //     return redirect('home');
             
-            }
-            $reservas = Reserva::all();
-            return view('adminreservas', ['reservas'=>$reservas]);
+            // }
+        $reservas = Reserva::all();
+        return view('adminreservas', ['reservas'=>$reservas]);
     }
 
     /**
@@ -56,7 +54,8 @@ class ReservaController extends Controller
         $data = $request->validate([
             'name'=> 'required',
             'email'=> 'required',
-            'date'=> 'required',
+            'entry_date'=> 'required',
+            'out_date'=> 'required',
             'message'=> 'required'
 
         ]);
@@ -65,7 +64,8 @@ class ReservaController extends Controller
         $reserva->name = $request->name;
         $reserva->email = $request->email;
         $reserva->message = $request->message;
-        $reserva->date = $request->date;
+        $reserva->entry_date = $request->entry_date;
+        $reserva->out_date = $request->out_date;
 
         $reserva->save();
        

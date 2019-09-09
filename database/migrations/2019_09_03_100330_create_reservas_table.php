@@ -18,7 +18,8 @@ class CreateReservasTable extends Migration
             $table->string('name');
             $table->string('email');
             $table->string('message');
-            $table->date('date');
+            $table->date('entry_date');
+            $table->date('out_date');
             $table->timestamps();
 
         });
@@ -30,7 +31,7 @@ class CreateReservasTable extends Migration
      * @return void
      */
     public function down()
-    {
+    {   
         Schema::dropIfExists('reservas');
     }
 }

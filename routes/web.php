@@ -11,8 +11,10 @@
 |
 */
 
+use App\Http\Controllers\ReservaController;
+
 Route::get('/', function () {
-    return view('index');
+    return view('nuevaReserva');
 });
 Route::get('/nueva-reserva', function () {
     return view('nuevaReserva');
@@ -21,8 +23,12 @@ Route::get('/nueva-reserva', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-
-
 Route::resource('reserva','ReservaController');
 
+Route::group(['middleware' => 'auth'], function () {
+    Route::get('reserva', 'ReservaController@index');
+    // Route::get('reserva', 'ReservaController@show');
+    // Route::get('reserva', 'ReservaController@edit');
+    // Route::put('reserva', 'ReservaController@update');
+    // Route::delete('reserva', 'ReservaController@destroy');
+});
