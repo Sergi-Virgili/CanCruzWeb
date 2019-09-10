@@ -10798,3 +10798,59 @@ i {
   transform: translateY(-100%);
 }
 
+body {
+  overflow-x: hidden;
+}
+
+#menu-toggle {
+  position: fixed;
+  right: 30px;
+  top: 20px;
+  padding: 0.3em;
+  background-color: #1A2332;
+}
+
+#menu-toggle:hover {
+  background-color: #D5AB3B;
+  color: #1A2332;
+  cursor: pointer;
+}
+
+#sidebar-wrapper {
+  min-height: 100vh;
+  margin-right: -15rem;
+  transition: margin 0.25s ease-out;
+}
+
+#sidebar-wrapper .sidebar-heading {
+  padding: 0.875rem 1.25rem;
+  font-size: 1.2rem;
+}
+
+#sidebar-wrapper .list-group {
+  width: 15rem;
+}
+
+#page-content-wrapper {
+  min-width: 100vw;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  margin-left: 0;
+}
+
+@media (min-width: 768px) {
+  #sidebar-wrapper {
+    margin-left: 0;
+  }
+
+  #page-content-wrapper {
+    min-width: 0;
+    width: 100%;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    margin-left: -15rem;
+  }
+}
+
