@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\ReserveConfirmation;
 use App\Reserva;
 use Auth;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Mail;
 
 class ReservaController extends Controller
 {   
@@ -25,7 +27,6 @@ class ReservaController extends Controller
             // if (!Auth::check())
             // {
             //     return redirect('home');
-            
             // }
         $reservas = Reserva::all();
         return view('adminreservas', ['reservas'=>$reservas]);
@@ -57,7 +58,6 @@ class ReservaController extends Controller
             'entry_date'=> 'required',
             'out_date'=> 'required',
             'message'=> 'required'
-
         ]);
 
         $reserva = new Reserva();
@@ -68,7 +68,12 @@ class ReservaController extends Controller
         $reserva->out_date = $request->out_date;
 
         $reserva->save();
-       
+
+        // Ship_email order...
+        Mail::to($reserva->email)->send(new ReserveConfirmation($reserva));
+        
+        
+           
 
         return redirect('nueva-reserva');
     }

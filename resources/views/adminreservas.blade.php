@@ -20,16 +20,21 @@
                             <br>
                             Email: {{ $reserva->email }}
                         </div>
-                        <div>
+                        <div class="d-flex">
                             <form action="reserva/{{$reserva->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <input type="submit" value="Delete" class="btn btn-danger">
+                                <input type="submit" value="Delete" class="btn btn-danger ml-auto">
                             </form>
                             <form action="reserva/{{$reserva->id}}" method="POST">
                                 @csrf
                                 @method('PUT')
-                                <input type="submit" value="Edit" class="btn btn-dark">
+                                <input type="submit" value="Edit" class="btn btn-secondary">
+                            </form>
+                            <form action="reserva/{{$reserva->id}}" method="POST">
+                                @csrf
+                                @method('PUT')
+                                <input type="submit" value="Confirm" class="btn btn-success">
                             </form>
                         </li>
                         </div>
