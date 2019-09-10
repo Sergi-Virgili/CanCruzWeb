@@ -30,15 +30,27 @@
                         <i class="fas fa-bars" id="menu-toggle"></i>
                         
                 
-                        {{-- <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                        </button> --}}
                 
                         
                        
                         <div class="main-slide"></div>
                         <div id="logo"><img src="img/logo3.png" alt="logo can cruz casa rural"></div>
                         @yield('content')
+
+                        <section>
+                            <h3>Experiencias</h3>
+                            <ul class="row">
+                                <li class="col-md-4">
+                                    Escapadas
+                                </li>
+                                <li class="col-md-4">
+                                    Grupos y Eventos
+                                </li>
+                                <li class="col-md-4">
+                                    Actividades
+                                </li>
+                            </ul>
+                        </section>
                     </div>
                     <!-- /#page-content-wrapper -->
                     <!-- Sidebar -->
@@ -57,6 +69,15 @@
                   </div>
                   <!-- /#wrapper -->
                 
+
+
+            {{-- <section class="row">
+                <div class="col-md-5 ficha_texto">
+                    Lorem ipsum, dolor sit amet consectetur adipisicing elit. Vitae eius quia doloribus consequatur asperiores ex recusandae eveniet animi, facere corporis temporibus similique quas deleniti, inventore fugiat rem soluta quos qui.
+                </div>
+            </section> --}}
+
+            
                   <!-- Bootstrap core JavaScript -->
                   <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
                   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
