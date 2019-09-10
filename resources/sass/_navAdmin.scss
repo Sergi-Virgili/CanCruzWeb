@@ -1,0 +1,19 @@
+
+.nav_admin_logo
+{
+    width: 10em;
+}
+
+.admin_delete_reserva{
+    @extend .btn;
+    border-radius: 50%;
+    //background-color: grey;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    
+    
+    &:hover {
+        color: red;
+    }
+}

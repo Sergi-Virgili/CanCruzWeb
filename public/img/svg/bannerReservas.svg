@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="844.006" height="661.342">
+    <defs>
+        <linearGradient id="a" x1="100%" x2="0%" y1="0%" y2="0%">
+            <stop offset="0%" stop-color="#F1CA17"/>
+            <stop offset="21%" stop-color="#FFA200"/>
+            <stop offset="51%" stop-color="#FFEFAE"/>
+            <stop offset="76%" stop-color="#FFCB17"/>
+            <stop offset="100%" stop-color="#CA9553"/>
+        </linearGradient>
+    </defs>
+    <path fill="#FFF" fill-rule="evenodd" d="M97 91h430v313H97V91z"/>
+    <path fill="#192332" fill-rule="evenodd" d="M0 132h600v235H0V132z"/>
+    <path fill="#192332" fill-rule="evenodd" d="M33 360h600v2H33v-2z"/>
+    <path fill="url(#a)" d="M33 360h600v2H33v-2z"/>
+    <path fill="#192332" fill-rule="evenodd" d="M33 138h600v2H33v-2z"/>
+    <path fill="url(#a)" d="M33 138h600v2H33v-2z"/>
+    <path fill="#FFF" fill-rule="evenodd" d="M384 268h167v2H384v-2zM384 201h167v2H384v-2z"/>
+    <text fill="#FFF" font-family="Book Antiqua" font-size="79.225" transform="matrix(.18932 0 0 .18932 443.544 255.908)">
+        Huespedes
+    </text>
+    <text fill="#FFF" font-family="Book Antiqua" font-size="79.225" transform="matrix(.18932 0 0 .18932 451.735 192.813)">
+        Llegada
+    </text>
+    <text fill="#FFF" font-family="Book Antiqua" font-size="79.225" transform="matrix(.25763 0 0 .25763 46.507 215.568)">
+        <tspan>When do you want have your </tspan><tspan x="0" dy="1.2em">Relax time?</tspan>
+    </text>
+    <path fill="#D8AD61" fill-rule="evenodd" d="M159 297h255v41H159v-41z"/>
+    <text fill="#FFF" font-family="Book Antiqua" font-size="79.225" transform="matrix(.18932 0 0 .18932 258.714 321.112)">
+        Reservar
+    </text>
+</svg>

@@ -1,16 +1,17 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">Reservas</div>
-                <div class="card-body">
-                    <ul class="list-group">
+
+    
+        <section class="container">
+            
+            <h3>Reservas</h3>
+                
+                    <ul class="row align-items-left">
                     @foreach ($reservas as $reserva)
+                    <li class=" card col-md-5 m-1 p-4">
                         <div>
-                            <li class="list-group-item">Reserva a Nombre de: {{ $reserva->name }}
+                            Reserva a Nombre de: {{ $reserva->name }}
                             <br> 
                             Fecha Entrada: {{ $reserva->entry_date }}
                             <br>
@@ -24,24 +25,25 @@
                             <form action="reserva/{{$reserva->id}}" method="POST">
                                 @csrf
                                 @method('DELETE')
-                                <input type="submit" value="Delete" class="btn btn-danger">
+                                <input type="submit" value="x" class=" admin_delete_reserva" onclick="alert('Estas seguro de eliminar la reserva')">
                             </form>
-                            <form action="reserva/{{$reserva->id}}" method="POST">
+                            <form action="reserva/{{$reserva->id}}" method="POST" >
                                 @csrf
                                 @method('PUT')
                                 <input type="submit" value="Edit" class="btn btn-dark">
                             </form>
-                        </li>
                         </div>
+                    </li>
+                        
                     @endforeach
                     </ul>
-                </div>
-            </div>
+                
+            
             <form action="nueva-reserva" method="GET">
                 {{ csrf_field() }}
                 <input type="submit" value="Nueva Reserva" class="btn btn-dark">
             </form>
-        </div>
-    </div>
-</div>
+        </section>
+    
+
 @endsection
