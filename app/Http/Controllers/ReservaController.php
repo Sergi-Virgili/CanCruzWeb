@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\PendingEmail;
 use App\Mail\ReserveConfirmation;
+use App\Mail\AdminEmail;
+use App\Mail\Cancellation;
 use App\Reserva;
 use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Mail\PendingMail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Mail;
 
 class ReservaController extends Controller
-{   
+{
     public function __construct()
-    {
-
-    }
+    { }
 
     /**
      * Display a listing of the resource.
@@ -24,12 +26,12 @@ class ReservaController extends Controller
     public function index()
     {
         // $this->middleware('auth');
-            // if (!Auth::check())
-            // {
-            //     return redirect('home');
-            // }
+        // if (!Auth::check())
+        // {
+        //     return redirect('home');
+        // }
         $reservas = Reserva::all();
-        return view('adminreservas', ['reservas'=>$reservas]);
+        return view('adminreservas', ['reservas' => $reservas]);
     }
 
     /**
@@ -39,7 +41,7 @@ class ReservaController extends Controller
      */
     public function create()
     {
-       
+
         return view('nuevaReserva');
     }
 
@@ -53,11 +55,11 @@ class ReservaController extends Controller
     {
 
         $data = $request->validate([
-            'name'=> 'required',
-            'email'=> 'required',
-            'entry_date'=> 'required',
-            'out_date'=> 'required',
-            'message'=> 'required'
+            'name' => 'required',
+            'email' => 'required',
+            'entry_date' => 'required',
+            'out_date' => 'required',
+            'message' => 'required'
         ]);
 
         $reserva = new Reserva();
@@ -67,13 +69,11 @@ class ReservaController extends Controller
         $reserva->entry_date = $request->entry_date;
         $reserva->out_date = $request->out_date;
 
+
         $reserva->save();
 
         // Ship_email order...
-        Mail::to($reserva->email)->send(new ReserveConfirmation($reserva));
-        
-        
-           
+        Mail::to($reserva->email)->send(new PendingEmail($reserva));
 
         return redirect('nueva-reserva');
     }
@@ -111,6 +111,15 @@ class ReservaController extends Controller
     {
         //
     }
+    public function confirmReservation(Reserva $reserva)
+    {
+
+        $reserva->update(array('confirmation' => '1'));
+
+        //Mail::to('admin@fakeemail.com')->send(new ReserveConfirmation($reserva));
+        Mail::to($reserva->email)->send(new ReserveConfirmation($reserva));
+        return redirect('reserva');
+    }
 
     /**
      * Remove the specified resource from storage.
@@ -121,7 +130,7 @@ class ReservaController extends Controller
     public function destroy(Reserva $reserva)
     {
         $reserva->delete();
-
+        Mail::to($reserva->email)->send(new Cancellation($reserva));
         return redirect('reserva');
     }
 }

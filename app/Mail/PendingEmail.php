@@ -10,7 +10,7 @@ use App\Http\Controllers\ReservaController;
 use App\Reserva;
 use Carbon\Carbon;
 
-class ReserveConfirmation extends Mailable
+class PendingEmail extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -32,14 +32,14 @@ class ReserveConfirmation extends Mailable
      */
     public function build()
     {
-        //$format = 'd/m/Y';
+        $format = 'd/m/Y';
         $date1 = $this->reserva->entry_date;
         $date2 = $this->reserva->out_date;
         $entryDate = Carbon::create($date1);
         $outDate = Carbon::create($date2);
 
-        return $this->view('emailConfirmationReserva')
-            ->subject('Masia Can Cruz Booking Confirmed')
+        return $this->view('emailPendingReserva')
+            ->subject('Masia Can Cruz Pending')
             ->with([
                 'name' => $this->reserva->name,
                 'entry_date' => $entryDate->format('l jS \\of F Y h:i:s A'),

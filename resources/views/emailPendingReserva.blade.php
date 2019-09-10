@@ -9,13 +9,13 @@
 </head>
 
 <body>
-    <p>Hi, {{ $name }}, your reservation has been confirmed.<br></p>
+    <p>Hi, {{ $name }}, your reservation has been sent succesfuly.<br></p>
     <p> Booking Summary </p>
     <p>Check-in: {{$entry_date}}. <br></p>
     <p>Check-out: {{$out_date}}. <br></p>
 
+    <p>Our Booking Manager will confirm your booking shortly</p>
 
-    <p> We are looking forward to welcome you.</p>
     <p>The Masia Can Cruz Team.</p>
     <p>If you have any questions please simply reply to this email.</p>
 </body>

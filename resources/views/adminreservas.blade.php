@@ -8,17 +8,17 @@
                 <div class="card-header">Reservas</div>
                 <div class="card-body">
                     <ul class="list-group">
-                    @foreach ($reservas as $reserva)
+                        @foreach ($reservas as $reserva)
                         <div>
                             <li class="list-group-item">Reserva a Nombre de: {{ $reserva->name }}
-                            <br> 
-                            Fecha Entrada: {{ $reserva->entry_date }}
-                            <br>
-                            Fecha Salida: {{ $reserva->out_date }}
-                            <br>
-                            Mensaje: {{ $reserva->message }}
-                            <br>
-                            Email: {{ $reserva->email }}
+                                <br>
+                                Fecha Entrada: {{ $reserva->entry_date }}
+                                <br>
+                                Fecha Salida: {{ $reserva->out_date }}
+                                <br>
+                                Mensaje: {{ $reserva->message }}
+                                <br>
+                                Email: {{ $reserva->email }}
                         </div>
                         <div class="d-flex">
                             <form action="reserva/{{$reserva->id}}" method="POST">
@@ -31,14 +31,12 @@
                                 @method('PUT')
                                 <input type="submit" value="Edit" class="btn btn-secondary">
                             </form>
-                            <form action="reserva/{{$reserva->id}}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <input type="submit" value="Confirm" class="btn btn-success">
-                            </form>
-                        </li>
+                                <button type="button" class="btn btn-success">
+                
+                                    <a href='confirm-reserva/{{$reserva->id}}'>Confirm</a>
+                                </button>
                         </div>
-                    @endforeach
+                        @endforeach
                     </ul>
                 </div>
             </div>

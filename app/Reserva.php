@@ -8,25 +8,25 @@ use App\Http\Controllers\ReservaController;
 class Reserva extends Model
 {
     public $confirmed;
+    protected $guarded = [];
 
     function validateData()
     {
-        $this->request->validate( [
+        $this->request->validate([
             'name' => 'bail|required',
             'email' => 'required|email:rfc|max:255',
-            'entry_date'=> 'required|date',
-            'out_date'=> 'required|date',
-            'message'=> 'required'
+            'entry_date' => 'required|date',
+            'out_date' => 'required|date',
+            'message' => 'required'
         ]);
 
         return $this->request;
     }
-    
+
 
     function confirmReservation()
     {
-        if(!$confirmed)
-        {
+        if (!$confirmed) {
             return $false;
         }
         return $true;
