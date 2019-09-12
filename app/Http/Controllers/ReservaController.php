@@ -16,41 +16,23 @@ use Illuminate\Support\Facades\Mail;
 class ReservaController extends Controller
 {
     public function __construct()
-    { }
+    { 
+        $this->middleware('auth')->except('create');
+    }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        // $this->middleware('auth');
-        // if (!Auth::check())
-        // {
-        //     return redirect('home');
-        // }
         $reservas = Reserva::all();
-        return view('adminreservas', ['reservas' => $reservas]);
+        return view('adminReservas', ['reservas' => $reservas]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-
-        return view('nuevaReserva');
+        
+        $reserva = new Reserva();
+        return view('nuevaReserva', ['reserva' => $reserva]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -78,55 +60,30 @@ class ReservaController extends Controller
         return redirect('nueva-reserva');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Reserva  $reserva
-     * @return \Illuminate\Http\Response
-     */
     public function show(Reserva $reserva)
     {
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Reserva  $reserva
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Reserva $reserva)
     {
-        //
+        return view('actualizarReserva', compact('reserva', $reserva));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Reserva  $reserva
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Reserva $reserva)
     {
-        //
+        $reserva->update($request->all());
+        return redirect('reserva');
     }
+
     public function confirmReservation(Reserva $reserva)
     {
 
-        $reserva->update(array('confirmation' => '1'));
-
-        //Mail::to('admin@fakeemail.com')->send(new ReserveConfirmation($reserva));
+        $reserva->validate();
         Mail::to($reserva->email)->send(new ReserveConfirmation($reserva));
         return redirect('reserva');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Reserva  $reserva
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Reserva $reserva)
     {
         $reserva->delete();

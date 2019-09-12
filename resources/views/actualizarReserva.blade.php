@@ -10,26 +10,22 @@
                     @if ($errors->any())
                         <p>Complete todos los campos</p>
                     @endif
-                    <form action='/reserva' method='POST'>
+                <form action='/reserva/{{$reserva->id}}' method='POST'>
+                        @csrf
+                        @method('PUT')
                         {{ csrf_field() }}
                         <input type='text' placeholder= Nombre name='name' requiered value="{{$reserva->name}}">
                         <input type='email' placeholder= Email name='email' value="{{$reserva->email}}">
                         <input type='date' placeholder= Fecha name='entry_date' value="{{$reserva->entry_date}}">
                         <input type='date' placeholder= Fecha name='out_date' value="{{$reserva->out_date}}">
-                        <input type='text' value='Comentario' name='message' value="{{$reserva->message}}"><br>
+                        <input type='text' value='Comentario' name='message' value="{{$reserva->message}}">
+                        <br>
                         <div class="d-flex">
-                            <input type='submit' value='Enviar Reserva' class="btn btn-success ml-auto">
-                        </div>
-                        @if (!Auth::guest())
                             <div class="d-flex">
-                                <form action="/reserva/{{$reserva->id}}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="submit" value="Actualizar Reserva" class="btn btn-warning">
-                                </form>
-                                <a href="/reserva" class="btn btn-primary ml-auto">Listado de Reservas</a>
+                                <input type='submit' value='Actualizar Reserva' class="btn btn-success">
                             </div>
-                        @endif
+                            <a href="/reserva" class="btn btn-primary ml-auto">Listado de Reservas</a>
+                        </div>
                     </form>
                 </div>
             </div>

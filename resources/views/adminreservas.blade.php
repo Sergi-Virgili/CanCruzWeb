@@ -26,21 +26,14 @@
                                 @method('DELETE')
                                 <input type="submit" value="Delete" class="btn btn-danger ml-auto">
                             </form>
-                            <form action="reserva/{{$reserva->id}}" method="POST">
-                                @csrf
-                                @method('PUT')
-                                <input type="submit" value="Edit" class="btn btn-secondary">
-                            </form>
-                                <button type="button" class="btn btn-success">
-                
-                                    <a href='confirm-reserva/{{$reserva->id}}'>Confirm</a>
-                                </button>
+                            <a href='reserva/{{$reserva->id}}/edit' class="btn btn-secondary">Edit</a>
+                            <a href='confirm-reserva/{{$reserva->id}}' class="btn btn-success">Confirm</a>
                         </div>
                         @endforeach
                     </ul>
                 </div>
             </div>
-            <form action="nueva-reserva" method="GET">
+            <form action="reserva/create" method="GET">
                 {{ csrf_field() }}
                 <input type="submit" value="Nueva Reserva" class="btn btn-dark">
             </form>
