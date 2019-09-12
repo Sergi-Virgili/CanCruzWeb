@@ -12,3 +12,19 @@
 section {
     padding: 1em;
 }
+.gastronomia {
+    height: 50%;
+    position: relative;
+    left: 0px;
+    width: 500px;   
+    z-index: 50;
+}
+
+.experiencias {
+    background-color: white;
+}
+footer {
+    height: 20vh;
+    background-color: $cruz-blue;
+    color: white;
+}

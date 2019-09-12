@@ -86,6 +86,11 @@ body{
      padding-top: 1em;
  }
 
- .labels {
-     color: white;
+ .submit {
+     background-color: $cruz-yellow;
+     justify-content: center;
+     border: none;
+     &:hover{
+         background-color: grey;
+     }
  }

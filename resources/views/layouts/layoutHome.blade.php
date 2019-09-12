@@ -53,8 +53,8 @@
 
                         {{-- FICHAS --}}
                         <section class="container" id="gastronomia">
-                          <div class="row gastronomia justify-content-center">
-                            <div class="col-md-4 card">
+                          <div class="row  justify-content-center">
+                            <div class="col-md-4 card gastronomia">
                               <h3>Gastronomía</h3>
                               <h4>BIO SLOW FOOD</h4>
                               <p>El restaurant de slow food ofrece deliciosos platos frescos y bio con productos de cosecha propia, opciones vegetarianas y veganas incluidas.</p>
@@ -68,18 +68,21 @@
                         </section>
                         <section class="container" id="suites">
                           <div class="row habitaciones">
-                            <div class="col-md-5 card">
+                            <div class="col-md-4 card">
                               <h3>Habitaciones y Suites</h3>
                               <h4>LUJO Y COMFORT</h4>
                               <p>Nuestra Masía dispone de lujosas suites, un gran jardín con piscina outdoor, golf y un organic spa. </p>
                               <a href="#">Ver más</a>
                             </div>
-                            <img src="img/capa5.jpg" alt="">
+                            <div class="col-md-8 ">
+                                <img class="img-fluid" src="img/habita.jpg" alt="">
+                              </div>
                             
                           </div>
-
+                        
                         </section>
                         {{-- EXPERIENCIAS --}}
+                        <div class="experiencias">
                         <section class="experiencias container" id="experiencias">
                             <h3>Experiencias</h3>
                             <ul class="row">
@@ -95,6 +98,12 @@
                                 </li>
                             </ul>
                         </section>
+                      </div>
+                        <footer>
+                          <div class="container">
+                            ehis is footer
+                          </div>
+                        </footer>
                     </div>
                     <!-- /#page-content-wrapper -->
                     <!-- Sidebar -->
@@ -135,46 +144,7 @@
                       $("#wrapper").toggleClass("toggled");
                     });
                   </script>
-  {{-- <header>
-        
-        
-  <div class="main-slide"></div>
-  <div id="logo"><img src="img/logo3.png" alt="logo can cruz casa rural"></div>
-  
-  
-  
-  </div>
 
-  <nav>
-        
-    </nav>
-
-
-  </header>
-  
-
-  <div class="container">
-  <div class="row justify-content-center">
-    
-    <div class="col-3">
-    <div class="bx-wh-shadow"></div>
-    </div>
-
-    <div class="col-5">
-    <div class="bx-blue"></div>
-    </div>
-
-</div>
-</div>
-
-        <main class="py-4">
-            @yield('content')
-        </main>
-    </div>
-</div> --}}
-<footer>
-  
-</footer>
  
 
  

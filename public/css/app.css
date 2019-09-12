@@ -10829,8 +10829,14 @@ i {
   padding-top: 1em;
 }
 
-.labels {
-  color: white;
+.submit {
+  background-color: #D5AB3B;
+  justify-content: center;
+  border: none;
+}
+
+.submit:hover {
+  background-color: grey;
 }
 
 body {
@@ -10916,5 +10922,23 @@ h4 {
 
 section {
   padding: 1em;
+}
+
+.gastronomia {
+  height: 50%;
+  position: relative;
+  left: 0px;
+  width: 500px;
+  z-index: 50;
+}
+
+.experiencias {
+  background-color: white;
+}
+
+footer {
+  height: 20vh;
+  background-color: #1A2332;
+  color: white;
 }
 

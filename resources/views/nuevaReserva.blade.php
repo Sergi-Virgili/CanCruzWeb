@@ -9,7 +9,7 @@
             <div >
                 <div >
                     @if ($errors->any())
-                        <p>Complete todos los campos</p>
+                        <p class="errors">Complete todos los campos</p>
                     @endif
                     <form action='reserva' method='POST' class=formhome>
                         {{ csrf_field() }}
@@ -32,8 +32,8 @@
                                  <input type='text' maxlength="4" size="4" class='formblue' placeholder='#' name='message' value="{{ old('message') }}"><br>
                             </div>
                         </div>
-                        <div class="d-flex">
-                            <input type='submit' value='Confirmar Reserva' class="btn btn-success ml-auto">
+                        <div class="d-flex row justify-content-center ">
+                            <input type='submit' value='Confirmar Reserva' class="btn btn-success ml-auto submit">
                         </div>
                         @if (!Auth::guest())
                             <div class="d-flex">
