@@ -33,14 +33,50 @@
                 
                         
                        
-                        <div class="main-slide"></div>
+                        <div class="main-slide" id="home"></div>
                         <div id="logo"><img src="img/logo3.png" alt="logo can cruz casa rural"></div>
+                        
                         @yield('content')
 
-                        <section>
+                        <section class="container" id="about">
+                          <h3>Sobre Nosotros</h3>
+                          <p>Enmarcada por el Parc Natural del Montseny, reserva de la Biosfera por la UNESCO,  la Masía Can Cruz cuenta con una ubicación y vistas privilegiadas que proporcionan el ambiente ideal para quienes buscan bienestar en la naturaleza</p>
+                        </section>
+
+                        {{-- FICHAS --}}
+                        <section class="container" id="gastronomia">
+                          <div class="row gastronomia justify-content-center">
+                            <div class="col-md-4 card">
+                              <h3>Gastronomía</h3>
+                              <h4>BIO SLOW FOOD</h4>
+                              <p>El restaurant de slow food ofrece deliciosos platos frescos y bio con productos de cosecha propia, opciones vegetarianas y veganas incluidas.</p>
+                              <a href="#">Ver más</a>
+                            </div>
+                            <div class="col-md-8 ">
+                              <img class="img-fluid" src="img/capa5.jpg" alt="">
+                            </div>
+                          </div>
+
+                        </section>
+                        <section class="container" id="suites">
+                          <div class="row habitaciones">
+                            <div class="col-md-5 card">
+                              <h3>Habitaciones y Suites</h3>
+                              <h4>LUJO Y COMFORT</h4>
+                              <p>Nuestra Masía dispone de lujosas suites, un gran jardín con piscina outdoor, golf y un organic spa. </p>
+                              <a href="#">Ver más</a>
+                            </div>
+                            <img src="img/capa5.jpg" alt="">
+                            
+                          </div>
+
+                        </section>
+                        {{-- EXPERIENCIAS --}}
+                        <section class="experiencias container" id="experiencias">
                             <h3>Experiencias</h3>
                             <ul class="row">
                                 <li class="col-md-4">
+                                    <img src="" alt="">
                                     Escapadas
                                 </li>
                                 <li class="col-md-4">
@@ -54,16 +90,18 @@
                     </div>
                     <!-- /#page-content-wrapper -->
                     <!-- Sidebar -->
-                    <div class="bg-light border-right" id="sidebar-wrapper">
+                    <div class="bg-light border-right fixed" id="sidebar-wrapper">
                      
-                            <div class="list-group list-group-flush">
+                            <div class="list-group list-group-flush menu-list">
                             
-                              <a href="#" class="list-group-item list-group-item-action bg-light">Dashboard</a>
-                              <a href="#" class="list-group-item list-group-item-action bg-light">Shortcuts</a>
-                              <a href="#" class="list-group-item list-group-item-action bg-light">Overview</a>
-                              <a href="#" class="list-group-item list-group-item-action bg-light">Events</a>
-                              <a href="#" class="list-group-item list-group-item-action bg-light">Profile</a>
-                              <a href="#" class="list-group-item list-group-item-action bg-light">Status</a>
+                              <a href="#home" class="list-group-item list-group-item-action bg-light">Home</a>
+                              <a href="#about" class="list-group-item list-group-item-action bg-light">Sobre Nosotros</a>
+                              <a href="#reservas" class="list-group-item list-group-item-action bg-light">Reserva</a>
+                              <a href="#gastronomia" class="list-group-item list-group-item-action bg-light">Gastronomía</a>
+                              <a href="#suites" class="list-group-item list-group-item-action bg-light">Siutes</a>
+                              <a href="#experiencias" class="list-group-item list-group-item-action bg-light">Experiencias</a>
+                              <a href="#contacto" class="list-group-item list-group-item-action bg-light">Contacto</a>
+                             
                             </div>
                           </div>
                   </div>

@@ -1,4 +1,4 @@
-@import url(https://fonts.googleapis.com/css?family=Nunito);@charset "UTF-8";
+@import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Roboto&display=swap);@import url(https://fonts.googleapis.com/css?family=EB+Garamond&display=swap);@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);@charset "UTF-8";
 
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
@@ -10809,12 +10809,17 @@ body {
   top: 20px;
   padding: 0.3em;
   background-color: #1A2332;
+  z-index: 100;
 }
 
 #menu-toggle:hover {
   background-color: #D5AB3B;
   color: #1A2332;
   cursor: pointer;
+}
+
+.menu-list {
+  position: fixed;
 }
 
 #sidebar-wrapper {
@@ -10830,6 +10835,7 @@ body {
 
 #sidebar-wrapper .list-group {
   width: 15rem;
+  padding-top: 5em;
 }
 
 #page-content-wrapper {
@@ -10840,9 +10846,11 @@ body {
   margin-left: 0;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 200px) {
   #sidebar-wrapper {
     margin-left: 0;
+    z-index: 99;
+    background-color: white;
   }
 
   #page-content-wrapper {
@@ -10852,6 +10860,27 @@ body {
 
   #wrapper.toggled #sidebar-wrapper {
     margin-left: -15rem;
+    background-color: white;
+    border: none;
+    height: 100vh;
+    z-index: 99;
   }
+}
+
+h3 {
+  font-family: "EB Garamond";
+  font-size: 2.4rem;
+}
+
+p {
+  font-family: "Roboto";
+}
+
+h4 {
+  font-size: 1rem;
+}
+
+section {
+  padding: 1em;
 }
 
