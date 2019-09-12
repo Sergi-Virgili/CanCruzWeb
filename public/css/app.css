@@ -10824,6 +10824,15 @@ i {
   position: relative;
 }
 
+.errors {
+  color: white;
+  padding-top: 1em;
+}
+
+.labels {
+  color: white;
+}
+
 body {
   overflow-x: hidden;
 }

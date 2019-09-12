@@ -104,7 +104,7 @@
                             
                               <a href="#home" class="list-group-item list-group-item-action bg-light">Home</a>
                               <a href="#about" class="list-group-item list-group-item-action bg-light">Sobre Nosotros</a>
-                              <a href="#reservas" class="list-group-item list-group-item-action bg-light">Reserva</a>
+                              <a href="#home" class="list-group-item list-group-item-action bg-light">Reserva</a>
                               <a href="#gastronomia" class="list-group-item list-group-item-action bg-light">Gastronomía</a>
                               <a href="#suites" class="list-group-item list-group-item-action bg-light">Siutes</a>
                               <a href="#experiencias" class="list-group-item list-group-item-action bg-light">Experiencias</a>

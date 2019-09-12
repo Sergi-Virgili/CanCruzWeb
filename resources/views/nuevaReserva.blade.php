@@ -1,4 +1,5 @@
 {{-- @extends('layouts.app') --}}
+
 @extends('layouts.layoutHome')
 
 @section('content')
@@ -21,10 +22,10 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-lg-4 col-sm-6 col-6 " >
+                            <div class="col-lg-6 col-sm-6 col-6 " >
                                 <input type='date' class='formblue' placeholder="Fecha" name='entry_date' value="{{ old('entry_date') }}">
                             </div>
-                            <div class="col-lg-4 col-sm-6 col-6 " >
+                            <div class="col-lg-6 col-sm-6 col-6 " >
                                  <input type='date' class='formblue' placeholder="Fecha"  name='out_date' value="{{ old('out_date') }}">
                             </div>
                             <div class="col-lg-4 col-sm-12 " >
