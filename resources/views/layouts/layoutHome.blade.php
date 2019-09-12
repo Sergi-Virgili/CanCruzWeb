@@ -89,14 +89,17 @@
                         <section class="experiencias container" id="experiencias">
                             <h3>Experiencias</h3>
                             <div class="row justify-content-center ">
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <img class="img-fluid mb-2" src="img/spa.jpg" alt="">
                                     
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
                                     <img class="img-fluid mb-2" src="img/huerta.jpg" alt="">
                                 </div>
-                                <div class="col-md-4">
+                                <div class="col-md-6">
+                                    <img class="img-fluid mb-2" src="img/spa.jpg" alt="">
+                                </div>
+                                <div class="col-md-6">
                                     <img class="img-fluid mb-2" src="img/spa.jpg" alt="">
                                 </div>
                               </div>
