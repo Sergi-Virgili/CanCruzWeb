@@ -20,7 +20,7 @@
                         <input type='text' value='Comentario' name='message' value="{{ old('message') }}"><br>
                         <div class="d-flex">
                             <input type='submit' value='Confirmar Reserva' class="btn btn-success ml-auto">
-                        </div>
+                       
                         @if (!Auth::guest())
                             <div class="d-flex">
                                     <a href="/reserva" class="btn btn-primary ml-auto">Listado de Reservas</a>
