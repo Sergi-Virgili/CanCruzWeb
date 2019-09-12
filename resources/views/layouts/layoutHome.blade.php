@@ -47,8 +47,11 @@
                       </div>
 
                         <section class="container" id="about">
-                          <h3>Sobre Nosotros</h3>
-                          <p>Enmarcada por el Parc Natural del Montseny, reserva de la Biosfera por la UNESCO,  la Masía Can Cruz cuenta con una ubicación y vistas privilegiadas que proporcionan el ambiente ideal para quienes buscan bienestar en la naturaleza</p>
+                          <h3 class="row justify-content-center mb-4 ">Sobre Nosotros</h3>
+                          <div class="row justify-content-center">
+                          <p class="about">Enmarcada por el Parc Natural del Montseny, reserva de la Biosfera por la UNESCO,  la Masía Can Cruz cuenta con una ubicación y vistas privilegiadas que proporcionan el ambiente ideal para quienes buscan bienestar en la naturaleza.</p>
+                          <p class="about"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Rem neque totam, sunt, fugit fugiat odit deserunt eius veritatis debitis assumenda at magni deleniti quos beatae, et accusantium consequuntur itaque minima?</p>
+                        </div>
                         </section>
 
                         {{-- FICHAS --}}
@@ -68,7 +71,7 @@
                         </section>
                         <section class="container" id="suites">
                           <div class="row habitaciones">
-                            <div class="col-md-4 card">
+                            <div class="col-md-4 card gastronomia">
                               <h3>Habitaciones y Suites</h3>
                               <h4>LUJO Y COMFORT</h4>
                               <p>Nuestra Masía dispone de lujosas suites, un gran jardín con piscina outdoor, golf y un organic spa. </p>
@@ -85,23 +88,28 @@
                         <div class="experiencias">
                         <section class="experiencias container" id="experiencias">
                             <h3>Experiencias</h3>
-                            <ul class="row">
-                                <li class="col-md-4">
-                                    <img src="" alt="">
-                                    Escapadas
-                                </li>
-                                <li class="col-md-4">
-                                    Grupos y Eventos
-                                </li>
-                                <li class="col-md-4">
-                                    Actividades
-                                </li>
-                            </ul>
+                            <div class="row justify-content-center ">
+                                <div class="col-md-4">
+                                    <img class="img-fluid mb-2" src="img/spa.jpg" alt="">
+                                    
+                                </div>
+                                <div class="col-md-4">
+                                    <img class="img-fluid mb-2" src="img/huerta.jpg" alt="">
+                                </div>
+                                <div class="col-md-4">
+                                    <img class="img-fluid mb-2" src="img/spa.jpg" alt="">
+                                </div>
+                              </div>
                         </section>
                       </div>
                         <footer>
                           <div class="container">
                             ehis is footer
+                            <div class="row justify-content-center">
+                            {{-- <i class="fab fa-facebook-f rs"></i> --}}
+                            <i class="fab fa-tripadvisor rs"></i>
+                            <i class="fab fa-instagram rs"></i>
+                          </div>
                           </div>
                         </footer>
                     </div>

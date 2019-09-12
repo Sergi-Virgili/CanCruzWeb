@@ -12,6 +12,10 @@
 section {
     padding: 1em;
 }
+.about {
+    width: 80%;
+    
+}
 .gastronomia {
     height: 50%;
     position: relative;
@@ -27,4 +31,8 @@ footer {
     height: 20vh;
     background-color: $cruz-blue;
     color: white;
+    .rs{
+        padding:.2em;
+
+    }
 }
