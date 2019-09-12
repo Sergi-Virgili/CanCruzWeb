@@ -1,5 +1,9 @@
 @import url(https://fonts.googleapis.com/css?family=Nunito);@import url(https://fonts.googleapis.com/css?family=Roboto&display=swap);@import url(https://fonts.googleapis.com/css?family=EB+Garamond&display=swap);@import url(https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css);@charset "UTF-8";
 
+html {
+  scroll-behavior: smooth;
+}
+
 /*!
  * Bootstrap v4.3.1 (https://getbootstrap.com/)
  * Copyright 2011-2019 The Bootstrap Authors
@@ -10730,12 +10734,12 @@ body {
 .main-slide {
   width: 100%;
   height: 80vh;
-  background-image: url(/images/bg-Imagen.jpg?caf2dcb36f9e7273809984796e8496d6);
+  background-image: url(/images/bg-imagen.jpg?caf2dcb36f9e7273809984796e8496d6);
   background-position-y: 100%;
   background-position-x: 50%;
   background-size: cover;
   background-repeat: no-repeat;
-  border-bottom: 3px solid black;
+  border-bottom: 5px solid #010035;
 }
 
 #logo {
@@ -10783,20 +10787,41 @@ i {
 }
 
 .bx-wh-shadow {
-  width: 100%;
-  height: 200px;
+  width: 80%;
+  height: 25vh;
   background-color: #ffffff;
   box-shadow: 0px 0px 40px #646464;
   position: absolute;
   transform: translateY(-50%);
 }
 
+@media only screen and (max-width: 800px) {
+  .bx-wh-shadow {
+    height: 35vh;
+  }
+}
+
 .bx-blue {
   width: 100%;
-  height: 200px;
-  background-color: #0a1124dc;
+  background-color: #0a1124f6;
   position: relative;
-  transform: translateY(-100%);
+  transform: translateY(-50%);
+}
+
+.formhome {
+  padding: 20px;
+}
+
+.formblue {
+  background-color: transparent;
+  border: none;
+  border-bottom: solid 1px #ffffff;
+  color: #ffffff;
+  font-family: "Roboto";
+  font-size: 1em;
+  margin: 5px;
+  padding: 5px;
+  position: relative;
 }
 
 body {

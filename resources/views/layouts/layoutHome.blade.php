@@ -36,7 +36,15 @@
                         <div class="main-slide" id="home"></div>
                         <div id="logo"><img src="img/logo3.png" alt="logo can cruz casa rural"></div>
                         
-                        @yield('content')
+                        <div class="container">
+                          <div class="row justify-content-center">
+                            <div class="col-lg-3 col-md-5 col-sm-7 col-10   bx-wh-shadow">
+                            </div>
+                            <div class="col-lg-6 col-md-8 col-sm-10 col-11  bx-blue">
+                              @yield('content')
+                            </div>
+                          </div>
+                      </div>
 
                         <section class="container" id="about">
                           <h3>Sobre Nosotros</h3>

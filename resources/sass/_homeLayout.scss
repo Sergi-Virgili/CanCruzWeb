@@ -1,59 +1,38 @@
-// @import url('https://use.fontawesome.com/releases/v5.7.0/css/all.css');
-
-
-
-
-
 body{
     margin: 0px;
     border: 0px;
-}
-
-.main-slide{
+ }
+ .main-slide{
     width: 100%;
-    height: 80vh;  
-    background-image: url("img/bg-Imagen.jpg");
+    height: 80vh;
+    background-image: url("../img/bg-imagen.jpg");
     background-position-y: 100%;
     background-position-x: 50%;
     background-size: cover;
     background-repeat: no-repeat;
-    border-bottom: 3px solid black;
- 
-}
-
-#logo{
-  
-
-  
+    border-bottom: 5px solid rgb(1, 0, 53);
+ }
+ #logo{
     background-color: #0a1124dc;
     position: absolute;
     top: 10px;
     left: 50%;
     transform: translateX(-50%);
     padding: 30px;
-    
-
-}
-
-#logo img {
-    width: 100%;
-}
-
-
-@media only screen and (max-width: 415px) {
-    #logo{
-        max-width: 200px;
-        padding: 20px;      
-    
-    }
-
-    #logo img {
+    img {
         width: 100%;
     }
+ }
+ @media only screen and (max-width: 415px) {
+    #logo{
+        max-width: 200px;
+        padding: 20px;
+        img {
+            width: 100%;
+        }
+    }
   }
-
-
-#menu{
+ #menu{
     background-color: #0a1124dc;
     position: absolute;
     top: 20px;
@@ -61,46 +40,43 @@ body{
     padding: 20px;
     color: aliceblue;
     font-size: 30px;
-
-}
-
-
-
-i {
+ }
+ i {
     color: white;
     font-size: 30px;
-  
   }
-
-#main-slide {
+ #main-slide {
     position: absolute;
     top: 0px;
-}
-
-
-.bx-wh-shadow {
-
-  width: 100%;
-  height: 200px;
+ }
+ .bx-wh-shadow {
+  width: 80%;
+  height: 25vh;
   background-color: #ffffff;
   box-shadow: 0px 0px 40px #646464;
   position: absolute;
-
   transform: translateY(-50%);
- 
-  
-}
-
-
-.bx-blue {
-
-    width: 100%;
-    height: 200px;
-    background-color:  #0a1124dc;
-
-    position: relative;
-  
-    transform: translateY(-100%);
-   
-    
+  @media only screen and (max-width: 800px) {
+    height: 35vh;
   }
+ }
+ .bx-blue {
+    width: 100%;
+    background-color:  #0a1124f6;
+    position: relative;
+    transform: translateY(-50%);
+  }
+  .formhome{
+    padding: 20px;
+  }
+ .formblue{
+        background-color: transparent;
+        border: none;
+        border-bottom: solid 1px #ffffff;
+        color: #ffffff;
+        font-family: $sans_serif;
+        font-size: 1em;
+        margin: 5px;
+        padding: 5px;
+        position: relative;
+ }
