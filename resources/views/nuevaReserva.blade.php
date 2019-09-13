@@ -22,11 +22,6 @@
                         </div>
                         @if (!Auth::guest())
                             <div class="d-flex">
-                                <form action="/reserva/{{$reserva->id}}" method="POST">
-                                    @csrf
-                                    @method('PUT')
-                                    <input type="submit" value="Actualizar Reserva" class="btn btn-warning">
-                                </form>
                                 <a href="/reserva" class="btn btn-primary ml-auto">Listado de Reservas</a>
                             </div>
                         @endif
