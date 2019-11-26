@@ -1,4 +1,4 @@
-# Can Cruz Web - 
+# Can Cruz Web
 
-## features
+## Features
 Booking - email send in Laravel
