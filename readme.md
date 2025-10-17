@@ -100,31 +100,6 @@ Todos los correos se basan en clases `Mailable` y plantillas Blade:
 - **Emails:** Laravel Mailables con vistas Blade y soporte para HTML  
 - **Autenticación:** Sistema nativo de Laravel (Login, Register, Password Reset)
 
-### Estructura general
-
-```
-app/
- ├── Http/
- │   ├── Controllers/ReservaController.php
- │   ├── Middleware/
- │   └── ...
- ├── Mail/
- │   ├── PendingEmail.php
- │   ├── ReserveConfirmation.php
- │   ├── Cancellation.php
- │   └── AdminEmail.php
- └── Models/
-     └── Reserva.php
-
-resources/
- ├── views/
- │   ├── nuevaReserva.blade.php
- │   ├── adminreservas.blade.php
- │   ├── actualizarReserva.blade.php
- │   └── email*.blade.php
- └── js/ (opcional, soporte Vue.js)
-```
-
 ---
 
 ## 🔐 Seguridad y autenticación
@@ -133,24 +108,6 @@ resources/
 - Protección CSRF activada por defecto (`VerifyCsrfToken` middleware).  
 - Los formularios utilizan `@csrf` para validar las solicitudes.  
 - Solo usuarios autenticados pueden acceder al panel de gestión o modificar reservas.
-
----
-
-## ✉️ Envío de correos
-
-El envío de correos se realiza con el componente **`Mail`** de Laravel:
-
-```php
-Mail::to($reserva->email)->send(new PendingEmail($reserva));
-```
-
-Cada correo utiliza una plantilla Blade con variables dinámicas:
-
-```blade
-<p>Hi, {{ $name }}, your reservation has been confirmed.</p>
-<p>Check-in: {{ $entry_date }}</p>
-<p>Check-out: {{ $out_date }}</p>
-```
 
 ---
 
@@ -203,13 +160,3 @@ Accede a [http://localhost:8000](http://localhost:8000)
 | Emails | Blade templates con soporte HTML |
 | ORM | Eloquent |
 
----
-
-## 📬 Contacto / Créditos
-
-Proyecto desarrollado como ejemplo de aplicación Laravel para la gestión de reservas.  
-Inspirado en la operativa real de la **Masia Can Cruz**.
-
----
-
-© Masia Can Cruz – Sistema de Reservas Laravel
