@@ -1,72 +1,214 @@
-<p align="center"><img src="https://laravel.com/assets/img/components/logo-laravel.svg"></p>
+# 🏡 Masia Can Cruz – Sistema de Reservas
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/d/total.svg" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/v/stable.svg" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://poser.pugx.org/laravel/framework/license.svg" alt="License"></a>
-</p>
+Aplicación web desarrollada con **Laravel** para la **gestión de reservas** de la Masia Can Cruz.  
+Permite que los clientes envíen solicitudes de reserva y que el administrador gestione su ciclo de vida: creación, confirmación y cancelación, con notificaciones automáticas por correo electrónico.
 
-## About Laravel
+---
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## 🎯 Objetivo de negocio
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+El propósito del sistema es ofrecer un **canal directo de reservas** para los huéspedes de la Masia Can Cruz, eliminando intermediarios y simplificando la gestión.  
+Desde una interfaz sencilla, los clientes pueden registrar sus datos y fechas de estancia, mientras que el administrador puede revisar, aprobar o cancelar cada solicitud.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+### Flujo de negocio principal
 
-## Learning Laravel
+1. **Creación de reserva**
+   - El cliente rellena un formulario con su nombre, email, fechas de entrada y salida, y un mensaje opcional.
+   - La aplicación registra la reserva en estado *pendiente*.
+   - Se envía un correo de confirmación de recepción al cliente.
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+2. **Gestión por parte del administrador**
+   - El administrador accede a un panel con todas las reservas.
+   - Puede **editar**, **confirmar** o **eliminar** una reserva.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1400 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+3. **Confirmación o cancelación**
+   - Al confirmar, el cliente recibe un email con los detalles de la reserva aprobada.
+   - Al cancelar, se notifica al cliente la cancelación por correo electrónico.
 
-## Laravel Sponsors
+4. **Notificaciones automáticas**
+   - Los correos se generan mediante plantillas HTML personalizadas para cada etapa del proceso.
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[British Software Development](https://www.britishsoftware.co)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- [UserInsights](https://userinsights.com)
-- [Fragrantica](https://www.fragrantica.com)
-- [SOFTonSOFA](https://softonsofa.com/)
-- [User10](https://user10.com)
-- [Soumettre.fr](https://soumettre.fr/)
-- [CodeBrisk](https://codebrisk.com)
-- [1Forge](https://1forge.com)
-- [TECPRESSO](https://tecpresso.co.jp/)
-- [Runtime Converter](http://runtimeconverter.com/)
-- [WebL'Agence](https://weblagence.com/)
-- [Invoice Ninja](https://www.invoiceninja.com)
-- [iMi digital](https://www.imi-digital.de/)
-- [Earthlink](https://www.earthlink.ro/)
-- [Steadfast Collective](https://steadfastcollective.com/)
-- [We Are The Robots Inc.](https://watr.mx/)
-- [Understand.io](https://www.understand.io/)
-- [Abdel Elrafa](https://abdelelrafa.com)
-- [Hyper Host](https://hyper.host)
+## 💼 Roles del sistema
 
-## Contributing
+| Rol | Permisos principales |
+|-----|----------------------|
+| **Cliente (invitado)** | Crear nuevas reservas. |
+| **Administrador (usuario autenticado)** | Listar, editar, confirmar y cancelar reservas. |
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+> El acceso al panel de gestión requiere autenticación.
 
-## Security Vulnerabilities
+---
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+## 🧩 Componentes principales
 
-## License
+### Modelos
 
-The Laravel framework is open-source software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+- **`Reserva`**  
+  Representa una reserva realizada por un cliente.  
+  Contiene información básica del cliente y fechas de la estancia.
+
+- **`User`**  
+  Usuario autenticado (administrador) con autenticación estándar de Laravel.
+
+### Controladores
+
+- **`ReservaController`**
+  - `index()` → lista todas las reservas (solo admin).  
+  - `create()` → muestra el formulario de nueva reserva (público).  
+  - `store()` → valida y guarda una reserva nueva, enviando un correo de recepción.  
+  - `edit()` / `update()` → permite modificar una reserva existente.  
+  - `confirmReservation()` → marca una reserva como confirmada y envía el correo de confirmación.  
+  - `destroy()` → elimina una reserva y envía el correo de cancelación.
+
+- **`HomeController`**  
+  Redirige la raíz de la aplicación al listado de reservas.
+
+### Mails
+
+Todos los correos se basan en clases `Mailable` y plantillas Blade:
+
+| Clase | Plantilla | Descripción |
+|--------|------------|-------------|
+| `PendingEmail` | `emailPendingReserva` | Avisa al cliente que su reserva fue recibida. |
+| `ReserveConfirmation` | `emailConfirmationReserva` | Confirma la reserva al cliente. |
+| `Cancellation` | `emailCancellationReserva` | Notifica la cancelación. |
+| `AdminEmail` | `emailConfirmationReservaAdmin` | (Preparado) Aviso al administrador. |
+
+---
+
+## 💻 Vistas principales
+
+| Vista | Descripción |
+|-------|--------------|
+| `nuevaReserva.blade.php` | Formulario de nueva reserva (público). |
+| `adminreservas.blade.php` | Panel del administrador con listado y acciones sobre reservas. |
+| `actualizarReserva.blade.php` | Formulario de edición de reservas. |
+| `email*.blade.php` | Plantillas HTML para correos automáticos. |
+| `layouts/app.blade.php` | Plantilla base con Bootstrap y sistema de autenticación Laravel. |
+
+---
+
+## ⚙️ Arquitectura técnica
+
+- **Framework:** Laravel 5.x  
+- **Lenguaje:** PHP 7.x+  
+- **Base de datos:** MySQL o equivalente compatible con Eloquent ORM  
+- **Frontend:** Blade + Bootstrap 4  
+- **Emails:** Laravel Mailables con vistas Blade y soporte para HTML  
+- **Autenticación:** Sistema nativo de Laravel (Login, Register, Password Reset)
+
+### Estructura general
+
+```
+app/
+ ├── Http/
+ │   ├── Controllers/ReservaController.php
+ │   ├── Middleware/
+ │   └── ...
+ ├── Mail/
+ │   ├── PendingEmail.php
+ │   ├── ReserveConfirmation.php
+ │   ├── Cancellation.php
+ │   └── AdminEmail.php
+ └── Models/
+     └── Reserva.php
+
+resources/
+ ├── views/
+ │   ├── nuevaReserva.blade.php
+ │   ├── adminreservas.blade.php
+ │   ├── actualizarReserva.blade.php
+ │   └── email*.blade.php
+ └── js/ (opcional, soporte Vue.js)
+```
+
+---
+
+## 🔐 Seguridad y autenticación
+
+- Autenticación basada en sesiones de Laravel (`Auth` facade).  
+- Protección CSRF activada por defecto (`VerifyCsrfToken` middleware).  
+- Los formularios utilizan `@csrf` para validar las solicitudes.  
+- Solo usuarios autenticados pueden acceder al panel de gestión o modificar reservas.
+
+---
+
+## ✉️ Envío de correos
+
+El envío de correos se realiza con el componente **`Mail`** de Laravel:
+
+```php
+Mail::to($reserva->email)->send(new PendingEmail($reserva));
+```
+
+Cada correo utiliza una plantilla Blade con variables dinámicas:
+
+```blade
+<p>Hi, {{ $name }}, your reservation has been confirmed.</p>
+<p>Check-in: {{ $entry_date }}</p>
+<p>Check-out: {{ $out_date }}</p>
+```
+
+---
+
+## 🧠 Lógica de negocio simplificada
+
+| Acción | Responsable | Resultado |
+|--------|--------------|-----------|
+| Crear reserva | Cliente | Se guarda en BD, correo “pendiente”. |
+| Confirmar reserva | Admin | Cambia estado, correo “confirmado”. |
+| Cancelar reserva | Admin | Se elimina, correo “cancelado”. |
+| Editar reserva | Admin | Modifica datos existentes. |
+
+---
+
+## 🚀 Instalación y uso (modo desarrollo)
+
+```bash
+# 1. Clonar el repositorio
+git clone <url>
+
+# 2. Instalar dependencias PHP
+composer install
+
+# 3. Configurar variables de entorno
+cp .env.example .env
+php artisan key:generate
+
+# 4. Configurar base de datos y correo en .env
+# MAIL_MAILER=smtp
+# MAIL_HOST=smtp.example.com
+# ...
+
+# 5. Ejecutar migraciones
+php artisan migrate
+
+# 6. Iniciar servidor local
+php artisan serve
+```
+
+Accede a [http://localhost:8000](http://localhost:8000)
+
+---
+
+## 🧪 Tecnologías adicionales
+
+| Área | Tecnología |
+|------|-------------|
+| CSS | Sass + Bootstrap |
+| JS | Vue.js (configurado pero no usado en producción) |
+| Emails | Blade templates con soporte HTML |
+| ORM | Eloquent |
+
+---
+
+## 📬 Contacto / Créditos
+
+Proyecto desarrollado como ejemplo de aplicación Laravel para la gestión de reservas.  
+Inspirado en la operativa real de la **Masia Can Cruz**.
+
+---
+
+© Masia Can Cruz – Sistema de Reservas Laravel
