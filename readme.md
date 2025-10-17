@@ -1,3 +1,4 @@
+
 # 🏡 Masia Can Cruz – Sistema de Reservas
 
 Aplicación web desarrollada con **Laravel** para la **gestión de reservas** de la Masia Can Cruz.  
