@@ -20,7 +20,7 @@ WORKDIR /var/www/html
 COPY . .
 COPY --from=vendor /app/vendor ./vendor
 COPY --from=assets /app/public/build ./public/build
-RUN mkdir -p bootstrap/cache && php artisan package:discover --ansi && chown -R www-data:www-data storage bootstrap/cache
+RUN mkdir -p bootstrap/cache storage/framework/cache storage/framework/sessions storage/framework/views storage/framework/testing && php artisan package:discover --ansi && chown -R www-data:www-data storage bootstrap/cache
 USER www-data
 CMD ["php-fpm"]
 

@@ -1,5 +1,10 @@
 #!/bin/sh
 
+# Ensure storage framework directories exist and are writable
+mkdir -p /var/www/html/storage/framework/{cache,sessions,views,testing}
+mkdir -p /var/www/html/bootstrap/cache
+chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
+
 # If vendor directory doesn't have dev dependencies (volume mount from host), copy from image
 if [ ! -d /var/www/html/vendor/laravel/boost ]; then
     echo "Initializing vendor directory from image..."
