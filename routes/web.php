@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
@@ -20,7 +21,11 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-// Temporary placeholder for admin.reservations.index (created in Task 5)
-Route::get('/admin/reservations', fn () => 'Admin Reservations Index')
-    ->name('admin.reservations.index')
-    ->middleware('auth');
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): void {
+    Route::get('/reservations', [AdminReservationController::class, 'index'])
+        ->name('reservations.index');
+    Route::get('/reservations/{reservation}/edit', [AdminReservationController::class, 'edit'])
+        ->name('reservations.edit');
+    Route::patch('/reservations/{reservation}', [AdminReservationController::class, 'update'])
+        ->name('reservations.update');
+});
