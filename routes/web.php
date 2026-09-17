@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
+use App\Http\Controllers\Admin\ReservationStatusController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
@@ -28,4 +29,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): v
         ->name('reservations.edit');
     Route::patch('/reservations/{reservation}', [AdminReservationController::class, 'update'])
         ->name('reservations.update');
+    Route::post('/reservations/{reservation}/confirm', [ReservationStatusController::class, 'confirm'])
+        ->name('reservations.confirm');
+    Route::post('/reservations/{reservation}/cancel', [ReservationStatusController::class, 'cancel'])
+        ->name('reservations.cancel');
 });
