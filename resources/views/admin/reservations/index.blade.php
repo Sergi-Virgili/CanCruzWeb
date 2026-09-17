@@ -46,7 +46,7 @@
                                        class="text-indigo-600 hover:text-indigo-900">Editar</a>
 
                                     @if ($reservation->status === App\Enums\ReservationStatus::Pending)
-                                        <form method="POST" action="/admin/reservations/{{ $reservation->id }}/confirm" class="inline">
+                                        <form method="POST" action="{{ route('admin.reservations.confirm', $reservation) }}" class="inline">
                                             @csrf
                                             <button type="submit"
                                                     class="text-green-600 hover:text-green-900 border-none bg-transparent p-0 cursor-pointer"
@@ -57,7 +57,7 @@
                                     @endif
 
                                     @if ($reservation->status !== App\Enums\ReservationStatus::Cancelled)
-                                        <form method="POST" action="/admin/reservations/{{ $reservation->id }}/cancel" class="inline">
+                                        <form method="POST" action="{{ route('admin.reservations.cancel', $reservation) }}" class="inline">
                                             @csrf
                                             <button type="submit"
                                                     class="text-red-600 hover:text-red-900 border-none bg-transparent p-0 cursor-pointer"

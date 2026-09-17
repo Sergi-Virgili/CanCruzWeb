@@ -162,11 +162,11 @@ class AdminReservationTest extends TestCase
             ->assertOk();
 
         // Should show confirm form for pending
-        $response->assertSee("action=\"/admin/reservations/{$pending->id}/confirm\"", false);
+        $response->assertSee('action="'.route('admin.reservations.confirm', $pending).'"', false);
 
         // Should NOT show confirm form for confirmed or cancelled
-        $response->assertDontSee("action=\"/admin/reservations/{$confirmed->id}/confirm\"", false);
-        $response->assertDontSee("action=\"/admin/reservations/{$cancelled->id}/confirm\"", false);
+        $response->assertDontSee('action="'.route('admin.reservations.confirm', $confirmed).'"', false);
+        $response->assertDontSee('action="'.route('admin.reservations.confirm', $cancelled).'"', false);
     }
 
     public function test_index_view_shows_cancel_form_for_non_cancelled_reservations(): void
@@ -181,10 +181,10 @@ class AdminReservationTest extends TestCase
             ->assertOk();
 
         // Should show cancel form for pending and confirmed
-        $response->assertSee("action=\"/admin/reservations/{$pending->id}/cancel\"", false);
-        $response->assertSee("action=\"/admin/reservations/{$confirmed->id}/cancel\"", false);
+        $response->assertSee('action="'.route('admin.reservations.cancel', $pending).'"', false);
+        $response->assertSee('action="'.route('admin.reservations.cancel', $confirmed).'"', false);
 
         // Should NOT show cancel form for cancelled
-        $response->assertDontSee("action=\"/admin/reservations/{$cancelled->id}/cancel\"", false);
+        $response->assertDontSee('action="'.route('admin.reservations.cancel', $cancelled).'"', false);
     }
 }

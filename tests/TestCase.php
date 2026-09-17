@@ -11,7 +11,7 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
-        // Disable CSRF middleware for testing
+        // Disable CSRF middleware for most tests
         $this->withoutMiddleware(VerifyCsrfToken::class);
     }
 }
