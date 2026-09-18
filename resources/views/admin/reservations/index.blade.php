@@ -1,7 +1,17 @@
 <x-layouts.app>
     <div class="max-w-7xl mx-auto">
         <div class="flex justify-between items-center mb-6">
-            <h1 class="text-2xl font-bold">Administración de Reservas</h1>
+            <div class="flex items-center gap-4">
+                <img src="{{ asset('img/logo1.png') }}" alt="Can Cruz" class="h-14 w-auto">
+                <h1 class="text-2xl font-bold">Administración de Reservas</h1>
+            </div>
+            <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit"
+                        class="text-sm text-gray-600 hover:text-gray-900 border-none bg-transparent p-0 cursor-pointer">
+                    Cerrar sesión
+                </button>
+            </form>
         </div>
 
         @if ($reservations->isEmpty())
