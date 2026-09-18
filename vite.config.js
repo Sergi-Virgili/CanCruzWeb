@@ -12,6 +12,12 @@ export default defineConfig({
                 bunny('Instrument Sans', {
                     weights: [400, 500, 600],
                 }),
+                bunny('EB Garamond', {
+                    weights: [400, 600],
+                }),
+                bunny('Roboto', {
+                    weights: [400, 500],
+                }),
             ],
         }),
         tailwindcss(),

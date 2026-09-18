@@ -2,6 +2,26 @@
 
 A modernized Laravel 13 application for managing reservations, with Docker-based development and production environments.
 
+## Business Context
+
+Masia Can Cruz is a rural house (casa rural) in the Parc Natural del Montseny. The application gives guests a **direct reservation channel** — no intermediaries — and gives the administrator a simple panel to manage each request.
+
+### Reservation Lifecycle
+
+1. **Guest submits a request** — name, email, arrival and departure dates, and a message. It is stored as `pending` and the guest receives a reception email.
+2. **Administrator reviews** — an authenticated admin sees every reservation in the panel.
+3. **Confirmation or cancellation** — the admin confirms or cancels. Transitions are guarded (`pending → confirmed`, `pending|confirmed → cancelled`) and each sends its email.
+4. **Automatic notifications** — Blade/Mailable templates cover reception, confirmation, and cancellation.
+
+### Roles
+
+| Role | Capabilities |
+|------|--------------|
+| Guest | Submit a reservation request. |
+| Administrator (authenticated) | List, edit, confirm, and cancel reservations. |
+
+There is **no public registration**; administrators are provisioned with the `admin:create` command.
+
 ## Quick Start
 
 ```bash

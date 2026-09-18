@@ -17,7 +17,7 @@ class PublicReservationTest extends TestCase
     {
         Mail::fake();
 
-        $response = $this->post(route('reservations.store'), [
+        $response = $this->from(route('reservations.create'))->post(route('reservations.store'), [
             'name' => 'Ada Lovelace',
             'email' => 'ada@example.com',
             'entry_date' => Carbon::now()->addWeek()->toDateString(),
@@ -32,6 +32,22 @@ class PublicReservationTest extends TestCase
             'status' => ReservationStatus::Pending->value,
         ]);
         Mail::assertSent(ReservationReceived::class, 1);
+    }
+
+    public function test_reservation_submitted_from_home_returns_to_home(): void
+    {
+        Mail::fake();
+
+        $response = $this->from(route('home'))->post(route('reservations.store'), [
+            'name' => 'Ada Lovelace',
+            'email' => 'ada@example.com',
+            'entry_date' => Carbon::now()->addWeek()->toDateString(),
+            'out_date' => Carbon::now()->addWeek()->addDays(2)->toDateString(),
+            'message' => 'Consulta',
+        ]);
+
+        $response->assertRedirect(route('home'))->assertSessionHas('success');
+        $this->assertDatabaseHas('reservations', ['email' => 'ada@example.com']);
     }
 
     public function test_departure_must_be_after_arrival(): void
@@ -101,7 +117,7 @@ class PublicReservationTest extends TestCase
         Mail::fake();
         Mail::shouldReceive('to')->andThrow(new \RuntimeException('Mail server down'));
 
-        $response = $this->post(route('reservations.store'), [
+        $response = $this->from(route('reservations.create'))->post(route('reservations.store'), [
             'name' => 'Ada Lovelace',
             'email' => 'ada@example.com',
             'entry_date' => Carbon::now()->addWeek()->toDateString(),

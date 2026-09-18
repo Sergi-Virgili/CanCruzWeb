@@ -25,11 +25,11 @@ class ReservationController extends Controller
         } catch (Throwable $exception) {
             report($exception);
 
-            return to_route('reservations.create')
+            return back()
                 ->with('warning', 'La reserva se guardo, pero no pudimos enviar el correo.');
         }
 
-        return to_route('reservations.create')
+        return back()
             ->with('success', 'Hemos recibido tu solicitud de reserva.');
     }
 }
