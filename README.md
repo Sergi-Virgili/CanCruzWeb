@@ -275,7 +275,32 @@ find /backups -name "cancruz-*.sql.gz" -mtime +30 -delete
 | `key:generate` → *Permission denied* | En Linux, `.env` pertenece a tu usuario: `docker compose exec -u root app php artisan key:generate`. |
 | La app no puede escribir logs/vistas (Linux) | `chmod -R 777 storage bootstrap/cache`. |
 | `Connection refused` al migrar | MySQL aún arrancando: reintenta en unos segundos. El health check usa TCP. |
+| No puedo abrir la web desde el móvil u otro equipo | Por diseño, `8080` y `5173` se publican solo en `127.0.0.1`. Ver [Seguridad en desarrollo](#seguridad-en-desarrollo). |
 | Puertos ocupados | Cambia `APP_PORT` / `VITE_PORT` en `.env`. |
+
+## Seguridad en desarrollo
+
+Por defecto, nginx (`8080`) y Vite (`5173`) se publican **solo en `127.0.0.1`**, de modo que no son accesibles desde la red local. Vite además:
+
+- Restringe CORS al origen de la app (`APP_URL`), no a `*`.
+- Sirve ficheros del proyecto, por lo que **nunca debe exponerse** fuera de la máquina de desarrollo.
+- No forma parte de la imagen de producción: `compose.prod.yaml` no incluye el servicio.
+
+Si necesitas probar la web desde un móvil u otro equipo de tu red, publica **solo la app** en la LAN y mantén Vite privado. En `compose.yaml`, cambia el puerto de `nginx`:
+
+```yaml
+ports:
+  - "${APP_PORT:-8080}:80"   # en lugar de "127.0.0.1:${APP_PORT:-8080}:80"
+```
+
+Con eso el móvil accede a `http://<tu-ip>:8080`. Como Vite no es alcanzable desde el móvil, **no uses el hot file**: compila los assets y levanta el stack sin el servicio `vite` (al pararlo, el plugin elimina `public/hot` y Laravel pasa a servir `public/build`):
+
+```bash
+npm run build
+docker compose up -d --build app nginx db
+```
+
+Para volver al desarrollo con HMR: `docker compose up -d` (arranca `vite` de nuevo) y restaura el binding de nginx a `127.0.0.1`.
 
 ## Convenciones
 
@@ -288,6 +313,8 @@ find /backups -name "cancruz-*.sql.gz" -mtime +30 -delete
 
 - **Especificación de diseño:** [`docs/superpowers/specs/2026-09-16-laravel-13-modernization-design.md`](docs/superpowers/specs/2026-09-16-laravel-13-modernization-design.md)
 - **Plan de implementación:** [`docs/superpowers/plans/2026-09-16-laravel-13-modernization.md`](docs/superpowers/plans/2026-09-16-laravel-13-modernization.md)
+- **QA, CI y hardening de desarrollo:** [`docs/superpowers/specs/2026-09-18-qa-ci-dev-hardening-design.md`](docs/superpowers/specs/2026-09-18-qa-ci-dev-hardening-design.md)
+- **Convenciones para agentes:** [`AGENTS.md`](AGENTS.md)
 - **CI:** [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 
 ## Licencia

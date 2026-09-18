@@ -31,6 +31,22 @@ Work done after this plan was written, also merged in PR #28:
 - Self-hosted EB Garamond + Roboto fonts, legacy images under `public/img/`, smooth scroll, admin logo, and a business-context README section.
 - Development `compose.yaml` provisions the `laravel` database user; the admin panel gained a logo and a logout control.
 
+### Post-plan changes: QA, CI and development hardening
+
+Work done on 2026-09-18, after the modernization shipped. Design:
+`docs/superpowers/specs/2026-09-18-qa-ci-dev-hardening-design.md`.
+
+- Playwright e2e suite under `e2e/` covering the public and admin flows, with a
+  global setup health check, `E2E_*` configuration, and a teardown that removes
+  test data via `reservations:prune-qa`.
+- GitHub Actions CI (`.github/workflows/ci.yml`) with a `php` job (Pint + PHPUnit)
+  and an `e2e` job.
+- Configurable public submission throttle (`RESERVATION_THROTTLE_PER_MINUTE`,
+  default `5`, development `60`).
+- Vite HMR wired for Docker (shared `./public` for `public/hot`, `APP_URL`, CORS
+  scoped to the app origin) and development ports bound to `127.0.0.1`.
+- `AGENTS.md` rewritten with the project's real conventions; `CLAUDE.md` points to it.
+
 ---
 
 ## Global Constraints
