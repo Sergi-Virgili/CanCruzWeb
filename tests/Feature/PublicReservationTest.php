@@ -96,6 +96,8 @@ class PublicReservationTest extends TestCase
 
     public function test_sixth_request_from_same_ip_receives_429(): void
     {
+        config(['reservation.throttle_per_minute' => 5]);
+
         $validData = [
             'name' => 'Ada Lovelace',
             'email' => 'ada@example.com',

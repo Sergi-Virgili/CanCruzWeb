@@ -23,7 +23,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         RateLimiter::for('reservation-submissions', function (Request $request): Limit {
-            return Limit::perMinute(5)->by($request->ip());
+            return Limit::perMinute((int) config('reservation.throttle_per_minute'))->by($request->ip());
         });
     }
 }
