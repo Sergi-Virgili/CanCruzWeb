@@ -4,9 +4,15 @@
     "type": "module",
     "scripts": {
         "build": "vite build",
-        "dev": "vite"
+        "dev": "vite",
+        "e2e": "playwright test",
+        "e2e:watch": "E2E_SLOW_MO=900 playwright test --headed --workers=1",
+        "e2e:ui": "playwright test --ui",
+        "e2e:report": "playwright show-report",
+        "e2e:admin": "docker compose exec -T -e ADMIN_BOOTSTRAP_PASSWORD=${E2E_ADMIN_PASSWORD:-password} app php artisan admin:create ${E2E_ADMIN_EMAIL:-admin@cancruz.test}"
     },
     "devDependencies": {
+        "@playwright/test": "^1.63.0",
         "@tailwindcss/vite": "^4.0.0",
         "concurrently": "^10.0.3",
         "laravel-vite-plugin": "^3.1",
