@@ -1,28 +1,37 @@
 <?php
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
+use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
+use App\Http\Controllers\Admin\ReservationStatusController;
+use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ReservationController;
+use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('index');
+Route::get('/', HomeController::class)->name('home');
+Route::get('/reservations/create', [ReservationController::class, 'create'])
+    ->name('reservations.create');
+Route::post('/reservations', [ReservationController::class, 'store'])
+    ->middleware('throttle:reservation-submissions')
+    ->name('reservations.store');
+
+Route::middleware('guest')->group(function (): void {
+    Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+    Route::post('/login', [AuthenticatedSessionController::class, 'store'])->name('login.store');
 });
-Route::get('/nueva-reserva', 'ReservaController@create');
 
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
+    ->middleware('auth')
+    ->name('logout');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-Route::resource('reserva', 'ReservaController');
-
-Route::group(['middleware' => 'auth'], function () {
-    Route::get('confirm-reserva/{reserva}', 'ReservaController@confirmReservation');
-    Route::get('reserva/{reserva}/edit', 'ReservaController@edit');
+Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): void {
+    Route::get('/reservations', [AdminReservationController::class, 'index'])
+        ->name('reservations.index');
+    Route::get('/reservations/{reservation}/edit', [AdminReservationController::class, 'edit'])
+        ->name('reservations.edit');
+    Route::patch('/reservations/{reservation}', [AdminReservationController::class, 'update'])
+        ->name('reservations.update');
+    Route::post('/reservations/{reservation}/confirm', [ReservationStatusController::class, 'confirm'])
+        ->name('reservations.confirm');
+    Route::post('/reservations/{reservation}/cancel', [ReservationStatusController::class, 'cancel'])
+        ->name('reservations.cancel');
 });
