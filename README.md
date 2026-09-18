@@ -64,6 +64,8 @@ Abre **http://localhost:8080** y entra en **http://localhost:8080/login** con el
 | Vite | http://localhost:5173 | Servidor de assets/HMR. **No es la web**: abrir `/` muestra una página informativa |
 | Health check | http://localhost:8080/up | Devuelve HTTP 200 |
 
+En desarrollo, nginx y Vite se publican **solo en `127.0.0.1`**: no son accesibles desde otros equipos de la red local. Vite es una herramienta de desarrollo y nunca forma parte de la imagen de producción.
+
 ## Arquitectura
 
 ```mermaid
