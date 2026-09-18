@@ -10,6 +10,29 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-16-laravel-13-modernization-design.md`
 
+---
+
+## Status: Complete
+
+**Completed:** 2026-09-18. All eight tasks were implemented with TDD and merged to `master` in PR #28 (merge commit `17cbd28`).
+
+Verification on the merged tree: 52 tests / 149 assertions passing, `vendor/bin/pint` clean, `npm run build` succeeds, the production image builds, and `/up` returns HTTP 200.
+
+The checkboxes below were back-filled to `[x]` to reflect the finished work; they were not ticked during execution.
+
+### Post-plan changes
+
+Work done after this plan was written, also merged in PR #28:
+
+- Public landing page at `/` (`HomeController`, `resources/views/home.blade.php`), a Tailwind recreation of the legacy `develop` design (hero, sidebar, sections, footer) with an embedded reservation form.
+- Reusable `resources/views/components/reservation-form.blade.php` (light/dark variants), used by the landing hero and by `reservations/create`.
+- `ReservationController@store` redirects `back()` to the submitting page instead of a fixed route.
+- Removed dead views `welcome.blade.php` and `layouts/app.blade.php`; the shared shell now lives at `components/layouts/app.blade.php`.
+- Self-hosted EB Garamond + Roboto fonts, legacy images under `public/img/`, smooth scroll, admin logo, and a business-context README section.
+- Development `compose.yaml` provisions the `laravel` database user; the admin panel gained a logo and a logout control.
+
+---
+
 ## Global Constraints
 
 - Laravel 13 and PHP 8.4 are mandatory; Composer must require PHP `^8.3` or stricter.
@@ -64,7 +87,7 @@ The migration replaces the legacy Laravel skeleton. These are the project-specif
 - Consumes: Official `laravel/laravel:^13.0` Composer project template.
 - Produces: A bootable Laravel 13 application with `/up`, PHPUnit 12, Vite 8, and Tailwind CSS 4.
 
-- [ ] **Step 1: Generate the official skeleton outside the repository**
+- [x] **Step 1: Generate the official skeleton outside the repository**
 
 ```bash
 composer create-project laravel/laravel:^13.0 /tmp/cancruz-laravel13 --no-interaction
@@ -72,7 +95,7 @@ composer create-project laravel/laravel:^13.0 /tmp/cancruz-laravel13 --no-intera
 
 Expected: the generated `composer.json` requires PHP `^8.3` and `laravel/framework` `^13`.
 
-- [ ] **Step 2: Remove the tracked legacy skeleton while preserving Git and design documents**
+- [x] **Step 2: Remove the tracked legacy skeleton while preserving Git and design documents**
 
 ```bash
 git rm -r app bootstrap config database public resources routes storage tests
@@ -81,7 +104,7 @@ git rm artisan composer.json composer.lock package.json package-lock.json phpuni
 
 Do not remove `.git/`, `docs/`, `.env`, or untracked user files.
 
-- [ ] **Step 3: Copy the generated Laravel skeleton into the repository**
+- [x] **Step 3: Copy the generated Laravel skeleton into the repository**
 
 ```bash
 rsync -a --exclude='.git' --exclude='.env' --exclude='vendor' --exclude='node_modules' /tmp/cancruz-laravel13/ ./
@@ -89,7 +112,7 @@ composer install --no-interaction
 npm install
 ```
 
-- [ ] **Step 4: Write the baseline health test**
+- [x] **Step 4: Write the baseline health test**
 
 ```php
 <?php
@@ -107,19 +130,19 @@ class HealthCheckTest extends TestCase
 }
 ```
 
-- [ ] **Step 5: Run the baseline checks**
+- [x] **Step 5: Run the baseline checks**
 
 Run: `php artisan test tests/Feature/HealthCheckTest.php && npm run build`
 
 Expected: one passing test and a successful Vite production build.
 
-- [ ] **Step 6: Run formatting**
+- [x] **Step 6: Run formatting**
 
 Run: `vendor/bin/pint --dirty`
 
 Expected: no formatting errors.
 
-- [ ] **Step 7: Optional commit checkpoint**
+- [x] **Step 7: Optional commit checkpoint**
 
 ```bash
 git add -A
@@ -141,7 +164,7 @@ git commit -m "build: replace legacy app with Laravel 13"
 - Consumes: Eloquent, database transactions, and route-model-compatible `Reservation` IDs.
 - Produces: `ReservationStatus::canTransitionTo(ReservationStatus): bool` and `TransitionReservation::handle(Reservation, ReservationStatus): Reservation`.
 
-- [ ] **Step 1: Write failing enum transition tests**
+- [x] **Step 1: Write failing enum transition tests**
 
 ```php
 <?php
@@ -177,13 +200,13 @@ class ReservationStatusTest extends TestCase
 }
 ```
 
-- [ ] **Step 2: Run the enum test and verify failure**
+- [x] **Step 2: Run the enum test and verify failure**
 
 Run: `php artisan test tests/Unit/ReservationStatusTest.php`
 
 Expected: FAIL because `App\Enums\ReservationStatus` does not exist.
 
-- [ ] **Step 3: Implement the enum**
+- [x] **Step 3: Implement the enum**
 
 ```php
 <?php
@@ -207,7 +230,7 @@ enum ReservationStatus: string
 }
 ```
 
-- [ ] **Step 4: Add the migration, model, and factory**
+- [x] **Step 4: Add the migration, model, and factory**
 
 Migration body:
 
@@ -283,7 +306,7 @@ public function cancelled(): static
 }
 ```
 
-- [ ] **Step 5: Write failing atomic-transition tests**
+- [x] **Step 5: Write failing atomic-transition tests**
 
 ```php
 public function test_it_confirms_a_pending_reservation(): void
@@ -308,13 +331,13 @@ public function test_it_rejects_an_invalid_transition(): void
 }
 ```
 
-- [ ] **Step 6: Run the transition tests and verify failure**
+- [x] **Step 6: Run the transition tests and verify failure**
 
 Run: `php artisan test tests/Feature/TransitionReservationTest.php`
 
 Expected: FAIL because `TransitionReservation` does not exist.
 
-- [ ] **Step 7: Implement the locked transition action**
+- [x] **Step 7: Implement the locked transition action**
 
 ```php
 final class TransitionReservation
@@ -346,13 +369,13 @@ final class TransitionReservation
 }
 ```
 
-- [ ] **Step 8: Run domain tests**
+- [x] **Step 8: Run domain tests**
 
 Run: `php artisan test tests/Unit/ReservationStatusTest.php tests/Feature/TransitionReservationTest.php`
 
 Expected: PASS.
 
-- [ ] **Step 9: Optional commit checkpoint**
+- [x] **Step 9: Optional commit checkpoint**
 
 ```bash
 git add app/Enums app/Models/Reservation.php app/Actions database tests/Unit/ReservationStatusTest.php tests/Feature/TransitionReservationTest.php
@@ -376,7 +399,7 @@ git commit -m "feat: add reservation domain"
 - Consumes: `Reservation::create(array)`, `ReservationStatus::Pending`, Laravel Mail, and session flash data.
 - Produces: named routes `home`, `reservations.create`, and `reservations.store`; Mailable `ReservationReceived`.
 
-- [ ] **Step 1: Write failing public-flow tests**
+- [x] **Step 1: Write failing public-flow tests**
 
 Cover these cases in `PublicReservationTest`:
 
@@ -418,13 +441,13 @@ public function test_departure_must_be_after_arrival(): void
 
 Also test required fields, invalid email, old input, and the sixth request from one IP receiving HTTP 429.
 
-- [ ] **Step 2: Run the tests and verify routing failures**
+- [x] **Step 2: Run the tests and verify routing failures**
 
 Run: `php artisan test tests/Feature/PublicReservationTest.php`
 
 Expected: FAIL because named reservation routes do not exist.
 
-- [ ] **Step 3: Implement request validation**
+- [x] **Step 3: Implement request validation**
 
 ```php
 public function rules(): array
@@ -441,7 +464,7 @@ public function rules(): array
 
 `authorize()` returns `true`. Add Spanish field labels/messages where they improve the rendered form.
 
-- [ ] **Step 4: Implement routes and rate limiter**
+- [x] **Step 4: Implement routes and rate limiter**
 
 ```php
 Route::redirect('/', '/reservations/create')->name('home');
@@ -460,7 +483,7 @@ RateLimiter::for('reservation-submissions', function (Request $request): Limit {
 });
 ```
 
-- [ ] **Step 5: Implement controller, Mailable, and views**
+- [x] **Step 5: Implement controller, Mailable, and views**
 
 The store method must persist before attempting mail and preserve the row on mail failure:
 
@@ -486,18 +509,18 @@ public function store(StoreReservationRequest $request): RedirectResponse
 Use `@vite(['resources/css/app.css', 'resources/js/app.js'])`, semantic labels,
 `@error` messages, `old()` values, and escaped Blade output.
 
-- [ ] **Step 6: Add the mail-failure test**
+- [x] **Step 6: Add the mail-failure test**
 
 Mock `Mail::to()` to throw `RuntimeException`, submit valid data, then assert a
 redirect with `warning` and an existing reservation row.
 
-- [ ] **Step 7: Run public-flow tests and frontend build**
+- [x] **Step 7: Run public-flow tests and frontend build**
 
 Run: `php artisan test tests/Feature/PublicReservationTest.php && npm run build`
 
 Expected: PASS.
 
-- [ ] **Step 8: Optional commit checkpoint**
+- [x] **Step 8: Optional commit checkpoint**
 
 ```bash
 git add app/Http app/Mail app/Providers resources routes tests/Feature/PublicReservationTest.php
@@ -520,7 +543,7 @@ git commit -m "feat: add public reservation flow"
 - Consumes: Laravel `User`, session guard, `ADMIN_NAME`, and `ADMIN_BOOTSTRAP_PASSWORD`.
 - Produces: command `admin:create {email}` and named routes `login`, `login.store`, `logout`.
 
-- [ ] **Step 1: Write failing administrator command tests**
+- [x] **Step 1: Write failing administrator command tests**
 
 ```php
 public function test_command_creates_an_administrator_from_a_secret(): void
@@ -539,13 +562,13 @@ public function test_command_creates_an_administrator_from_a_secret(): void
 
 Also assert invalid email fails and missing non-interactive password fails cleanly.
 
-- [ ] **Step 2: Run command tests and verify failure**
+- [x] **Step 2: Run command tests and verify failure**
 
 Run: `php artisan test tests/Feature/CreateAdminCommandTest.php`
 
 Expected: FAIL because `admin:create` is undefined.
 
-- [ ] **Step 3: Implement secure administrator creation**
+- [x] **Step 3: Implement secure administrator creation**
 
 `config/admin.php`:
 
@@ -594,7 +617,7 @@ public function handle(): int
 }
 ```
 
-- [ ] **Step 4: Write failing authentication tests**
+- [x] **Step 4: Write failing authentication tests**
 
 Test successful login, failed credentials, session regeneration, authenticated
 logout, and absence of registration/password-reset routes.
@@ -613,7 +636,7 @@ public function test_administrator_can_log_in(): void
 }
 ```
 
-- [ ] **Step 5: Implement session controller, routes, and login view**
+- [x] **Step 5: Implement session controller, routes, and login view**
 
 ```php
 Route::middleware('guest')->group(function (): void {
@@ -630,13 +653,13 @@ On successful `Auth::attempt($credentials)`, regenerate the session and redirect
 to `admin.reservations.index`. Logout must invalidate the session and regenerate
 the CSRF token.
 
-- [ ] **Step 6: Run authentication tests**
+- [x] **Step 6: Run authentication tests**
 
 Run: `php artisan test tests/Feature/CreateAdminCommandTest.php tests/Feature/AuthenticationTest.php`
 
 Expected: PASS.
 
-- [ ] **Step 7: Optional commit checkpoint**
+- [x] **Step 7: Optional commit checkpoint**
 
 ```bash
 git add app/Console app/Http/Controllers/Auth config/admin.php resources/views/auth routes/web.php .env.example tests/Feature
@@ -657,7 +680,7 @@ git commit -m "feat: add administrator authentication"
 - Consumes: authenticated `User`, `Reservation`, and shared layout.
 - Produces: named routes `admin.reservations.index`, `.edit`, and `.update`.
 
-- [ ] **Step 1: Write failing authorization and listing tests**
+- [x] **Step 1: Write failing authorization and listing tests**
 
 ```php
 public function test_guest_cannot_view_reservations(): void
@@ -680,18 +703,18 @@ public function test_administrator_sees_newest_reservations_first(): void
 
 Also test every admin route redirects guests.
 
-- [ ] **Step 2: Write failing edit tests**
+- [x] **Step 2: Write failing edit tests**
 
 Assert valid updates change only fillable booking fields, invalid dates are
 rejected, and an edit leaves status and transition timestamps unchanged.
 
-- [ ] **Step 3: Run admin tests and verify failures**
+- [x] **Step 3: Run admin tests and verify failures**
 
 Run: `php artisan test tests/Feature/AdminReservationTest.php`
 
 Expected: FAIL because admin routes do not exist.
 
-- [ ] **Step 4: Implement protected routes and controller**
+- [x] **Step 4: Implement protected routes and controller**
 
 ```php
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): void {
@@ -707,20 +730,20 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): v
 Use `Reservation::query()->latest()->paginate(20)` in `index()` and
 `$reservation->update($request->validated())` in `update()`.
 
-- [ ] **Step 5: Implement admin views**
+- [x] **Step 5: Implement admin views**
 
 The index displays guest, email, dates, status, and edit/confirm/cancel controls.
 Status actions are forms, never links. Hide confirm for non-pending records and
 hide cancel for cancelled records. The edit view reuses the same validated field
 names as the public form and displays the immutable current status.
 
-- [ ] **Step 6: Run admin tests**
+- [x] **Step 6: Run admin tests**
 
 Run: `php artisan test tests/Feature/AdminReservationTest.php`
 
 Expected: PASS.
 
-- [ ] **Step 7: Optional commit checkpoint**
+- [x] **Step 7: Optional commit checkpoint**
 
 ```bash
 git add app/Http/Controllers/Admin app/Http/Requests/UpdateReservationRequest.php resources/views/admin routes/web.php tests/Feature/AdminReservationTest.php
@@ -742,7 +765,7 @@ git commit -m "feat: add reservation administration"
 - Consumes: `TransitionReservation::handle()`, `ReservationStatus`, Laravel Mail.
 - Produces: named routes `admin.reservations.confirm` and `admin.reservations.cancel`.
 
-- [ ] **Step 1: Write failing confirmation and cancellation tests**
+- [x] **Step 1: Write failing confirmation and cancellation tests**
 
 ```php
 public function test_administrator_confirms_a_pending_reservation_once(): void
@@ -769,13 +792,13 @@ public function test_administrator_confirms_a_pending_reservation_once(): void
 Add equivalent pending-to-cancelled and confirmed-to-cancelled tests, plus guest
 authorization and cancelled-to-confirmed rejection.
 
-- [ ] **Step 2: Run status-controller tests and verify failures**
+- [x] **Step 2: Run status-controller tests and verify failures**
 
 Run: `php artisan test tests/Feature/ReservationStatusControllerTest.php`
 
 Expected: FAIL because status routes do not exist.
 
-- [ ] **Step 3: Implement routes and status controller**
+- [x] **Step 3: Implement routes and status controller**
 
 ```php
 Route::post('/reservations/{reservation}/confirm', [ReservationStatusController::class, 'confirm'])
@@ -789,31 +812,31 @@ with `error` without sending mail. After a successful transition, send the
 matching Mailable; catch and report transport errors, retain the changed state,
 and return with `warning`.
 
-- [ ] **Step 4: Implement confirmed and cancelled Mailables/views**
+- [x] **Step 4: Implement confirmed and cancelled Mailables/views**
 
 Each Mailable takes a public readonly `Reservation`, uses a Spanish subject, and
 renders the guest name and formatted booking dates. Do not expose admin URLs or
 internal state details.
 
-- [ ] **Step 5: Add mail-failure persistence tests**
+- [x] **Step 5: Add mail-failure persistence tests**
 
 For confirmation and cancellation, force `Mail::to()` to throw. Assert the
 response has `warning`, the target state persists, and retrying the same action
 does not attempt another mail.
 
-- [ ] **Step 6: Run workflow tests**
+- [x] **Step 6: Run workflow tests**
 
 Run: `php artisan test tests/Feature/ReservationStatusControllerTest.php`
 
 Expected: PASS.
 
-- [ ] **Step 7: Run the complete PHP suite**
+- [x] **Step 7: Run the complete PHP suite**
 
 Run: `php artisan test`
 
 Expected: PASS with no legacy tests remaining.
 
-- [ ] **Step 8: Optional commit checkpoint**
+- [x] **Step 8: Optional commit checkpoint**
 
 ```bash
 git add app/Http/Controllers/Admin/ReservationStatusController.php app/Mail resources/views/mail routes/web.php tests/Feature/ReservationStatusControllerTest.php
@@ -835,7 +858,7 @@ git commit -m "feat: add reservation status workflows"
 - Consumes: Laravel `/up`, Composer lock, npm lock, environment configuration.
 - Produces: development services `app`, `nginx`, `db`, `vite`; production services `app`, `nginx`, `db`.
 
-- [ ] **Step 1: Write the production configuration test**
+- [x] **Step 1: Write the production configuration test**
 
 ```php
 public function test_debugging_is_disabled_when_app_debug_is_false(): void
@@ -849,7 +872,7 @@ public function test_debugging_is_disabled_when_app_debug_is_false(): void
 Add assertions that the configured mailer and database connection are driven by
 environment-backed config rather than hard-coded credentials.
 
-- [ ] **Step 2: Implement the multi-stage Dockerfile**
+- [x] **Step 2: Implement the multi-stage Dockerfile**
 
 Use these stages:
 
@@ -883,13 +906,13 @@ vendor tree used to initialize the development volume. Ensure `.dockerignore`
 excludes `.git`, `.env`, `node_modules`, `vendor`, and local storage logs. Keep
 tests in the build context so the development image can run them.
 
-- [ ] **Step 3: Implement Nginx configuration**
+- [x] **Step 3: Implement Nginx configuration**
 
 Serve `/var/www/html/public`, route missing files to `/index.php?$query_string`,
 forward PHP requests to `app:9000`, deny hidden files, and expose `/up` through
 Laravel.
 
-- [ ] **Step 4: Implement development Compose**
+- [x] **Step 4: Implement development Compose**
 
 `compose.yaml` uses the development target, mounts the source tree into `app`
 and `nginx`, maps Nginx to `${APP_PORT:-8080}`, maps Vite to
@@ -898,14 +921,14 @@ Use separate named volumes for `/var/www/html/vendor` and `/app/node_modules` so
 a fresh checkout works without host-installed dependencies. The app depends on
 a healthy database.
 
-- [ ] **Step 5: Implement production Compose**
+- [x] **Step 5: Implement production Compose**
 
 `compose.prod.yaml` builds the immutable runtime target, has no source bind
 mounts, sets `APP_ENV=production` and `APP_DEBUG=false`, uses secret environment
 values, restarts services unless stopped, and health-checks `http://nginx/up`.
 Do not run migrations or `admin:create` automatically at container startup.
 
-- [ ] **Step 6: Validate Compose and build images**
+- [x] **Step 6: Validate Compose and build images**
 
 Run:
 
@@ -918,7 +941,7 @@ docker compose -f compose.prod.yaml build
 
 Expected: both configurations resolve and both images build.
 
-- [ ] **Step 7: Start development stack and verify from inside containers**
+- [x] **Step 7: Start development stack and verify from inside containers**
 
 ```bash
 docker compose up -d
@@ -931,7 +954,7 @@ docker compose down
 Expected: migrations and tests pass, health endpoint returns HTTP 200, and the
 stack stops without deleting the database volume.
 
-- [ ] **Step 8: Optional commit checkpoint**
+- [x] **Step 8: Optional commit checkpoint**
 
 ```bash
 git add .dockerignore docker compose.yaml compose.prod.yaml .env.example tests/Feature/ProductionConfigurationTest.php
@@ -949,7 +972,7 @@ git commit -m "build: add containerized environments"
 - Consumes: all application commands, named services, and environment variables introduced above.
 - Produces: a reproducible quick start and deployment runbook.
 
-- [ ] **Step 1: Write README quick start and command reference**
+- [x] **Step 1: Write README quick start and command reference**
 
 Document exact commands for:
 
@@ -967,25 +990,25 @@ Explain development URLs, mail variables, database variables, administrator
 bootstrap secret handling, production build/start, explicit migrations, backups,
 and `/up` health checks. Link the design spec and this implementation plan.
 
-- [ ] **Step 2: Verify environment documentation**
+- [x] **Step 2: Verify environment documentation**
 
 Ensure `.env.example` contains non-secret examples for `APP_PORT`, `VITE_PORT`,
 MySQL settings, SMTP settings, `ADMIN_NAME`, and an empty
 `ADMIN_BOOTSTRAP_PASSWORD`.
 
-- [ ] **Step 3: Run PHP formatting and tests**
+- [x] **Step 3: Run PHP formatting and tests**
 
 Run: `vendor/bin/pint && php artisan test`
 
 Expected: formatting succeeds and the complete suite passes.
 
-- [ ] **Step 4: Run frontend production build**
+- [x] **Step 4: Run frontend production build**
 
 Run: `npm ci && npm run build`
 
 Expected: Vite exits successfully and writes versioned assets to `public/build`.
 
-- [ ] **Step 5: Run dependency and configuration checks**
+- [x] **Step 5: Run dependency and configuration checks**
 
 ```bash
 composer validate --strict
@@ -997,7 +1020,7 @@ php artisan route:list
 Expected: valid Composer metadata, no known production dependency
 vulnerabilities, and no registration/password-reset or state-changing GET routes.
 
-- [ ] **Step 6: Run production container acceptance check**
+- [x] **Step 6: Run production container acceptance check**
 
 ```bash
 docker compose -f compose.prod.yaml up -d --build
@@ -1009,14 +1032,14 @@ docker compose -f compose.prod.yaml down
 Expected: production image starts, migration succeeds, and health returns HTTP
 200 without debug output.
 
-- [ ] **Step 7: Inspect the final diff**
+- [x] **Step 7: Inspect the final diff**
 
 Run: `git status --short && git diff --check && git diff --stat`
 
 Expected: only the Laravel 13 replacement, Docker assets, tests, and approved
 documentation are present; `git diff --check` emits no errors.
 
-- [ ] **Step 8: Optional commit checkpoint**
+- [x] **Step 8: Optional commit checkpoint**
 
 ```bash
 git add README.md .env.example docs app bootstrap config database docker public resources routes tests composer.json composer.lock package.json package-lock.json phpunit.xml compose.yaml compose.prod.yaml
