@@ -11,6 +11,9 @@ abstract class TestCase extends BaseTestCase
     {
         parent::setUp();
 
+        // Render views without compiled assets so tests do not depend on a Vite build.
+        $this->withoutVite();
+
         // Disable CSRF middleware for most tests
         $this->withoutMiddleware(VerifyCsrfToken::class);
     }
