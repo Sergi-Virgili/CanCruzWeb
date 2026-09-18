@@ -78,7 +78,13 @@ jobs:
 
       - name: Prepare the application
         run: |
-          docker compose exec -T app php artisan migrate --force
+          for attempt in $(seq 1 20); do
+            if docker compose exec -T app php artisan migrate --force; then
+              break
+            fi
+            echo "Database not ready yet (attempt ${attempt}), retrying..."
+            sleep 3
+          done
           docker compose exec -T -e ADMIN_BOOTSTRAP_PASSWORD=password app php artisan admin:create admin@cancruz.test
 
       - name: Install Playwright browser
