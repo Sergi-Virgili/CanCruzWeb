@@ -58,6 +58,9 @@ jobs:
           cp .env.example .env
           sed -i "s|^APP_KEY=.*|APP_KEY=base64:$(openssl rand -base64 32)|" .env
 
+      - name: Make runtime directories writable
+        run: chmod -R 777 storage bootstrap/cache
+
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -91,6 +94,7 @@ jobs:
           name: playwright-report
           path: playwright-report
           retention-days: 7
+          if-no-files-found: ignore
 
       - name: Stop the stack
         if: always()
