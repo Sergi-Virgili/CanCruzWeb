@@ -100,7 +100,26 @@ npm run build
 | `ADMIN_NAME` | Administrator display name | `"Can Cruz Admin"` |
 | `ADMIN_BOOTSTRAP_PASSWORD` | Initial admin password (empty = random) | `changeme123` |
 
-The `admin:create` command uses `ADMIN_BOOTSTRAP_PASSWORD` if set; otherwise it generates a secure random password and outputs it to the console.
+The `admin:create` command uses `ADMIN_BOOTSTRAP_PASSWORD` when set, or prompts for a password on an interactive terminal. In a non-interactive environment it fails unless the variable is provided.
+
+### Reservation Throttling
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `RESERVATION_THROTTLE_PER_MINUTE` | Max public reservation submissions per minute per IP. Production default is `5`; the development compose raises it to `60` so e2e runs are repeatable. | `5` |
+
+### End-to-End Tests (optional)
+
+Only the Playwright suite reads these; they are safe to leave unset.
+
+| Variable | Description | Example |
+|----------|-------------|---------|
+| `E2E_BASE_URL` | Application URL targeted by the e2e suite | `http://localhost:8080` |
+| `E2E_ADMIN_EMAIL` | Administrator email used to log in | `admin@cancruz.test` |
+| `E2E_ADMIN_PASSWORD` | Administrator password used to log in | `password` |
+| `E2E_SLOW_MO` | Milliseconds of slow motion per action (headed runs) | `900` |
+| `E2E_CLEANUP_COMMAND` | Command run after the suite to remove test data | `docker compose exec -T app php artisan reservations:prune-qa` |
+| `E2E_SKIP_CLEANUP` | Set to `1` to skip the post-run cleanup | `1` |
 
 ## Development Workflow
 
@@ -115,6 +134,8 @@ This starts:
 - **nginx** — Reverse proxy on port `${APP_PORT:-8080}`
 - **db** — MySQL 8.4 with health check
 - **vite** — Vite dev server on port `${VITE_PORT:-5173}`
+
+> **Linux note:** the container runs as `www-data`. On Linux hosts the bind-mounted `storage/` and `bootstrap/cache/` are owned by your user, so the app cannot write logs or compiled views. Make them writable once with `chmod -R 777 storage bootstrap/cache`. If `key:generate` fails with "Permission denied", run it as root: `docker compose exec -u root app php artisan key:generate`.
 
 ### Common Commands
 
@@ -133,6 +154,9 @@ docker compose exec app php artisan test --coverage
 
 # Format code (Pint)
 docker compose exec app vendor/bin/pint
+
+# Remove reservations created by the e2e suite (name prefix "QA E2E")
+docker compose exec app php artisan reservations:prune-qa
 
 # Clear caches
 docker compose exec app php artisan optimize:clear
@@ -268,18 +292,54 @@ find /backups -name "cancruz-*.sql.gz" -mtime +30 -delete
 
 ## Testing
 
+The PHPUnit suite runs on SQLite in memory and does not need the database container.
+
 ```bash
 # Run full test suite
 docker compose exec app php artisan test
 
-# Run specific test file
-docker compose exec app php artisan test tests/Feature/ReservationTest.php
+# Run a specific test file
+docker compose exec app php artisan test tests/Feature/PublicReservationTest.php
 
-# Run with coverage (requires Xdebug)
-docker compose exec app php artisan test --coverage --min=80
+# Run with coverage (the development image includes Xdebug)
+docker compose exec app php artisan test --coverage
 ```
 
-Expected: All tests pass with ≥80% coverage.
+## End-to-End Tests (Playwright)
+
+The e2e suite drives the real application in a browser and requires the development stack to be running.
+
+```bash
+# One-time: provision the administrator with the credentials the suite expects
+npm run e2e:admin
+
+# Run headless
+npm run e2e
+
+# Run headed with slow motion so a human can watch
+npm run e2e:watch
+
+# Interactive UI mode
+npm run e2e:ui
+
+# Open the last HTML report
+npm run e2e:report
+```
+
+- Coverage: public flow (home form, valid submission, date validation) and admin flow (login, confirm, cancel, edit, logout) — 10 tests under `e2e/`.
+- Configuration lives in `playwright.config.js`; the base URL defaults to `http://localhost:8080` (`E2E_BASE_URL`).
+- Credentials default to `admin@cancruz.test` / `password`; override with `E2E_ADMIN_EMAIL` and `E2E_ADMIN_PASSWORD`.
+- Each run creates reservations named `QA E2E …`; a global teardown deletes them via `php artisan reservations:prune-qa` (skip with `E2E_SKIP_CLEANUP=1`).
+- A global setup health-checks `/up` and fails fast with a clear message if the stack is down.
+
+## Continuous Integration
+
+GitHub Actions runs on every push to `master` and every pull request (`.github/workflows/ci.yml`):
+
+| Job | What it does |
+|-----|--------------|
+| `php` | PHP 8.4 with SQLite, `vendor/bin/pint --test`, then `php artisan test` |
+| `e2e` | Builds frontend assets, starts the compose stack, migrates, provisions the admin, runs the Playwright suite, and uploads the HTML report as an artifact |
 
 ## Code Quality
 
@@ -289,16 +349,11 @@ docker compose exec app vendor/bin/pint
 
 # Check formatting without changes
 docker compose exec app vendor/bin/pint --test
-
-# Static analysis (if configured)
-docker compose exec app vendor/bin/phpstan analyse
-
-# Frontend linting
-npm run lint
 ```
 
 ## Documentation References
 
+- **CI Workflow**: [`.github/workflows/ci.yml`](.github/workflows/ci.yml)
 - **Design Specification**: [`docs/superpowers/specs/2026-09-16-laravel-13-modernization-design.md`](docs/superpowers/specs/2026-09-16-laravel-13-modernization-design.md)
 - **Implementation Plan**: [`docs/superpowers/plans/2026-09-16-laravel-13-modernization.md`](docs/superpowers/plans/2026-09-16-laravel-13-modernization.md)
 - **Task Briefs**: [`.superpowers/sdd/2026-09-16-laravel-13-modernization/`](.superpowers/sdd/2026-09-16-laravel-13-modernization/)
