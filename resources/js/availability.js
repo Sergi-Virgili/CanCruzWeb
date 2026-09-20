@@ -1,4 +1,4 @@
-import Litepicker from 'litepicker';
+import { Litepicker } from 'litepicker';
 import 'litepicker/dist/css/litepicker.css';
 
 function formatLocalDate(date) {
@@ -28,24 +28,11 @@ async function initializeAvailabilityCalendars() {
         return;
     }
 
-    let lockedNights = [];
-
-    try {
-        const response = await fetch(forms[0].dataset.availabilityUrl, {
-            headers: { Accept: 'application/json' },
-        });
-
-        if (response.ok) {
-            const data = await response.json();
-            lockedNights = lockNights(data.occupied ?? []);
-        }
-    } catch (error) {
-        lockedNights = [];
-    }
-
     const today = new Date();
     const horizon = new Date();
     horizon.setFullYear(horizon.getFullYear() + 1);
+
+    const pickers = [];
 
     forms.forEach((form) => {
         const entryInput = form.querySelector('[name="entry_date"]');
@@ -55,7 +42,7 @@ async function initializeAvailabilityCalendars() {
             return;
         }
 
-        new Litepicker({
+        pickers.push(new Litepicker({
             element: entryInput,
             elementEnd: outInput,
             singleMode: false,
@@ -64,10 +51,29 @@ async function initializeAvailabilityCalendars() {
             minDate: formatLocalDate(today),
             maxDate: formatLocalDate(horizon),
             numberOfMonths: 1,
-            lockDays: lockedNights,
+            lockDays: [],
             disallowLockDaysInRange: true,
-        });
+        }));
     });
+
+    if (pickers.length === 0) {
+        return;
+    }
+
+    try {
+        const response = await fetch(forms[0].dataset.availabilityUrl, {
+            headers: { Accept: 'application/json' },
+        });
+
+        if (response.ok) {
+            const data = await response.json();
+            const lockedNights = lockNights(data.occupied ?? []);
+
+            pickers.forEach((picker) => picker.setLockDays(lockedNights));
+        }
+    } catch (error) {
+        // Leave the calendar usable without locked nights when availability cannot be loaded.
+    }
 }
 
 if (document.readyState === 'loading') {
