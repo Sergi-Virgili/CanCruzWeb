@@ -2,7 +2,7 @@
 
 ## Status
 
-Approved on 2026-09-20. Not yet implemented.
+Implemented on 2026-09-20.
 
 ## Context
 
