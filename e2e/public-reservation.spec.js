@@ -21,6 +21,8 @@ test.describe('Flujo público de reservas (desde la home)', () => {
     });
 
     test('rechaza una fecha de salida anterior a la de entrada', async ({ page }) => {
+        await page.route('**/build/assets/app-*.js', (route) => route.abort());
+
         const name = uniqueGuestName();
 
         await submitReservation(page, name, { entry: 10, out: 2 });
