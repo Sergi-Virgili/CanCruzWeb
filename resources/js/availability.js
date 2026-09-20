@@ -71,7 +71,7 @@ async function initializeAvailabilityCalendars() {
 
             pickers.forEach((picker) => picker.setLockDays(lockedNights));
         }
-    } catch (error) {
+    } catch {
         // Leave the calendar usable without locked nights when availability cannot be loaded.
     }
 }

@@ -32,6 +32,9 @@ class Reservation extends Model
         return $query->where('status', ReservationStatus::Confirmed);
     }
 
+    /**
+     * Deliberately has no status filter: callers chain confirmed(), and the confirm path matches all statuses to lock overlapping rows.
+     */
     public function scopeOverlapping(Builder $query, DateTimeInterface $entry, DateTimeInterface $out, ?int $exceptId = null): Builder
     {
         return $query
