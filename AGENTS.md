@@ -114,6 +114,7 @@ A change is complete when `vendor/bin/pint --test`, `php artisan test`, `npm run
 - Repeating the current transition is rejected to avoid duplicate emails.
 - Availability: only `confirmed` reservations occupy dates, over the half-open range `[entry_date, out_date)`; pending requests may overlap each other and a confirmed stay as long as they do not overlap it.
 - Overlap (`a.entry < b.out AND b.entry < a.out`) is enforced on public submission, on administrator confirmation and on editing a confirmed reservation. `GET /availability` publishes confirmed ranges only, from today to 12 months ahead, with no personal data.
+- Confirmation is atomic: the overlap check and the transition run in one transaction that locks overlapping rows in a consistent order. Editing a confirmed reservation is validated but not locked, so concurrent edits by multiple administrators are out of scope.
 
 ## Conventions
 

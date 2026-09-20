@@ -71,6 +71,7 @@ It exposes only date ranges: no name, email or id.
 - Cancelling a reservation releases its dates automatically, since occupancy is derived.
 - The public availability view reveals which dates are taken, but nothing about who booked them.
 - The endpoint is a new public surface; it is date-only and can be cached briefly later if needed.
+- Editing a confirmed reservation is validated but not locked, so two concurrent administrator edits could theoretically persist overlapping confirmed stays. This is accepted for a single-administrator, low-volume deployment; the spec mandates atomicity only for confirmation.
 
 ## Verification
 
