@@ -187,4 +187,61 @@ class AdminReservationTest extends TestCase
         // Should NOT show cancel form for cancelled
         $response->assertDontSee('action="'.route('admin.reservations.cancel', $cancelled).'"', false);
     }
+
+    public function test_update_rejects_dates_overlapping_a_confirmed_reservation(): void
+    {
+        $user = User::factory()->create();
+
+        Reservation::factory()->confirmed()->create([
+            'entry_date' => Carbon::today()->addDays(10)->toDateString(),
+            'out_date' => Carbon::today()->addDays(15)->toDateString(),
+        ]);
+
+        $reservation = Reservation::factory()->confirmed()->create([
+            'entry_date' => Carbon::today()->addDays(20)->toDateString(),
+            'out_date' => Carbon::today()->addDays(22)->toDateString(),
+        ]);
+
+        $this->actingAs($user)
+            ->patch(route('admin.reservations.update', $reservation), [
+                'name' => 'Test',
+                'email' => 'test@example.com',
+                'entry_date' => Carbon::today()->addDays(12)->toDateString(),
+                'out_date' => Carbon::today()->addDays(18)->toDateString(),
+                'message' => 'Test message',
+            ])
+            ->assertSessionHasErrors('entry_date');
+
+        $this->assertSame(
+            Carbon::today()->addDays(20)->toDateString(),
+            $reservation->fresh()->entry_date->toDateString(),
+        );
+    }
+
+    public function test_update_allows_a_pending_reservation_to_overlap_a_confirmed_one(): void
+    {
+        $user = User::factory()->create();
+
+        Reservation::factory()->confirmed()->create([
+            'entry_date' => Carbon::today()->addDays(10)->toDateString(),
+            'out_date' => Carbon::today()->addDays(15)->toDateString(),
+        ]);
+
+        $reservation = Reservation::factory()->create([
+            'status' => ReservationStatus::Pending,
+            'entry_date' => Carbon::today()->addDays(20)->toDateString(),
+            'out_date' => Carbon::today()->addDays(22)->toDateString(),
+        ]);
+
+        $this->actingAs($user)
+            ->patch(route('admin.reservations.update', $reservation), [
+                'name' => 'Test',
+                'email' => 'test@example.com',
+                'entry_date' => Carbon::today()->addDays(12)->toDateString(),
+                'out_date' => Carbon::today()->addDays(18)->toDateString(),
+                'message' => 'Test message',
+            ])
+            ->assertRedirect(route('admin.reservations.index'))
+            ->assertSessionHasNoErrors();
+    }
 }
