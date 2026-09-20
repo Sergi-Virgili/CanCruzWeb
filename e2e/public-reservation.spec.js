@@ -21,7 +21,8 @@ test.describe('Flujo público de reservas (desde la home)', () => {
     });
 
     test('rechaza una fecha de salida anterior a la de entrada', async ({ page }) => {
-        await page.route('**/build/assets/app-*.js', (route) => route.abort());
+        // Block the calendar (built bundle or dev module) so the raw inverted range reaches the server, which the UI would otherwise correct.
+        await page.route(/(availability\.js|app-[^/]*\.js)/, (route) => route.abort());
 
         const name = uniqueGuestName();
 
