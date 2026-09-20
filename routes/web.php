@@ -3,11 +3,13 @@
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\Admin\ReservationStatusController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/availability', AvailabilityController::class)->name('availability');
 Route::get('/reservations/create', [ReservationController::class, 'create'])
     ->name('reservations.create');
 Route::post('/reservations', [ReservationController::class, 'store'])
