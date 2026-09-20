@@ -9,6 +9,7 @@ use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Mail\Transport\TransportInterface;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
 
@@ -160,5 +161,50 @@ class ReservationStatusControllerTest extends TestCase
         $this->actingAs($user)
             ->post(route('admin.reservations.cancel', $reservation))
             ->assertSessionHas('error');
+    }
+
+    public function test_cannot_confirm_a_reservation_overlapping_a_confirmed_one(): void
+    {
+        Mail::fake();
+        $user = User::factory()->create();
+
+        Reservation::factory()->confirmed()->create([
+            'entry_date' => Carbon::today()->addDays(10)->toDateString(),
+            'out_date' => Carbon::today()->addDays(15)->toDateString(),
+        ]);
+
+        $pending = Reservation::factory()->create([
+            'entry_date' => Carbon::today()->addDays(12)->toDateString(),
+            'out_date' => Carbon::today()->addDays(18)->toDateString(),
+        ]);
+
+        $this->actingAs($user)
+            ->post(route('admin.reservations.confirm', $pending))
+            ->assertSessionHas('error');
+
+        $this->assertSame(ReservationStatus::Pending, $pending->refresh()->status);
+        Mail::assertNotSent(ReservationConfirmed::class);
+    }
+
+    public function test_can_confirm_a_reservation_adjacent_to_a_confirmed_one(): void
+    {
+        Mail::fake();
+        $user = User::factory()->create();
+
+        Reservation::factory()->confirmed()->create([
+            'entry_date' => Carbon::today()->addDays(10)->toDateString(),
+            'out_date' => Carbon::today()->addDays(15)->toDateString(),
+        ]);
+
+        $pending = Reservation::factory()->create([
+            'entry_date' => Carbon::today()->addDays(15)->toDateString(),
+            'out_date' => Carbon::today()->addDays(18)->toDateString(),
+        ]);
+
+        $this->actingAs($user)
+            ->post(route('admin.reservations.confirm', $pending))
+            ->assertRedirect(route('admin.reservations.index'));
+
+        $this->assertSame(ReservationStatus::Confirmed, $pending->refresh()->status);
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Actions\TransitionReservation;
 use App\Enums\ReservationStatus;
+use App\Exceptions\ReservationConflictException;
 use App\Http\Controllers\Controller;
 use App\Mail\ReservationCancelled;
 use App\Mail\ReservationConfirmed;
@@ -24,6 +25,9 @@ final class ReservationStatusController extends Controller
 
         try {
             $transition->handle($reservation, ReservationStatus::Confirmed);
+        } catch (ReservationConflictException) {
+            return to_route('admin.reservations.index')
+                ->with('error', 'Esas fechas ya están ocupadas por otra reserva confirmada.');
         } catch (DomainException $e) {
             return to_route('admin.reservations.index')
                 ->with('error', 'La reserva no puede ser confirmada desde su estado actual.');
