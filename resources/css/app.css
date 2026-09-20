@@ -13,3 +13,19 @@
 html {
     scroll-behavior: smooth;
 }
+
+.litepicker .container__days .day-item.is-start-date,
+.litepicker .container__days .day-item.is-end-date {
+    background-color: #d5ab3b;
+    color: #1a2332;
+}
+
+.litepicker .container__days .day-item.is-in-range {
+    background-color: rgb(213 171 59 / 25%);
+    color: #1a2332;
+}
+
+.litepicker .container__days .day-item.is-locked {
+    color: #9ca3af;
+    text-decoration: line-through;
+}
