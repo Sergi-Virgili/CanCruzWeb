@@ -207,6 +207,8 @@ docker compose logs -f app
 docker compose logs -f vite
 ```
 
+Para reiniciar contenedores ya creados usa `docker compose start`. Si los contenedores todavía no existen pero la imagen ya está construida, usa `docker compose up -d --no-build`. Reserva `docker compose up -d --build` para el primer arranque y para cambios en `Dockerfile`, `composer.lock` o `package-lock.json`; el build instala Xdebug para permitir `php artisan test --coverage`, pero su capa queda cacheada cuando solo cambia el código de la aplicación.
+
 En desarrollo, el `.env.example` configura Mailpit como servidor SMTP local. Los correos aparecen en **http://localhost:8025** y nunca se entregan a destinatarios reales. Para usar únicamente el log, cambia `MAIL_MAILER=log`; los mensajes se escribirán en `storage/logs/laravel.log`.
 
 En producción, los tres Mailables se procesan mediante la cola de base de datos. El servicio `worker` ejecuta `php artisan queue:work` y reintenta cada entrega hasta tres veces. Los trabajos que agoten los reintentos quedan en `failed_jobs` para su revisión.
@@ -222,8 +224,8 @@ docker compose exec app php artisan test
 # Un fichero concreto
 docker compose exec app php artisan test tests/Feature/PublicReservationTest.php
 
-# Con cobertura (la imagen de desarrollo incluye Xdebug)
-docker compose exec app php artisan test --coverage
+# Con cobertura (Xdebug debe activar el modo coverage)
+docker compose exec -e XDEBUG_MODE=coverage app php artisan test --coverage
 ```
 
 ### End-to-end (Playwright)
