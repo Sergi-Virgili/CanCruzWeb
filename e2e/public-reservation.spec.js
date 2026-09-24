@@ -35,7 +35,7 @@ test.describe('Flujo público de reservas (desde la home)', () => {
 
         const name = uniqueGuestName();
 
-        await submitReservation(page, name, { entry: 10, out: 2 });
+        await submitReservation(page, name, { entry: 10, out: 2, expectSuccess: false });
 
         await expect(
             page.getByText('La fecha de salida debe ser posterior a la fecha de entrada.'),

@@ -32,7 +32,7 @@ test.describe('Disponibilidad de reservas', () => {
         await expect(reservationRow(page, occupied)).toContainText('confirmed');
 
         const overlapping = uniqueGuestName();
-        await submitReservation(page, overlapping, { entry: 32, out: 35 });
+        await submitReservation(page, overlapping, { entry: 32, out: 35, expectSuccess: false });
         await expect(
             page.getByText('Esas fechas ya están ocupadas. Elige otras.'),
         ).toBeVisible();

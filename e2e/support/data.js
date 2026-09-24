@@ -37,7 +37,11 @@ export async function login(page, { toDashboard = false } = {}) {
     }
 }
 
-export async function submitReservation(page, name, { entry = 7, out = 10 } = {}) {
+export async function submitReservation(
+    page,
+    name,
+    { entry = 7, out = 10, expectSuccess = true } = {},
+) {
     await page.goto('/');
     await page.getByLabel('Fecha de entrada').fill(futureDate(entry));
     await page.getByLabel('Fecha de salida').fill(futureDate(out));
@@ -56,6 +60,10 @@ export async function submitReservation(page, name, { entry = 7, out = 10 } = {}
 
     await page.getByRole('button', { name: 'Enviar solicitud' }).click();
     await submission;
+
+    if (expectSuccess) {
+        await page.getByText('Hemos recibido tu solicitud de reserva.').waitFor({ state: 'visible' });
+    }
 }
 
 export function reservationRow(page, name) {
