@@ -25,6 +25,9 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
+Route::get('/dashboard', [AdminReservationController::class, 'dashboard'])
+        ->name('admin.dashboard');
+
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): void {
     Route::get('/reservations', [AdminReservationController::class, 'index'])
         ->name('reservations.index');
@@ -36,4 +39,13 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): v
         ->name('reservations.confirm');
     Route::post('/reservations/{reservation}/cancel', [ReservationStatusController::class, 'cancel'])
         ->name('reservations.cancel');
+
+    Route::get('/calendar', [CalendarController::class, 'index'])
+        ->name('calendar.index');
+    Route::post('/calendar/blocks', [CalendarController::class, 'store'])
+        ->name('calendar.blocks.store');
+    Route::patch('/calendar/blocks/{block}', [CalendarController::class, 'update'])
+        ->name('calendar.blocks.update');
+    Route::delete('/calendar/blocks/{block}', [CalendarController::class, 'destroy'])
+        ->name('calendar.blocks.destroy');
 });

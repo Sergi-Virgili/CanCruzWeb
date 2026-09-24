@@ -3,176 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Can Cruz - Casa Rural</title>
+    <meta name="description" content="Masia Can Cruz, casa rural completa para familias y grupos de hasta 8 personas en el Parc Natural del Montseny.">
+    <title>Masia Can Cruz | Casa rural completa en el Montseny</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="overflow-x-hidden bg-[#EDECEA] font-body text-[#1b1b18]">
+<body class="public-home">
+    <a href="#contenido" class="skip-link">Saltar al contenido</a>
 
-    {{-- Hamburger --}}
-    <button id="menu-toggle" type="button" aria-label="Abrir menú" aria-controls="sidebar" aria-expanded="false"
-            class="fixed right-[30px] top-5 z-[100] cursor-pointer bg-[#1A2332] p-[0.3em] text-white transition-colors hover:bg-[#D5AB3B] hover:text-[#1A2332]">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-        </svg>
-    </button>
+    <x-public-header />
 
-    {{-- Sidebar --}}
-    <aside id="sidebar"
-           class="fixed inset-y-0 left-0 z-[99] w-60 -translate-x-full bg-white shadow-xl transition-transform duration-300 ease-out">
-        <nav class="flex flex-col pt-20 text-[#1A2332]">
-            <a href="#home" class="border-b border-gray-100 px-5 py-3 hover:bg-gray-100">Home</a>
-            <a href="#about" class="border-b border-gray-100 px-5 py-3 hover:bg-gray-100">Sobre Nosotros</a>
-            <a href="#reserva" class="border-b border-gray-100 px-5 py-3 font-medium text-[#D5AB3B] hover:bg-gray-100">Reserva</a>
-            <a href="#gastronomia" class="border-b border-gray-100 px-5 py-3 hover:bg-gray-100">Gastronomía</a>
-            <a href="#suites" class="border-b border-gray-100 px-5 py-3 hover:bg-gray-100">Suites</a>
-            <a href="#experiencias" class="border-b border-gray-100 px-5 py-3 hover:bg-gray-100">Experiencias</a>
-            <a href="#contacto" class="border-b border-gray-100 px-5 py-3 hover:bg-gray-100">Contacto</a>
-        </nav>
-    </aside>
-
-    {{-- Hero --}}
-    <section id="home"
-             class="relative h-[80vh] border-b-[5px] border-[#010035] bg-cover bg-center"
-             style="background-image: url('{{ asset('img/bg-Imagen.jpg') }}')">
-        <div id="logo" class="absolute left-1/2 top-[10px] max-w-[200px] -translate-x-1/2 bg-[#0a1124]/85 p-5 sm:max-w-none sm:p-[30px]">
-            <img src="{{ asset('img/logo3.png') }}" alt="Masia Can Cruz, casa rural" class="w-full">
-        </div>
-    </section>
-
-    {{-- Overlapping reservation box (white shadow layer + navy layer) --}}
-    <div id="reserva" class="relative z-10 -mt-24 px-4">
-        <div class="relative mx-auto max-w-2xl">
-            <div class="absolute -inset-3 bg-white shadow-[0_0_40px_#646464]"></div>
-
-            <div class="relative bg-[#0a1124]/95 p-8 text-white">
-                <h1 class="text-center font-serif text-4xl">Masia Can Cruz</h1>
-                <p class="mx-auto mt-3 max-w-xl text-center text-gray-200">
-                    Casa rural en el corazón del Montseny. Reserva directamente con nosotros.
-                </p>
-
-                @if (session('success'))
-                    <div class="mt-6 border border-green-400 bg-green-400/10 p-4 text-green-200">{{ session('success') }}</div>
-                @endif
-                @if (session('warning'))
-                    <div class="mt-6 border border-yellow-400 bg-yellow-400/10 p-4 text-yellow-200">{{ session('warning') }}</div>
-                @endif
-                @if (session('error'))
-                    <div class="mt-6 border border-red-400 bg-red-400/10 p-4 text-red-200">{{ session('error') }}</div>
-                @endif
-
-                <div class="mt-6">
-                    <x-reservation-form variant="dark" />
+    <main id="contenido">
+        <section id="home" class="home-hero" aria-labelledby="hero-title">
+            <picture>
+                <source srcset="{{ asset('img/bg-Imagen.jpg') }} 2060w" media="(min-width: 900px)" type="image/jpeg">
+                <source srcset="{{ asset('img/bg-Imagen.jpg') }} 2060w" type="image/jpeg">
+                <img src="{{ asset('img/bg-Imagen.jpg') }}" alt="Patio de piedra de Masia Can Cruz" width="2060" height="1320" fetchpriority="high" class="home-hero__image">
+            </picture>
+            <div class="home-hero__shade"></div>
+            <div class="site-container home-hero__content">
+                <p class="eyebrow text-clay">Casa completa · Parc Natural del Montseny</p>
+                <h1 id="hero-title">Una casa con raíces.<br>Un lugar para estar juntos.</h1>
+                <p class="home-hero__lead">Masia Can Cruz es una casa rural completa para compartir el Montseny en familia o con amigos, a vuestro ritmo y con total privacidad.</p>
+                <div class="home-facts" aria-label="Características principales">
+                    <span>Hasta 8 personas</span>
+                    <span>Casa completa</span>
+                    <span>Reserva directa</span>
                 </div>
             </div>
-        </div>
-    </div>
+        </section>
 
-    {{-- Sobre Nosotros --}}
-    <section id="about" class="container mx-auto px-4 py-16">
-        <h2 class="mb-8 text-center font-serif text-4xl">Sobre Nosotros</h2>
-        <div class="mx-auto max-w-3xl space-y-4 text-gray-700">
-            <p>
-                Enmarcada por el Parc Natural del Montseny, reserva de la Biosfera por la UNESCO, la Masía
-                Can Cruz cuenta con una ubicación y vistas privilegiadas que proporcionan el ambiente ideal
-                para quienes buscan bienestar en la naturaleza.
-            </p>
-            <p>
-                Un refugio de piedra y madera donde el tiempo se detiene: senderos entre bosques, silencio,
-                cielos estrellados y una hospitalidad cercana que invita a volver.
-            </p>
-        </div>
-    </section>
-
-    {{-- Gastronomía --}}
-    <section id="gastronomia" class="container mx-auto px-4 py-16">
-        <div class="grid items-center gap-8 md:grid-cols-12">
-            <div class="z-10 bg-white p-6 shadow-xl md:col-span-4">
-                <div class="mb-4 inline-flex bg-[#0a1124] p-3">
-                    <img src="{{ asset('img/capa7.jpg') }}" alt="" class="h-12 w-12">
+        <section id="reserva" class="booking-section" aria-labelledby="booking-title">
+            <div class="booking-shell">
+                <div class="booking-intro">
+                    <p class="eyebrow text-clay">Disponibilidad</p>
+                    <h2 id="booking-title">Elige tu estancia</h2>
+                    <p>Selecciona la entrada y la salida. Después te pediremos los datos necesarios para enviar la solicitud.</p>
                 </div>
-                <h3 class="font-serif text-3xl">Gastronomía</h3>
-                <h4 class="mt-2 font-bold uppercase tracking-wide text-[#D5AB3B]">Restaurantes y bares</h4>
-                <p class="mt-4 text-gray-600">
-                    Con variadas opciones, los huéspedes pueden disfrutar desde el emblemático cordero
-                    patagónico hasta la más delicada cocina internacional, y por las tardes deleitarse con el
-                    clásico Té Llao Llao.
-                </p>
-                <a href="#" class="mt-4 inline-block font-medium text-[#1A2332] underline">Ver más</a>
+                <div class="booking-form-panel">
+                    <x-public-flash />
+                    <x-reservation-form variant="public" :progressive="true" />
+                </div>
             </div>
-            <div class="md:col-span-8">
-                <img src="{{ asset('img/capa5.jpg') }}" alt="Gastronomía de proximidad" class="h-auto w-full">
-            </div>
-        </div>
-    </section>
+        </section>
 
-    {{-- Habitaciones y Suites --}}
-    <section id="suites" class="container mx-auto px-4 py-16">
-        <div class="grid items-center gap-8 md:grid-cols-12">
-            <div class="z-10 bg-white p-6 shadow-xl md:col-span-4">
-                <h3 class="font-serif text-3xl">Habitaciones y Suites</h3>
-                <h4 class="mt-2 font-bold uppercase tracking-wide text-[#D5AB3B]">Lujo y comfort</h4>
-                <p class="mt-4 text-gray-600">
-                    Nuestra masía dispone de lujosas suites, un gran jardín con piscina exterior, golf y un
-                    spa ecológico.
-                </p>
-                <a href="#" class="mt-4 inline-block font-medium text-[#1A2332] underline">Ver más</a>
-            </div>
-            <div class="md:col-span-8">
-                <img src="{{ asset('img/habita.jpg') }}" alt="Habitaciones y suites" class="h-auto w-full">
-            </div>
-        </div>
-    </section>
-
-    {{-- Experiencias --}}
-    <section id="experiencias" class="bg-white py-16">
-        <div class="container mx-auto px-4">
-            <h2 class="mb-8 text-center font-serif text-4xl">Experiencias</h2>
-            <div class="grid gap-4 md:grid-cols-3">
-                <figure class="relative">
-                    <img src="{{ asset('img/bg-Imagen.jpg') }}" alt="Escapadas en el Montseny" class="h-72 w-full object-cover">
-                    <figcaption class="absolute inset-0 flex items-center justify-center bg-black/35 font-serif text-2xl text-white">
-                        Escapadas
-                    </figcaption>
-                </figure>
-                <figure class="relative">
-                    <img src="{{ asset('img/capa5.jpg') }}" alt="Grupos y eventos" class="h-72 w-full object-cover">
-                    <figcaption class="absolute inset-0 flex items-center justify-center bg-black/35 font-serif text-2xl text-white">
-                        Grupos y Eventos
-                    </figcaption>
-                </figure>
-                <figure class="relative">
-                    <img src="{{ asset('img/huerta.jpg') }}" alt="Actividades en la huerta" class="h-72 w-full object-cover">
-                    <figcaption class="absolute inset-0 flex items-center justify-center bg-black/35 font-serif text-2xl text-white">
-                        Actividades
-                    </figcaption>
+        <section id="la-casa" class="home-section">
+            <div class="site-container editorial-grid">
+                <div class="editorial-copy">
+                    <p class="eyebrow text-clay">La casa</p>
+                    <h2>Espacio para compartir.<br>Calma para desconectar.</h2>
+                    <p>Can Cruz se reserva como una casa completa: un lugar privado donde reunirse, cocinar, descansar y disfrutar del entorno sin horarios ajenos.</p>
+                    <p>La piedra, la madera y la luz natural conservan el carácter de la masía, mientras los espacios comunes hacen fácil estar juntos.</p>
+                    <a href="#informacion" class="text-link">Ver información práctica <span aria-hidden="true">→</span></a>
+                </div>
+                <figure class="arched-image">
+                    <img src="{{ asset('img/habita.jpg') }}" alt="Dormitorio de Masia Can Cruz" width="1244" height="829" loading="lazy" decoding="async">
                 </figure>
             </div>
-        </div>
-    </section>
+        </section>
 
-    {{-- Footer / Contacto --}}
-    <footer id="contacto" class="bg-[#1A2332] py-12 text-white">
-        <div class="container mx-auto px-4 text-center">
-            <img src="{{ asset('img/logo3.png') }}" alt="Masia Can Cruz" class="mx-auto h-20 w-auto">
-            <h2 class="mt-4 font-serif text-3xl">Contacto</h2>
-            <p class="mt-3 text-gray-300">Masia Can Cruz · Parc Natural del Montseny</p>
-
-            <div class="mt-6 flex justify-center gap-4">
-                <a href="#" aria-label="Instagram" class="p-[0.2em] text-white hover:text-[#D5AB3B]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M12 2.2c3.2 0 3.6 0 4.9.1 1.2.1 1.8.2 2.2.4.6.2 1 .5 1.4.9.4.4.7.8.9 1.4.2.4.4 1 .4 2.2.1 1.3.1 1.7.1 4.9s0 3.6-.1 4.9c-.1 1.2-.2 1.8-.4 2.2-.2.6-.5 1-.9 1.4-.4.4-.8.7-1.4.9-.4.2-1 .4-2.2.4-1.3.1-1.7.1-4.9.1s-3.6 0-4.9-.1c-1.2-.1-1.8-.2-2.2-.4-.6-.2-1-.5-1.4-.9-.4-.4-.7-.8-.9-1.4-.2-.4-.4-1-.4-2.2C2.2 15.6 2.2 15.2 2.2 12s0-3.6.1-4.9c.1-1.2.2-1.8.4-2.2.2-.6.5-1 .9-1.4.4-.4.8-.7 1.4-.9.4-.2 1-.4 2.2-.4C8.4 2.2 8.8 2.2 12 2.2zm0 1.8c-3.1 0-3.5 0-4.7.1-.9 0-1.4.2-1.7.3-.4.2-.7.4-1 .7-.3.3-.5.6-.7 1-.1.3-.3.8-.3 1.7-.1 1.2-.1 1.6-.1 4.7s0 3.5.1 4.7c0 .9.2 1.4.3 1.7.2.4.4.7.7 1 .3.3.6.5 1 .7.3.1.8.3 1.7.3 1.2.1 1.6.1 4.7.1s3.5 0 4.7-.1c.9 0 1.4-.2 1.7-.3.4-.2.7-.4 1-.7.3-.3.5-.6.7-1 .1-.3.3-.8.3-1.7.1-1.2.1-1.6.1-4.7s0-3.5-.1-4.7c0-.9-.2-1.4-.3-1.7-.2-.4-.4-.7-.7-1-.3-.3-.6-.5-1-.7-.3-.1-.8-.3-1.7-.3-1.2-.1-1.6-.1-4.7-.1zm0 3.1a4.9 4.9 0 110 9.8 4.9 4.9 0 010-9.8zm0 8.1a3.2 3.2 0 100-6.4 3.2 3.2 0 000 6.4zm6.2-8.3a1.1 1.1 0 11-2.3 0 1.1 1.1 0 012.3 0z"/>
-                    </svg>
-                </a>
-                <a href="#" aria-label="Facebook" class="p-[0.2em] text-white hover:text-[#D5AB3B]">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M13.5 21v-8h2.7l.4-3.1h-3.1V7.9c0-.9.3-1.5 1.6-1.5h1.6V3.6c-.3 0-1.3-.1-2.4-.1-2.4 0-4 1.5-4 4.1v2.3H7.5V13h2.8v8h3.2z"/>
-                    </svg>
-                </a>
+        <section class="pillars-section" aria-labelledby="pillars-title">
+            <div class="site-container">
+                <p class="eyebrow text-clay">Una estancia a vuestra manera</p>
+                <h2 id="pillars-title" class="section-title">Tres formas de vivir Can Cruz</h2>
+                <div class="pillars-grid">
+                    <article class="pillar-card">
+                        <span class="pillar-card__number">01</span>
+                        <h3>Casa completa</h3>
+                        <p>Privacidad para que familias y grupos de hasta ocho personas compartan la casa con libertad.</p>
+                    </article>
+                    <article class="pillar-card pillar-card--clay">
+                        <span class="pillar-card__number">02</span>
+                        <h3>Piscina y jardín</h3>
+                        <p>Tiempo al aire libre para bajar el ritmo y disfrutar del entorno natural que rodea la masía.</p>
+                    </article>
+                    <article class="pillar-card pillar-card--dark">
+                        <span class="pillar-card__number">03</span>
+                        <h3>Bienestar</h3>
+                        <p>Rincones tranquilos pensados para descansar después de descubrir el Montseny.</p>
+                    </article>
+                </div>
             </div>
+        </section>
 
-            <p class="mt-6 text-sm text-gray-400">© {{ date('Y') }} Masia Can Cruz</p>
-        </div>
-    </footer>
+        <section id="vivir-can-cruz" class="home-section home-section--stone">
+            <div class="site-container experience-grid">
+                <figure class="experience-image">
+                    <img src="{{ asset('img/spa.jpg') }}" alt="Espacio interior de bienestar" width="660" height="380" loading="lazy" decoding="async">
+                </figure>
+                <div class="editorial-copy">
+                    <p class="eyebrow text-clay">Vivir Can Cruz</p>
+                    <h2>El lujo de disponer de tiempo.</h2>
+                    <p>Despertar sin prisa, compartir la mesa, salir a caminar y volver a una casa que es solo vuestra durante la estancia.</p>
+                    <blockquote>“Una casa para encontrarse, conversar y volver a disfrutar de las cosas sencillas.”</blockquote>
+                </div>
+            </div>
+        </section>
 
+        <section id="montseny" class="montseny-section">
+            <img src="{{ asset('img/bg-Imagen.jpg') }}" alt="Entorno de piedra y vegetación en el Montseny" width="2060" height="1320" loading="lazy" decoding="async">
+            <div class="montseny-section__shade"></div>
+            <div class="site-container montseny-section__content">
+                <p class="eyebrow text-clay">Parc Natural del Montseny</p>
+                <h2>Naturaleza cerca.<br>Ruido lejos.</h2>
+                <p>Una base tranquila para descubrir bosques, caminos y pueblos del Montseny, y regresar a compartir el final del día.</p>
+            </div>
+        </section>
+
+        <section id="informacion" class="home-section">
+            <div class="site-container information-grid">
+                <div>
+                    <p class="eyebrow text-clay">Información práctica</p>
+                    <h2>Lo esencial, antes de reservar.</h2>
+                </div>
+                <dl class="facts-list">
+                    <div><dt>Capacidad</dt><dd>Hasta 8 personas</dd></div>
+                    <div><dt>Modalidad</dt><dd>Alquiler de la casa completa</dd></div>
+                    <div><dt>Ubicación</dt><dd>Parc Natural del Montseny</dd></div>
+                    <div><dt>Reserva</dt><dd>Solicitud directa, sujeta a confirmación</dd></div>
+                </dl>
+            </div>
+        </section>
+
+        <section class="gallery-section" aria-labelledby="gallery-title">
+            <div class="site-container">
+                <p class="eyebrow text-clay">La masía</p>
+                <h2 id="gallery-title" class="section-title">Una casa con su propio ritmo</h2>
+                <div class="gallery-grid">
+                    <figure class="gallery-grid__wide"><img src="{{ asset('img/bg-Imagen.jpg') }}" alt="Patio de piedra de la masía" width="2060" height="1320" loading="lazy" decoding="async"></figure>
+                    <figure><img src="{{ asset('img/habita.jpg') }}" alt="Detalle de un dormitorio" width="1244" height="829" loading="lazy" decoding="async"></figure>
+                    <figure><img src="{{ asset('img/spa.jpg') }}" alt="Detalle de un espacio interior" width="660" height="380" loading="lazy" decoding="async"></figure>
+                </div>
+            </div>
+        </section>
+
+        <section class="home-section faq-section" aria-labelledby="faq-title">
+            <div class="site-container faq-grid">
+                <div>
+                    <p class="eyebrow text-clay">Preguntas frecuentes</p>
+                    <h2 id="faq-title">Antes de enviar la solicitud</h2>
+                </div>
+                <div class="faq-list">
+                    <details>
+                        <summary>¿Se reserva toda la casa?</summary>
+                        <p>Sí. Can Cruz se ofrece como casa completa para vuestro grupo.</p>
+                    </details>
+                    <details>
+                        <summary>¿Cuántas personas pueden alojarse?</summary>
+                        <p>La capacidad máxima es de ocho personas.</p>
+                    </details>
+                    <details>
+                        <summary>¿La solicitud confirma automáticamente la estancia?</summary>
+                        <p>No. Revisaremos la disponibilidad y recibiréis la confirmación después de enviar la solicitud.</p>
+                    </details>
+                    <details>
+                        <summary>¿Cómo sé qué fechas están ocupadas?</summary>
+                        <p>El calendario muestra las noches confirmadas como no disponibles y verifica de nuevo las fechas al enviar.</p>
+                    </details>
+                </div>
+            </div>
+        </section>
+
+        <section class="closing-cta" aria-labelledby="closing-title">
+            <div class="site-container closing-cta__inner">
+                <p class="eyebrow">Vuestra estancia empieza aquí</p>
+                <h2 id="closing-title">Encontrad unos días para estar juntos.</h2>
+                <a href="#reserva" class="button button--light">Consultar disponibilidad</a>
+            </div>
+        </section>
+    </main>
+
+    <x-public-footer />
 </body>
 </html>

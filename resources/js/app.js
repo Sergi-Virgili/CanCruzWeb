@@ -1,26 +1,37 @@
 import './availability';
 
-const menuToggle = document.getElementById('menu-toggle');
-const sidebar = document.getElementById('sidebar');
+const menuToggle = document.querySelector('[data-menu-toggle]');
+const mobileMenu = document.querySelector('[data-mobile-menu]');
 
-if (menuToggle && sidebar) {
+if (menuToggle && mobileMenu) {
     const setOpen = (open) => {
-        sidebar.classList.toggle('translate-x-0', open);
-        sidebar.classList.toggle('-translate-x-full', !open);
+        mobileMenu.hidden = !open;
         menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+        menuToggle.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+        document.body.classList.toggle('menu-open', open);
     };
 
     menuToggle.addEventListener('click', () => {
-        setOpen(!sidebar.classList.contains('translate-x-0'));
+        const open = menuToggle.getAttribute('aria-expanded') === 'true';
+        setOpen(!open);
+
+        if (!open) {
+            mobileMenu.querySelector('a')?.focus();
+        }
     });
 
-    sidebar.querySelectorAll('a').forEach((link) => {
+    mobileMenu.querySelectorAll('a').forEach((link) => {
         link.addEventListener('click', () => setOpen(false));
     });
 
     document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape') {
+            const wasOpen = menuToggle.getAttribute('aria-expanded') === 'true';
             setOpen(false);
+
+            if (wasOpen) {
+                menuToggle.focus();
+            }
         }
     });
 }

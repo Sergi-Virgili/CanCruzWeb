@@ -35,10 +35,16 @@ export async function login(page) {
 
 export async function submitReservation(page, name, { entry = 7, out = 10 } = {}) {
     await page.goto('/');
-    await page.getByLabel('Nombre completo').fill(name);
-    await page.getByLabel('Correo electrónico').fill('qa@example.com');
     await page.getByLabel('Fecha de entrada').fill(futureDate(entry));
     await page.getByLabel('Fecha de salida').fill(futureDate(out));
+
+    const continueButton = page.locator('[data-booking-continue]');
+    if (await continueButton.isVisible()) {
+        await continueButton.click();
+    }
+
+    await page.getByLabel('Nombre completo').fill(name);
+    await page.getByLabel('Correo electrónico').fill('qa@example.com');
     await page.getByLabel('Mensaje').fill('Reserva creada por la suite e2e.');
     await page.getByRole('button', { name: 'Enviar solicitud' }).click();
 }

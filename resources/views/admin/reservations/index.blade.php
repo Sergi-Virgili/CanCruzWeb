@@ -1,18 +1,14 @@
 <x-layouts.app>
     <div class="max-w-7xl mx-auto">
-        <div class="flex justify-between items-center mb-6">
-            <div class="flex items-center gap-4">
-                <img src="{{ asset('img/logo1.png') }}" alt="Can Cruz" class="h-14 w-auto">
-                <h1 class="text-2xl font-bold">Administración de Reservas</h1>
-            </div>
-            <form method="POST" action="{{ route('logout') }}">
+        <nav aria-label="Navegación de administración" class="flex gap-4 mb-6">
+            <a href="{{ route('admin.dashboard') }}" class="text-indigo-600 hover:text-indigo-900 text-sm">Dashboard</a>
+            <a href="{{ route('admin.reservations.index') }}" class="text-indigo-600 hover:text-indigo-900 text-sm">Reservas</a>
+            <a href="{{ route('admin.calendar.index') }}" class="text-indigo-600 hover:text-indigo-900 text-sm">Calendario</a>
+            <form method="POST" action="{{ route('logout') }}" class="ml-auto">
                 @csrf
-                <button type="submit"
-                        class="text-sm text-gray-600 hover:text-gray-900 border-none bg-transparent p-0 cursor-pointer">
-                    Cerrar sesión
-                </button>
+                <button type="submit" class="text-sm text-gray-600 hover:text-gray-900 border-none bg-transparent p-0 cursor-pointer">Cerrar sesión</button>
             </form>
-        </div>
+        </nav>
 
         @if ($reservations->isEmpty())
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">

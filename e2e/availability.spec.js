@@ -55,8 +55,20 @@ test.describe('Disponibilidad de reservas', () => {
 
     test('el calendario se inicializa contra el endpoint de disponibilidad', async ({ page }) => {
         await page.goto('/');
-        await page.getByLabel('Fecha de entrada').first().click();
 
-        await expect(page.locator('.litepicker').first()).toBeVisible();
+        await expect(page.getByText('Calendario actualizado.')).toBeVisible();
+        await expect(page.getByText('Disponible', { exact: true })).toBeVisible();
+        await expect(page.getByText('Ocupado', { exact: true })).toBeVisible();
+        await expect(page.getByLabel('Fecha de entrada').first()).toHaveAttribute('type', 'text');
+        await expect(page.getByLabel('Fecha de salida').first()).toHaveAttribute('type', 'text');
+
+        await page.getByLabel('Fecha de entrada').first().click();
+        const picker = page.locator('.litepicker').first();
+        await expect(picker).toBeVisible();
+        await page.getByLabel('Fecha de entrada').first().fill(futureDate(7));
+        await page.getByLabel('Fecha de salida').first().fill(futureDate(10));
+
+        await expect(page.getByText('3 noches')).toBeVisible();
+        await expect(page.getByText(/Entrada:.*Salida:/)).toBeVisible();
     });
 });
