@@ -1,0 +1,80 @@
+<style>
+  .mobile-stage { display:flex; justify-content:center; padding:28px; border-radius:18px; background:#2b332c; }
+  .phone { width:390px; overflow:hidden; border:8px solid #171b18; border-radius:34px; background:#f3efe6; color:#2d382f; box-shadow:0 24px 70px rgba(0,0,0,.38); }
+  .phone * { box-sizing:border-box; }
+  .phone-nav { height:56px; display:flex; align-items:center; justify-content:space-between; padding:0 18px; background:#f3efe6; }
+  .phone-brand { font:500 18px Georgia,serif; letter-spacing:-.04em; }
+  .phone-menu { width:34px; height:34px; display:grid; place-items:center; border-radius:50%; background:#3d523f; color:white; font:700 13px Arial,sans-serif; }
+  .phone-hero { position:relative; min-height:315px; padding:44px 22px 38px; background:url('http://localhost:8080/img/bg-Imagen.jpg') center/cover; color:#fff9ee; }
+  .phone-hero:before { content:''; position:absolute; inset:0; background:linear-gradient(0deg,rgba(24,35,27,.88),rgba(24,35,27,.18)); }
+  .phone-copy { position:absolute; z-index:1; left:22px; right:22px; bottom:30px; }
+  .phone-kicker { font:700 8px Arial,sans-serif; letter-spacing:.18em; text-transform:uppercase; color:#dda175; }
+  .phone h1 { margin:12px 0 10px; font:500 39px/.94 Georgia,serif; letter-spacing:-.055em; }
+  .phone-hero p { margin:0; max-width:320px; font:11px/1.55 Arial,sans-serif; color:rgba(255,249,238,.84); }
+  .phone-facts { display:flex; gap:12px; margin-top:15px; font:600 8px Arial,sans-serif; }
+  .phone-facts span { padding-left:8px; border-left:1px solid rgba(255,255,255,.34); }
+  .mobile-booking { margin:0; padding:20px 18px 18px; background:#fffdf8; }
+  .booking-head { display:flex; align-items:flex-end; justify-content:space-between; gap:14px; margin-bottom:14px; }
+  .booking-head h2 { margin:5px 0 0; font:500 25px/1 Georgia,serif; }
+  .nights { font:700 9px Arial,sans-serif; color:#7b766e; }
+  .mobile-dates { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-bottom:14px; }
+  .mobile-date { padding:11px; border:1px solid #d7d0c4; border-radius:9px; }
+  .mobile-date.active { border-color:#bd704b; background:#f7eee6; }
+  .mobile-date small { display:block; margin-bottom:4px; color:#bd704b; font:700 8px Arial,sans-serif; letter-spacing:.13em; }
+  .mobile-date strong { font:500 15px Georgia,serif; }
+  .mobile-calendar { padding:14px; border:1px solid #dfd8cd; border-radius:12px; background:#fff; }
+  .mobile-month { display:flex; justify-content:space-between; margin-bottom:12px; font:700 12px Arial,sans-serif; }
+  .mobile-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; text-align:center; font:10px Arial,sans-serif; }
+  .mobile-grid b { padding:4px 0; color:#9a9388; font-size:8px; }
+  .mobile-grid span { padding:8px 1px; border-radius:7px; }
+  .mobile-grid .busy { color:#aaa49c; text-decoration:line-through; background:#f3f1ed; }
+  .mobile-grid .between { border-radius:0; background:#eadfd2; }
+  .mobile-grid .edge { background:#bd704b; color:white; }
+  .legend { display:flex; gap:12px; margin:12px 0; font:8px Arial,sans-serif; color:#78736b; }
+  .legend i { display:inline-block; width:8px; height:8px; margin-right:4px; border-radius:2px; background:#bd704b; }
+  .legend i.busy-key { background:#e0ddd7; }
+  .mobile-continue { display:block; width:100%; padding:13px; border:0; border-radius:99px; background:#3d523f; color:white; text-align:center; font:700 10px Arial,sans-serif; letter-spacing:.05em; }
+  .mobile-story { padding:42px 22px; }
+  .mobile-story h2 { margin:8px 0 12px; font:500 30px/1 Georgia,serif; }
+  .mobile-story p { font:11px/1.65 Arial,sans-serif; color:#696a63; }
+  .mobile-image { height:180px; margin-top:20px; border-radius:80px 10px 10px 10px; background:url('http://localhost:8080/img/habita.jpg') center/cover; }
+  .mobile-rules { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:22px; }
+  .rule { padding:13px; border:1px solid #ded8cc; border-radius:10px; background:white; }
+  .rule strong { display:block; margin-bottom:4px; font-size:11px; }
+  .rule span { font-size:10px; color:#716c63; }
+  @media(max-width:680px){.mobile-stage{padding:8px}.mobile-rules{grid-template-columns:1fr}}
+</style>
+
+<h2>Versión móvil: un calendario, una tarea</h2>
+<p class="subtitle">El usuario ve la casa, entiende para quién es y elige START / END en un único calendario sin abandonar la home.</p>
+
+<div class="mobile-stage">
+  <div class="phone">
+    <header class="phone-nav"><div class="phone-brand">Masia Can Cruz</div><div class="phone-menu">☰</div></header>
+    <section class="phone-hero"><div class="phone-copy"><div class="phone-kicker">Casa completa · Montseny</div><h1>Un lugar para estar juntos.</h1><p>Una masía para familias y grupos de hasta 8 personas.</p><div class="phone-facts"><span>8 personas</span><span>Casa completa</span><span>Reserva directa</span></div></div></section>
+    <section class="mobile-booking">
+      <div class="booking-head"><div><div class="phone-kicker">Disponibilidad</div><h2>Elige tu estancia</h2></div><div class="nights">3 noches</div></div>
+      <div class="mobile-dates"><div class="mobile-date active"><small>START</small><strong>12 OCT</strong></div><div class="mobile-date"><small>END</small><strong>15 OCT</strong></div></div>
+      <div class="mobile-calendar">
+        <div class="mobile-month"><span>Octubre 2026</span><span>← &nbsp; →</span></div>
+        <div class="mobile-grid"><b>L</b><b>M</b><b>X</b><b>J</b><b>V</b><b>S</b><b>D</b><span>1</span><span>2</span><span>3</span><span class="busy">4</span><span class="busy">5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span class="edge">12</span><span class="between">13</span><span class="between">14</span><span class="edge">15</span><span>16</span><span class="busy">17</span><span class="busy">18</span><span>19</span><span>20</span><span>21</span><span>22</span><span>23</span><span>24</span><span>25</span><span>26</span><span>27</span><span>28</span></div>
+        <div class="legend"><span><i></i>Seleccionado</span><span><i class="busy-key"></i>Ocupado</span></div>
+        <div class="mobile-continue">Continuar reserva</div>
+      </div>
+    </section>
+    <section class="mobile-story"><div class="phone-kicker">La casa</div><h2>Espacio para compartir. Calma para desconectar.</h2><p>Después de reservar fechas, la home continúa con una historia breve, fotografías reales y la información esencial.</p><div class="mobile-image"></div></section>
+  </div>
+</div>
+
+<div class="mobile-rules">
+  <div class="rule"><strong>Sin modal pequeño</strong><span>Calendario a ancho completo, fácil de tocar.</span></div>
+  <div class="rule"><strong>START / END visibles</strong><span>El usuario siempre sabe qué fecha está eligiendo.</span></div>
+  <div class="rule"><strong>Acción única</strong><span>Continuar cuando el rango sea válido.</span></div>
+</div>
+
+<div class="options" style="margin-top:22px">
+  <div class="option" data-choice="aprobar-mobile-calendar" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content"><h3>Aprobar versión móvil</h3><p>Usar este comportamiento responsive en el diseño final.</p></div>
+  </div>
+</div>

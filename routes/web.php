@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\Admin\ReservationStatusController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
@@ -25,10 +26,9 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->middleware('auth')
     ->name('logout');
 
-Route::get('/dashboard', [AdminReservationController::class, 'dashboard'])
-        ->name('admin.dashboard');
-
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): void {
+    Route::get('/dashboard', [AdminReservationController::class, 'dashboard'])
+        ->name('dashboard');
     Route::get('/reservations', [AdminReservationController::class, 'index'])
         ->name('reservations.index');
     Route::get('/reservations/{reservation}/edit', [AdminReservationController::class, 'edit'])

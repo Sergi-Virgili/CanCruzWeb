@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
-#[Fillable(['entry_date', 'out_date', 'reason'])]
+#[Fillable(['entry_date', 'out_date', 'reason', 'created_by'])]
 class DateBlock extends Model
 {
     protected function casts(): array
