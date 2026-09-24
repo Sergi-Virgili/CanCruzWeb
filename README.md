@@ -4,14 +4,14 @@
 
 Aplicación Laravel 13 para gestionar las reservas de **Masia Can Cruz**, una casa rural en el Parc Natural del Montseny. Da a los huéspedes un canal de reserva directo (sin intermediarios) y al administrador un panel sencillo para revisar, confirmar, editar o cancelar cada solicitud.
 
-![Página de inicio con el formulario de reserva](docs/img/home.png)
+![Página de inicio con disponibilidad y formulario de reserva](docs/img/home.png)
 
 ## Funcionalidades
 
-- **Formulario público en la home** — nombre, correo, fechas de entrada/salida y mensaje. Se valida en servidor y devuelve los errores en español.
+- **Disponibilidad y reserva pública en la home** — calendario de disponibilidad, selección de entrada/salida y formulario progresivo con nombre, correo y mensaje. Se valida en servidor y devuelve los errores en español.
 - **Alta de reservas** — cada solicitud se guarda como `pending` y dispara un email de recepción al huésped.
-- **Panel de administración** — listado de reservas con estado y acciones; edición de datos de la reserva; dashboard con estadísticas y calendario.
-- **Calendario administrativo** — vista mensual con reservas confirmadas y bloqueos de fechas; creación, edición y eliminación de bloqueos manuales por el administrador.
+- **Panel de administración** — listado de reservas con estado y acciones; edición de datos de la reserva; dashboard con estadísticas y acceso al calendario.
+- **Calendario administrativo** — vista mensual con reservas pendientes, confirmadas y canceladas, además de bloqueos de fechas; creación y eliminación de bloqueos manuales por el administrador.
 - **Workflow de estados** — transiciones controladas y auditables (ver [Arquitectura](#arquitectura)).
 - **Emails de workflow** — recepción, confirmación y cancelación (plantillas Blade/Mailable).
 - **Protección anti-spam** — límite de envíos por IP configurable.
@@ -126,7 +126,7 @@ Tabla `date_blocks`: `entry_date`, `out_date`, `reason`, `created_by` (FK a usua
 ### Dashboard y calendario
 
 - **Dashboard** (`/admin/dashboard`): estadísticas resumen (pendientes, confirmadas, próximas entradas, ocupación mensual), bloqueos del mes, reservas recientes y pendientes.
-- **Calendario** (`/admin/calendar`): vista mensual con celdas coloreadas por disponibilidad. Muestra reservas confirmadas en verde y bloqueos en gris. Incluye formulario para crear bloqueos manuales con motivo y motivo visible solo a administradores. Navegación entre meses y lista de bloques activos con eliminación.
+- **Calendario** (`/admin/calendar`): vista mensual interactiva con reservas y bloqueos. Permite abrir el detalle de una reserva, acceder a su edición, seleccionar días libres y crear o eliminar bloqueos manuales con motivo. La navegación entre meses y el resumen lateral se adaptan a escritorio y móvil.
 
 ## Configuración (`.env`)
 
@@ -229,7 +229,7 @@ npm run e2e:ui       # modo UI interactivo
 npm run e2e:report   # abrir el informe HTML
 ```
 
-- 10 tests: flujo público (home, alta, validación) y administración (login, confirmar, cancelar, editar, logout).
+- 28 tests: flujo público (home, disponibilidad, alta y validación), administración (login, confirmar, cancelar, editar y logout), dashboard, calendario, bloqueos y responsive UX.
 - Configuración en `playwright.config.js`; credenciales y URL por variables `E2E_*`.
 - Cada ejecución crea reservas `QA E2E …` y un *teardown* global las borra con `reservations:prune-qa`.
 
