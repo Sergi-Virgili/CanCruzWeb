@@ -10,7 +10,8 @@ Aplicación Laravel 13 para gestionar las reservas de **Masia Can Cruz**, una ca
 
 - **Formulario público en la home** — nombre, correo, fechas de entrada/salida y mensaje. Se valida en servidor y devuelve los errores en español.
 - **Alta de reservas** — cada solicitud se guarda como `pending` y dispara un email de recepción al huésped.
-- **Panel de administración** — listado de reservas con estado y acciones; edición de datos de la reserva.
+- **Panel de administración** — listado de reservas con estado y acciones; edición de datos de la reserva; dashboard con estadísticas y calendario.
+- **Calendario administrativo** — vista mensual con reservas confirmadas y bloqueos de fechas; creación, edición y eliminación de bloqueos manuales por el administrador.
 - **Workflow de estados** — transiciones controladas y auditables (ver [Arquitectura](#arquitectura)).
 - **Emails de workflow** — recepción, confirmación y cancelación (plantillas Blade/Mailable).
 - **Protección anti-spam** — límite de envíos por IP configurable.
@@ -119,6 +120,13 @@ sequenceDiagram
 ### Modelo de datos
 
 Tabla `reservations`: `name`, `email`, `entry_date`, `out_date`, `message`, `status`, `confirmed_at`, `cancelled_at` y timestamps.
+
+Tabla `date_blocks`: `entry_date`, `out_date`, `reason`, `created_by` (FK a usuarios) y timestamps. Los bloqueos ocupan fechas como reservas confirmadas (rango `[entry, out)`), y solo el administrador puede crear, editar o eliminarlos.
+
+### Dashboard y calendario
+
+- **Dashboard** (`/admin/dashboard`): estadísticas resumen (pendientes, confirmadas, próximas entradas, ocupación mensual), bloqueos del mes, reservas recientes y pendientes.
+- **Calendario** (`/admin/calendar`): vista mensual con celdas coloreadas por disponibilidad. Muestra reservas confirmadas en verde y bloqueos en gris. Incluye formulario para crear bloqueos manuales con motivo y motivo visible solo a administradores. Navegación entre meses y lista de bloques activos con eliminación.
 
 ## Configuración (`.env`)
 
