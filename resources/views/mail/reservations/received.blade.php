@@ -8,18 +8,18 @@
 <body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
     <h1 style="color: #4f46e5;">Hemos recibido tu solicitud de reserva</h1>
 
-    <p>Hola <strong>{{ e($reservation->name) }}</strong>,</p>
+        <p>Hola <strong>{{ e($reservation->name) }}</strong>,</p>
 
     <p>Gracias por contactar con nosotros. Hemos recibido tu solicitud de reserva con los siguientes datos:</p>
 
     <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
         <tr>
             <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9fafb;">Fecha de entrada</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->entry_date->format('d/m/Y')) }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->entryDate) }}</td>
         </tr>
         <tr>
             <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9fafb;">Fecha de salida</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->out_date->format('d/m/Y')) }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->outDate) }}</td>
         </tr>
         <tr>
             <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9fafb;">Mensaje</td>

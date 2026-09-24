@@ -104,7 +104,7 @@ A change is complete when `vendor/bin/pint --test`, `php artisan test`, `npm run
 - **Linux permissions.** `storage/` and `bootstrap/cache/` are bind mounts. Run `chmod -R 777 storage bootstrap/cache`, and run `key:generate` as root (`docker compose exec -u root app php artisan key:generate`) if it fails with "Permission denied".
 - **MySQL readiness.** The healthcheck pings `127.0.0.1` over TCP (not the unix socket) to avoid a premature "healthy" during initialization.
 - **Throttle.** `RESERVATION_THROTTLE_PER_MINUTE` (production default `5`, development `60`) limits public submissions per IP; the throttle test pins it to `5`.
-- **Mail.** `MAIL_MAILER=log` in development writes emails to `storage/logs/laravel.log`.
+- **Mail.** Development defaults to Mailpit (`http://localhost:8025`); `MAIL_MAILER=log` remains available and writes emails to `storage/logs/laravel.log`.
 
 ## Domain rules
 

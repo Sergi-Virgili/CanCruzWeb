@@ -32,7 +32,7 @@ class PublicReservationTest extends TestCase
             'email' => 'ada@example.com',
             'status' => ReservationStatus::Pending->value,
         ]);
-        Mail::assertSent(ReservationReceived::class, 1);
+        Mail::assertQueued(ReservationReceived::class, 1);
     }
 
     public function test_reservation_submitted_from_home_returns_to_home(): void
@@ -115,10 +115,9 @@ class PublicReservationTest extends TestCase
             ->assertStatus(429);
     }
 
-    public function test_mail_failure_preserves_reservation_and_shows_warning(): void
+    public function test_mail_is_queued_after_reservation_is_saved(): void
     {
         Mail::fake();
-        Mail::shouldReceive('to')->andThrow(new \RuntimeException('Mail server down'));
 
         $response = $this->from(route('reservations.create'))->post(route('reservations.store'), [
             'name' => 'Ada Lovelace',
@@ -129,11 +128,27 @@ class PublicReservationTest extends TestCase
         ]);
 
         $response->assertRedirect(route('reservations.create'))
-            ->assertSessionHas('warning');
+            ->assertSessionHas('success');
         $this->assertDatabaseHas('reservations', [
             'email' => 'ada@example.com',
             'status' => ReservationStatus::Pending->value,
         ]);
+        Mail::assertQueued(ReservationReceived::class, 1);
+    }
+
+    public function test_received_mail_keeps_the_reservation_details_at_queue_time(): void
+    {
+        $reservation = Reservation::factory()->create([
+            'name' => 'Ada Lovelace',
+            'message' => 'Mensaje original',
+        ]);
+
+        $mail = new ReservationReceived($reservation);
+        $reservation->name = 'Grace Hopper';
+        $reservation->message = 'Mensaje cambiado';
+
+        $this->assertSame('Ada Lovelace', $mail->reservation->name);
+        $this->assertSame('Mensaje original', $mail->reservation->message);
     }
 
     public function test_submission_overlapping_a_confirmed_reservation_is_rejected(): void

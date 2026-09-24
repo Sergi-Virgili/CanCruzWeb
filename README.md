@@ -39,7 +39,7 @@ Requisitos: Docker y Docker Compose. Para la suite e2e, además Node 22 (`npm`).
 # 1. Variables de entorno
 cp .env.example .env
 
-# 2. Levantar el stack (app, nginx, db, vite)
+# 2. Levantar el stack (app, worker, nginx, db, vite y Mailpit)
 docker compose up -d --build
 
 # 3. Generar la clave de aplicación
@@ -63,6 +63,7 @@ Abre **http://localhost:8080** y entra en **http://localhost:8080/login** con el
 |----------|-----|-------|
 | Aplicación | http://localhost:8080 | La web (nginx → PHP-FPM) |
 | Vite | http://localhost:5173 | Servidor de assets/HMR. **No es la web**: abrir `/` muestra una página informativa |
+| Mailpit | http://localhost:8025 | Bandeja local para revisar correos sin enviarlos |
 | Health check | http://localhost:8080/up | Devuelve HTTP 200 |
 
 En desarrollo, nginx y Vite se publican **solo en `127.0.0.1`**: no son accesibles desde otros equipos de la red local. Vite es una herramienta de desarrollo y nunca forma parte de la imagen de producción.
@@ -108,13 +109,16 @@ sequenceDiagram
     participant H as Huésped
     participant L as Laravel
     participant D as MySQL
-    participant M as Mail
+    participant Q as Queue worker
+    participant M as SMTP/Mailpit
     H->>L: POST /reservations
     L->>L: Validación (StoreReservationRequest)
     L->>D: Guarda reserva (pending)
-    L->>M: Email de recepción
+    L->>D: Encola email de recepción
     L-->>H: Redirección + mensaje de confirmación
-    Note over L,M: Si el correo falla, la reserva se conserva y se avisa con un warning.
+    Q->>D: Consume el trabajo
+    Q->>M: Envía email
+    Note over D,M: Los fallos se reintentan y terminan en failed_jobs si persisten.
 ```
 
 ### Modelo de datos
@@ -153,7 +157,8 @@ Tabla `date_blocks`: `entry_date`, `out_date`, `reason`, `created_by` (FK a usua
 
 | Variable | Descripción | Ejemplo |
 |----------|-------------|---------|
-| `MAIL_MAILER` | Driver (`log` guarda los correos en el log en desarrollo) | `smtp` / `log` |
+| `MAIL_MAILER` | Driver (`smtp` usa Mailpit en desarrollo) | `smtp` / `log` |
+| `MAIL_SCHEME` | Esquema SMTP (`smtp` para STARTTLS; `smtps` para TLS directo) | `null` |
 | `MAIL_HOST` / `MAIL_PORT` | Servidor SMTP | `smtp.example.com` / `587` |
 | `MAIL_USERNAME` / `MAIL_PASSWORD` | Credenciales SMTP | — |
 | `MAIL_FROM_ADDRESS` / `MAIL_FROM_NAME` | Remitente | `hello@example.com` |
@@ -193,12 +198,18 @@ docker compose exec app vendor/bin/pint
 # Limpiar cachés
 docker compose exec app php artisan optimize:clear
 
+# Revisar y reintentar trabajos de correo fallidos
+docker compose exec app php artisan queue:failed
+docker compose exec app php artisan queue:retry all
+
 # Logs
 docker compose logs -f app
 docker compose logs -f vite
 ```
 
-En desarrollo, los correos con `MAIL_MAILER=log` se escriben en `storage/logs/laravel.log`.
+En desarrollo, el `.env.example` configura Mailpit como servidor SMTP local. Los correos aparecen en **http://localhost:8025** y nunca se entregan a destinatarios reales. Para usar únicamente el log, cambia `MAIL_MAILER=log`; los mensajes se escribirán en `storage/logs/laravel.log`.
+
+En producción, los tres Mailables se procesan mediante la cola de base de datos. El servicio `worker` ejecuta `php artisan queue:work` y reintenta cada entrega hasta tres veces. Los trabajos que agoten los reintentos quedan en `failed_jobs` para su revisión.
 
 ## Testing
 

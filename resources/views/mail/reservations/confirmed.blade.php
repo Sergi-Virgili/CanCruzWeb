@@ -15,11 +15,11 @@
     <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
         <tr>
             <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9fafb;">Fecha de entrada</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->entry_date->format('d/m/Y')) }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->entryDate) }}</td>
         </tr>
         <tr>
             <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9fafb;">Fecha de salida</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->out_date->format('d/m/Y')) }}</td>
+            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->outDate) }}</td>
         </tr>
     </table>
 

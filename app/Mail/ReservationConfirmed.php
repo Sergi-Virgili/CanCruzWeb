@@ -4,16 +4,21 @@ namespace App\Mail;
 
 use App\Models\Reservation;
 use Illuminate\Bus\Queueable;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class ReservationConfirmed extends Mailable
+class ReservationConfirmed extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
     public function __construct(
-        public readonly Reservation $reservation
-    ) {}
+        Reservation $reservation
+    ) {
+        $this->reservation = ReservationMailData::fromReservation($reservation);
+    }
+
+    public readonly ReservationMailData $reservation;
 
     public function build(): self
     {

@@ -8,7 +8,6 @@ use App\Mail\ReservationConfirmed;
 use App\Models\Reservation;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Mail\Transport\TransportInterface;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
 use Tests\TestCase;
@@ -28,13 +27,13 @@ class ReservationStatusControllerTest extends TestCase
             ->assertRedirect(route('admin.reservations.index'));
 
         $this->assertSame(ReservationStatus::Confirmed, $reservation->refresh()->status);
-        Mail::assertSent(ReservationConfirmed::class, 1);
+        Mail::assertQueued(ReservationConfirmed::class, 1);
 
         $this->actingAs($user)
             ->post(route('admin.reservations.confirm', $reservation))
             ->assertSessionHas('error');
 
-        Mail::assertSent(ReservationConfirmed::class, 1);
+        Mail::assertQueued(ReservationConfirmed::class, 1);
     }
 
     public function test_administrator_cancels_a_pending_reservation(): void
@@ -48,7 +47,7 @@ class ReservationStatusControllerTest extends TestCase
             ->assertRedirect(route('admin.reservations.index'));
 
         $this->assertSame(ReservationStatus::Cancelled, $reservation->refresh()->status);
-        Mail::assertSent(ReservationCancelled::class, 1);
+        Mail::assertQueued(ReservationCancelled::class, 1);
     }
 
     public function test_administrator_cancels_a_confirmed_reservation(): void
@@ -62,7 +61,7 @@ class ReservationStatusControllerTest extends TestCase
             ->assertRedirect(route('admin.reservations.index'));
 
         $this->assertSame(ReservationStatus::Cancelled, $reservation->refresh()->status);
-        Mail::assertSent(ReservationCancelled::class, 1);
+        Mail::assertQueued(ReservationCancelled::class, 1);
     }
 
     public function test_guest_cannot_confirm_reservation(): void
@@ -92,24 +91,12 @@ class ReservationStatusControllerTest extends TestCase
             ->assertSessionHas('error');
 
         $this->assertSame(ReservationStatus::Cancelled, $reservation->refresh()->status);
-        Mail::assertNotSent(ReservationConfirmed::class);
+        Mail::assertNotQueued(ReservationConfirmed::class);
     }
 
-    public function test_confirmation_mail_failure_retains_state_and_warns(): void
+    public function test_confirmation_queues_mail_after_state_change(): void
     {
-        // Register a custom transport that throws on send
-        Mail::extend('failing', function () {
-            return new class extends TransportInterface
-            {
-                public function send(\Swift_Mime_Message $message): int
-                {
-                    throw new \RuntimeException('SMTP error');
-                }
-            };
-        });
-
-        config(['mail.default' => 'failing']);
-        config(['mail.mailers.failing' => ['transport' => 'failing']]);
+        Mail::fake();
 
         $user = User::factory()->create();
         $reservation = Reservation::factory()->create();
@@ -117,33 +104,15 @@ class ReservationStatusControllerTest extends TestCase
         $this->actingAs($user)
             ->post(route('admin.reservations.confirm', $reservation))
             ->assertRedirect(route('admin.reservations.index'))
-            ->assertSessionHas('warning');
+            ->assertSessionHas('success');
 
         $this->assertSame(ReservationStatus::Confirmed, $reservation->refresh()->status);
-
-        // Now use Mail::fake() for the second request to verify no mail is sent
-        Mail::fake();
-
-        $this->actingAs($user)
-            ->post(route('admin.reservations.confirm', $reservation))
-            ->assertSessionHas('error');
+        Mail::assertQueued(ReservationConfirmed::class, 1);
     }
 
-    public function test_cancellation_mail_failure_retains_state_and_warns(): void
+    public function test_cancellation_queues_mail_after_state_change(): void
     {
-        // Register a custom transport that throws on send
-        Mail::extend('failing', function () {
-            return new class extends TransportInterface
-            {
-                public function send(\Swift_Mime_Message $message): int
-                {
-                    throw new \RuntimeException('SMTP error');
-                }
-            };
-        });
-
-        config(['mail.default' => 'failing']);
-        config(['mail.mailers.failing' => ['transport' => 'failing']]);
+        Mail::fake();
 
         $user = User::factory()->create();
         $reservation = Reservation::factory()->create();
@@ -151,16 +120,10 @@ class ReservationStatusControllerTest extends TestCase
         $this->actingAs($user)
             ->post(route('admin.reservations.cancel', $reservation))
             ->assertRedirect(route('admin.reservations.index'))
-            ->assertSessionHas('warning');
+            ->assertSessionHas('success');
 
         $this->assertSame(ReservationStatus::Cancelled, $reservation->refresh()->status);
-
-        // Now use Mail::fake() for the second request to verify no mail is sent
-        Mail::fake();
-
-        $this->actingAs($user)
-            ->post(route('admin.reservations.cancel', $reservation))
-            ->assertSessionHas('error');
+        Mail::assertQueued(ReservationCancelled::class, 1);
     }
 
     public function test_cannot_confirm_a_reservation_overlapping_a_confirmed_one(): void
@@ -183,7 +146,7 @@ class ReservationStatusControllerTest extends TestCase
             ->assertSessionHas('error');
 
         $this->assertSame(ReservationStatus::Pending, $pending->refresh()->status);
-        Mail::assertNotSent(ReservationConfirmed::class);
+        Mail::assertNotQueued(ReservationConfirmed::class);
     }
 
     public function test_can_confirm_a_reservation_adjacent_to_a_confirmed_one(): void
