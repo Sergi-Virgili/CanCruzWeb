@@ -55,6 +55,32 @@ test.describe('Flujo público de reservas (desde la home)', () => {
         await expect(page.getByText('Hemos recibido tu solicitud de reserva.')).toBeVisible();
     });
 
+    test('mueve el foco al primer campo inválido tras la validación del servidor', async ({ page }) => {
+        await page.goto('/');
+        await page.getByLabel('Fecha de entrada').fill(futureDate(200));
+        await page.getByLabel('Fecha de salida').fill(futureDate(203));
+        await page.locator('[data-booking-continue]').click();
+
+        const email = page.getByLabel('Correo electrónico').first();
+        await email.evaluate((input) => {
+            input.type = 'text';
+        });
+        await page.getByLabel('Nombre completo').fill(uniqueGuestName());
+        await email.fill('not-an-email');
+        await page.getByLabel('Mensaje').fill('Reserva inválida para comprobar el foco.');
+
+        const submission = page.waitForResponse((response) => {
+            return response.request().method() === 'POST' && new URL(response.url()).pathname === '/reservations';
+        });
+
+        await page.getByRole('button', { name: 'Enviar solicitud' }).click();
+        await submission;
+
+        const invalidEmail = page.getByLabel('Correo electrónico').first();
+        await expect(invalidEmail).toHaveAttribute('aria-invalid', 'true');
+        await expect(invalidEmail).toBeFocused();
+    });
+
     test('rechaza una fecha de salida anterior a la de entrada', async ({ page }) => {
         // Block the calendar (built bundle or dev module) so the raw inverted range reaches the server, which the UI would otherwise correct.
         await page.route(/(availability\.js|app-[^/]*\.js)/, (route) => route.abort());
