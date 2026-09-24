@@ -46,6 +46,7 @@ class StoreDateBlockRequest extends FormRequest
 
                 if ($conflict) {
                     $validator->errors()->add('entry_date', 'Esas fechas ya están ocupadas por una reserva confirmada.');
+
                     return;
                 }
 
