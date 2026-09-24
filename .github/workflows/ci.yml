@@ -49,6 +49,8 @@ jobs:
   e2e:
     name: Playwright e2e
     runs-on: ubuntu-latest
+    env:
+      RESERVATION_THROTTLE_PER_MINUTE: 60
 
     steps:
       - uses: actions/checkout@v7
