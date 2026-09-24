@@ -1,0 +1,161 @@
+<style>
+  .page-map { overflow: hidden; border: 1px solid #d8d0c3; border-radius: 18px; background: #f4f0e7; color: #2c382f; box-shadow: 0 26px 70px rgba(37,41,34,.13); }
+  .page-map * { box-sizing: border-box; }
+  .map-nav { display:flex; align-items:center; justify-content:space-between; padding:16px 5%; background:#f4f0e7; font:700 9px Arial,sans-serif; letter-spacing:.11em; text-transform:uppercase; }
+  .map-logo { font:500 20px Georgia,serif; letter-spacing:-.04em; text-transform:none; }
+  .map-navlinks { display:flex; gap:18px; align-items:center; }
+  .map-pill { padding:9px 14px; border-radius:99px; background:#3d523f; color:white; }
+  .map-hero { position:relative; min-height:440px; padding:74px 5% 150px; color:#fffaf0; background:url('http://localhost:8080/img/bg-Imagen.jpg') center/cover; }
+  .map-hero:before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,rgba(25,34,27,.86),rgba(25,34,27,.2)); }
+  .map-hero-copy { position:relative; z-index:1; width:58%; }
+  .map-kicker { font:700 9px Arial,sans-serif; letter-spacing:.18em; text-transform:uppercase; color:#d79a6e; }
+  .map-hero h1 { margin:16px 0; font:500 clamp(40px,6vw,72px)/.92 Georgia,serif; letter-spacing:-.055em; }
+  .map-hero p { max-width:460px; font:13px/1.65 Arial,sans-serif; color:rgba(255,250,240,.82); }
+  .facts { display:flex; gap:22px; margin-top:26px; font:600 10px Arial,sans-serif; }
+  .facts span { padding-left:13px; border-left:1px solid rgba(255,255,255,.4); }
+  .booking-module { position:absolute; z-index:2; left:5%; right:5%; bottom:-105px; display:grid; grid-template-columns:210px 1fr; min-height:210px; overflow:hidden; border-radius:16px; background:#fffdf8; box-shadow:0 22px 60px rgba(17,25,19,.28); color:#29362c; }
+  .booking-side { padding:24px; background:#3d523f; color:#fff; }
+  .booking-side h3 { margin:10px 0 18px; font:500 24px/1 Georgia,serif; }
+  .range { display:grid; grid-template-columns:1fr 1fr; gap:7px; }
+  .range div { padding:9px; border:1px solid rgba(255,255,255,.2); border-radius:8px; }
+  .range small { display:block; margin-bottom:4px; color:#d79a6e; font:700 8px Arial,sans-serif; }
+  .range strong { font:500 13px Georgia,serif; }
+  .calendar-panel { padding:18px 24px; }
+  .calendar-title { display:flex; justify-content:space-between; font:700 12px Arial,sans-serif; }
+  .calendar-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:3px; margin-top:10px; text-align:center; font:9px Arial,sans-serif; }
+  .calendar-grid b { color:#999186; font-size:8px; }
+  .calendar-grid span { padding:6px 2px; border-radius:6px; }
+  .calendar-grid .busy { color:#aaa49b; text-decoration:line-through; }
+  .calendar-grid .selected { background:#bc704b; color:white; }
+  .calendar-grid .between { border-radius:0; background:#eadfd2; }
+  .calendar-action { display:flex; justify-content:space-between; align-items:center; margin-top:10px; font:9px Arial,sans-serif; color:#78746d; }
+  .calendar-action strong { padding:8px 13px; border-radius:99px; background:#bc704b; color:white; }
+  .map-section { padding:70px 6%; }
+  .map-section.after-booking { padding-top:170px; }
+  .section-head { max-width:670px; margin-bottom:28px; }
+  .section-head h2 { margin:9px 0 0; font:500 38px/.98 Georgia,serif; letter-spacing:-.04em; }
+  .section-head p { font:12px/1.65 Arial,sans-serif; color:#6c6d65; }
+  .split-story { display:grid; grid-template-columns:.8fr 1.2fr; gap:5%; align-items:center; }
+  .copy-card { padding:28px; }
+  .copy-card h3 { margin:8px 0 12px; font:500 30px/1 Georgia,serif; }
+  .copy-card p { font:12px/1.65 Arial,sans-serif; color:#666961; }
+  .real-image { min-height:260px; border-radius:100px 12px 12px 12px; background:url('http://localhost:8080/img/habita.jpg') center/cover; }
+  .features { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid #d9d1c4; border-bottom:1px solid #d9d1c4; }
+  .feature { padding:34px 6%; background:#ebe5da; border-right:1px solid #d9d1c4; }
+  .feature:last-child { border:0; }
+  .feature small { color:#bc704b; font:700 9px Arial,sans-serif; letter-spacing:.15em; }
+  .feature h3 { margin:10px 0 8px; font:500 22px Georgia,serif; }
+  .feature p { margin:0; font:10px/1.5 Arial,sans-serif; color:#74736b; }
+  .image-story { display:grid; grid-template-columns:1.1fr .9fr; gap:14px; }
+  .image-large { min-height:300px; border-radius:12px; background:url('http://localhost:8080/img/bg-Imagen.jpg') center/cover; }
+  .image-stack { display:grid; gap:14px; }
+  .image-small { min-height:143px; border-radius:12px; background-position:center; background-size:cover; }
+  .placeholder-photo { display:flex; align-items:center; justify-content:center; min-height:143px; padding:18px; border:1px dashed #aa9d8a; border-radius:12px; background:#e5ded1; text-align:center; font:10px/1.5 Arial,sans-serif; color:#756d62; }
+  .wellness { background-image:url('http://localhost:8080/img/spa.jpg'); }
+  .journey { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; }
+  .journey-card { min-height:180px; padding:20px; border-radius:12px; background:#354a3a; color:white; }
+  .journey-card:nth-child(even) { background:#bc704b; }
+  .journey-card span { font:700 9px Arial,sans-serif; opacity:.7; }
+  .journey-card h3 { margin:44px 0 8px; font:500 19px Georgia,serif; }
+  .journey-card p { margin:0; font:9px/1.5 Arial,sans-serif; opacity:.75; }
+  .faq { display:grid; grid-template-columns:.75fr 1.25fr; gap:6%; }
+  .faq h2 { margin:8px 0; font:500 36px/1 Georgia,serif; }
+  .faq-row { padding:14px 0; border-bottom:1px solid #d5cec1; font:600 11px Arial,sans-serif; }
+  .final-cta { margin:0 4% 4%; padding:55px 6%; border-radius:14px; background:#26372c; color:#fff9ed; text-align:center; }
+  .final-cta h2 { margin:8px 0 20px; font:500 40px/1 Georgia,serif; }
+  .cta-button { display:inline-block; padding:12px 18px; border-radius:99px; background:#bc704b; font:700 10px Arial,sans-serif; }
+  .map-footer { display:flex; justify-content:space-between; padding:24px 5%; font:9px Arial,sans-serif; color:#77736a; }
+  .section-list { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:22px; }
+  .section-chip { padding:12px; border:1px solid #ded8cc; border-radius:10px; background:white; }
+  .section-chip strong { display:block; margin-bottom:4px; font-size:11px; }
+  .section-chip span { font-size:10px; color:#746f66; }
+  @media(max-width:780px){
+    .map-navlinks span{display:none}.map-hero-copy{width:92%}.booking-module{grid-template-columns:1fr;bottom:-250px}.map-section.after-booking{padding-top:310px}.split-story,.image-story,.faq{grid-template-columns:1fr}.features,.journey,.section-list{grid-template-columns:1fr 1fr}.map-footer{gap:20px;flex-wrap:wrap}
+  }
+</style>
+
+<h2>Arquitectura propuesta para la nueva home</h2>
+<p class="subtitle">Casa completa para hasta 8 personas. La reserva aparece primero; después demostramos por qué Can Cruz merece el viaje.</p>
+
+<div class="page-map">
+  <header class="map-nav"><div class="map-logo">Masia Can Cruz</div><div class="map-navlinks"><span>La casa</span><span>Vivir Can Cruz</span><span>Montseny</span><span>Contacto</span><b class="map-pill">Reservar</b></div></header>
+
+  <section class="map-hero">
+    <div class="map-hero-copy">
+      <div class="map-kicker">Casa completa · Parc Natural del Montseny</div>
+      <h1>Una casa con raíces. Un lugar para estar juntos.</h1>
+      <p>Una masía de piedra para familias y grupos de hasta 8 personas, rodeada de naturaleza y cerca de Barcelona.</p>
+      <div class="facts"><span>Hasta 8 personas</span><span>Casa completa</span><span>Reserva directa</span></div>
+    </div>
+
+    <div class="booking-module">
+      <div class="booking-side">
+        <div class="map-kicker">Disponibilidad</div>
+        <h3>Elige tu estancia</h3>
+        <div class="range"><div><small>START</small><strong>12 OCT</strong></div><div><small>END</small><strong>15 OCT</strong></div></div>
+      </div>
+      <div class="calendar-panel">
+        <div class="calendar-title"><span>Octubre 2026</span><span>← &nbsp; →</span></div>
+        <div class="calendar-grid">
+          <b>L</b><b>M</b><b>X</b><b>J</b><b>V</b><b>S</b><b>D</b>
+          <span>1</span><span>2</span><span>3</span><span class="busy">4</span><span class="busy">5</span><span>6</span><span>7</span>
+          <span>8</span><span>9</span><span>10</span><span>11</span><span class="selected">12</span><span class="between">13</span><span class="between">14</span>
+          <span class="selected">15</span><span>16</span><span class="busy">17</span><span class="busy">18</span><span>19</span><span>20</span><span>21</span>
+        </div>
+        <div class="calendar-action"><span>3 noches · Tachado = ocupado</span><strong>Continuar reserva</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="map-section after-booking">
+    <div class="split-story">
+      <div class="copy-card"><div class="map-kicker">La casa</div><h3>Espacio para compartir sin renunciar a la calma.</h3><p>Presentamos Can Cruz como casa completa: arquitectura, espacios comunes y cómo se vive en grupo. Nada de vender “suites” como un hotel.</p></div>
+      <div class="real-image"></div>
+    </div>
+  </section>
+
+  <div class="features">
+    <article class="feature"><small>01</small><h3>Casa completa</h3><p>Privacidad y espacios para convivir hasta 8 personas.</p></article>
+    <article class="feature"><small>02</small><h3>Piscina y jardín</h3><p>Vida exterior, sobremesas y tiempo sin prisa.</p></article>
+    <article class="feature"><small>03</small><h3>Bienestar</h3><p>Un rincón pensado para descansar y desconectar.</p></article>
+  </div>
+
+  <section class="map-section">
+    <div class="section-head"><div class="map-kicker">Dentro y fuera</div><h2>La casa se explica con imágenes, no con promesas.</h2><p>Galería editorial con fotos reales. Las áreas sin material fotográfico quedan diseñadas, pero no se rellenan con espacios ficticios en producción.</p></div>
+    <div class="image-story">
+      <div class="image-large"></div>
+      <div class="image-stack"><div class="image-small wellness"></div><div class="placeholder-photo">Foto pendiente: piscina y jardín reales<br>Formato horizontal al atardecer</div></div>
+    </div>
+  </section>
+
+  <section class="map-section" style="background:#e9e2d7">
+    <div class="section-head"><div class="map-kicker">Vivir Can Cruz</div><h2>Un día aquí.</h2><p>Una secuencia emocional y breve, pensada para familias y grupos.</p></div>
+    <div class="journey">
+      <article class="journey-card"><span>MAÑANA</span><h3>Despertar despacio</h3><p>Luz, café y piedra.</p></article>
+      <article class="journey-card"><span>MEDIODÍA</span><h3>Jardín y piscina</h3><p>Tiempo para compartir.</p></article>
+      <article class="journey-card"><span>TARDE</span><h3>Montseny cerca</h3><p>Naturaleza a tu ritmo.</p></article>
+      <article class="journey-card"><span>NOCHE</span><h3>Mesa larga</h3><p>Volver a estar juntos.</p></article>
+    </div>
+  </section>
+
+  <section class="map-section">
+    <div class="faq"><div><div class="map-kicker">Antes de venir</div><h2>Lo esencial, claro.</h2></div><div><div class="faq-row">¿Para cuántas personas es la casa? <span style="float:right">+</span></div><div class="faq-row">¿Cómo funciona la reserva directa? <span style="float:right">+</span></div><div class="faq-row">¿Qué incluye la estancia? <span style="float:right">+</span></div><div class="faq-row">¿Cómo llegar y dónde aparcar? <span style="float:right">+</span></div></div></div>
+  </section>
+
+  <section class="final-cta"><div class="map-kicker">Tu estancia en Can Cruz</div><h2>¿Nos vemos en el Montseny?</h2><span class="cta-button">Consultar disponibilidad</span></section>
+  <footer class="map-footer"><strong>Masia Can Cruz</strong><span>Parc Natural del Montseny</span><span>Instagram · Contacto · Aviso legal</span></footer>
+</div>
+
+<div class="section-list">
+  <div class="section-chip"><strong>1. Impacto + reserva</strong><span>Propuesta, capacidad y calendario único.</span></div>
+  <div class="section-chip"><strong>2. Prueba de producto</strong><span>Casa, espacios y fotos reales.</span></div>
+  <div class="section-chip"><strong>3. Experiencia</strong><span>Piscina, jardín, bienestar y entorno.</span></div>
+  <div class="section-chip"><strong>4. Cierre</strong><span>FAQ, contacto y segunda llamada a reservar.</span></div>
+</div>
+
+<div class="options" style="margin-top:22px">
+  <div class="option" data-choice="aprobar-arquitectura-home" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content"><h3>Aprobar esta estructura</h3><p>Pasar a definir comportamiento móvil, calendario y contenido final.</p></div>
+  </div>
+</div>

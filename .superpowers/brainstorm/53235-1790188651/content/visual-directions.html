@@ -1,0 +1,134 @@
+<style>
+  .direction-preview { aspect-ratio: 4 / 5; overflow: hidden; background: #f5f0e8; color: #183229; font-family: Georgia, serif; }
+  .direction-preview * { box-sizing: border-box; }
+  .mini-nav { height: 34px; display: flex; align-items: center; justify-content: space-between; padding: 0 14px; font: 600 8px/1 Arial, sans-serif; letter-spacing: .12em; text-transform: uppercase; }
+  .mini-hero { position: relative; height: 44%; background-size: cover; background-position: center; }
+  .mini-overlay { position: absolute; inset: 0; background: linear-gradient(90deg, rgba(8,22,18,.72), rgba(8,22,18,.08)); }
+  .mini-copy { position: absolute; left: 9%; top: 16%; width: 58%; color: white; }
+  .mini-kicker { font: 700 7px/1 Arial, sans-serif; letter-spacing: .18em; text-transform: uppercase; }
+  .mini-title { margin: 8px 0 6px; font-size: 23px; line-height: .95; }
+  .mini-text { font: 8px/1.45 Arial, sans-serif; opacity: .86; }
+  .mini-booking { position: absolute; left: 8%; right: 8%; bottom: -24px; display: grid; grid-template-columns: 1fr 1fr auto; gap: 7px; align-items: center; padding: 10px; background: white; color: #183229; box-shadow: 0 8px 25px rgba(0,0,0,.18); }
+  .mini-field { border-bottom: 1px solid #b7aa96; padding: 5px 2px; font: 7px Arial, sans-serif; }
+  .mini-cta { border: 0; padding: 8px 10px; background: #bd874b; color: white; font: 700 7px Arial, sans-serif; }
+  .mini-section { padding: 40px 9% 12px; }
+  .mini-section h4 { margin: 0 0 6px; font-size: 15px; }
+  .mini-grid { display: grid; grid-template-columns: 1.2fr .8fr; gap: 8px; }
+  .mini-img { min-height: 72px; background-size: cover; background-position: center; }
+  .mini-panel { padding: 11px; background: #183229; color: white; }
+  .mini-panel p { margin: 6px 0 0; font: 7px/1.45 Arial, sans-serif; opacity: .78; }
+  .modern { background: #f1ede5; color: #0d2032; font-family: Arial, sans-serif; }
+  .modern .mini-nav { background: #0d2032; color: white; }
+  .modern .mini-hero { height: 39%; }
+  .modern .mini-copy { left: 7%; top: 18%; width: 72%; }
+  .modern .mini-title { font-family: Arial, sans-serif; font-weight: 800; font-size: 22px; }
+  .modern .mini-booking { left: 0; right: 0; bottom: -28px; box-shadow: none; border-bottom: 3px solid #d8ad42; }
+  .modern .mini-section { padding-top: 43px; }
+  .modern .mini-grid { grid-template-columns: repeat(3, 1fr); }
+  .modern .mini-panel { min-height: 78px; background: white; color: #0d2032; border-top: 2px solid #d8ad42; }
+  .quiet { background: #faf8f2; color: #332d26; }
+  .quiet .mini-nav { color: #332d26; }
+  .quiet .mini-hero { margin: 0 7%; height: 48%; }
+  .quiet .mini-overlay { background: linear-gradient(0deg, rgba(26,20,15,.55), transparent 55%); }
+  .quiet .mini-copy { left: 8%; top: auto; bottom: 12%; width: 76%; }
+  .quiet .mini-title { font-size: 24px; }
+  .quiet .mini-booking { left: 13%; right: 13%; bottom: -32px; grid-template-columns: 1fr 1fr; }
+  .quiet .mini-cta { grid-column: 1 / -1; }
+  .quiet .mini-section { padding: 48px 12% 12px; text-align: center; }
+  .quiet .mini-grid { grid-template-columns: 1fr; }
+  .quiet .mini-panel { display: none; }
+  .recommend { display: inline-block; margin-left: 8px; padding: 3px 7px; border-radius: 999px; background: #183229; color: #fff; font: 700 10px Arial, sans-serif; letter-spacing: .05em; text-transform: uppercase; }
+</style>
+
+<h2>¿Qué personalidad debe tener la nueva home?</h2>
+<p class="subtitle">Las tres opciones usan las fotos reales de Can Cruz y priorizan la reserva. Haz clic en la dirección que más encaje.</p>
+
+<div class="cards">
+  <div class="card" data-choice="editorial-montseny" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="direction-preview">
+        <div class="mini-nav"><span>Can Cruz</span><span>La masia · Entorno · Estancias · Reserva</span></div>
+        <div class="mini-hero" style="background-image:url('http://localhost:8080/img/bg-Imagen.jpg')">
+          <div class="mini-overlay"></div>
+          <div class="mini-copy">
+            <div class="mini-kicker">Montseny · Barcelona</div>
+            <div class="mini-title">Respira.<br>Ya estás en casa.</div>
+            <div class="mini-text">Una masía para bajar el ritmo, compartir y volver a lo esencial.</div>
+          </div>
+          <div class="mini-booking">
+            <div class="mini-field">Entrada</div><div class="mini-field">Salida</div><button class="mini-cta">Ver disponibilidad</button>
+          </div>
+        </div>
+        <div class="mini-section">
+          <div class="mini-kicker" style="color:#bd874b">La experiencia</div>
+          <h4>El Montseny, vivido desde dentro</h4>
+          <div class="mini-grid">
+            <div class="mini-img" style="background-image:url('http://localhost:8080/img/habita.jpg')"></div>
+            <div class="mini-panel"><strong>Calma auténtica</strong><p>Piedra, madera, bosque y sobremesas sin reloj.</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>A. Editorial Montseny <span class="recommend">Recomendada</span></h3>
+      <p>Fotografía inmersiva, tonos bosque y tierra, tipografía editorial y una reserva compacta desde el primer impacto. Emocional sin parecer un hotel genérico.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="lodge-contemporaneo" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="direction-preview modern">
+        <div class="mini-nav"><span>CAN CRUZ</span><span>MENÚ&nbsp;&nbsp; RESERVAR</span></div>
+        <div class="mini-hero" style="background-image:url('http://localhost:8080/img/spa.jpg')">
+          <div class="mini-overlay"></div>
+          <div class="mini-copy">
+            <div class="mini-kicker">Rural house · Montseny</div>
+            <div class="mini-title">Naturaleza.<br>Diseño. Silencio.</div>
+          </div>
+          <div class="mini-booking">
+            <div class="mini-field">IN</div><div class="mini-field">OUT</div><button class="mini-cta">RESERVAR</button>
+          </div>
+        </div>
+        <div class="mini-section">
+          <h4>Tu estancia, a tu manera</h4>
+          <div class="mini-grid">
+            <div class="mini-panel"><strong>Dormir</strong><p>Suites</p></div>
+            <div class="mini-panel"><strong>Saborear</strong><p>Cocina</p></div>
+            <div class="mini-panel"><strong>Explorar</strong><p>Entorno</p></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>B. Lodge contemporáneo</h3>
+      <p>Más urbano y modular: bloques nítidos, azul noche, dorado y mensajes directos. Muy eficiente para convertir, menos cálido y singular.</p>
+    </div>
+  </div>
+
+  <div class="card" data-choice="refugio-sereno" onclick="toggleSelect(this)">
+    <div class="card-image">
+      <div class="direction-preview quiet">
+        <div class="mini-nav"><span>Masia Can Cruz</span><span>Reservar</span></div>
+        <div class="mini-hero" style="background-image:url('http://localhost:8080/img/huerta.jpg')">
+          <div class="mini-overlay"></div>
+          <div class="mini-copy">
+            <div class="mini-title">Tiempo para estar.</div>
+            <div class="mini-text">Montseny · naturaleza · hospitalidad</div>
+          </div>
+          <div class="mini-booking">
+            <div class="mini-field">Entrada</div><div class="mini-field">Salida</div><button class="mini-cta">Consultar fechas</button>
+          </div>
+        </div>
+        <div class="mini-section">
+          <div class="mini-kicker" style="color:#8a755f">Can Cruz</div>
+          <h4>Una casa para reconectar</h4>
+          <div class="mini-grid"><div class="mini-img" style="background-image:url('http://localhost:8080/img/capa5.jpg')"></div></div>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <h3>C. Refugio sereno</h3>
+      <p>Minimalismo cálido, mucho aire, menos secciones y un ritmo pausado. Muy elegante; requiere mejores textos y fotografías para sostenerlo.</p>
+    </div>
+  </div>
+</div>

@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Enums\ReservationStatus;
 use App\Mail\ReservationReceived;
+use App\Models\Reservation;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Mail;
@@ -133,5 +134,63 @@ class PublicReservationTest extends TestCase
             'email' => 'ada@example.com',
             'status' => ReservationStatus::Pending->value,
         ]);
+    }
+
+    public function test_submission_overlapping_a_confirmed_reservation_is_rejected(): void
+    {
+        Reservation::factory()->confirmed()->create([
+            'entry_date' => Carbon::now()->addWeek()->toDateString(),
+            'out_date' => Carbon::now()->addWeek()->addDays(3)->toDateString(),
+        ]);
+
+        $this->post(route('reservations.store'), [
+            'name' => 'Ada Lovelace',
+            'email' => 'ada@example.com',
+            'entry_date' => Carbon::now()->addWeek()->addDay()->toDateString(),
+            'out_date' => Carbon::now()->addWeek()->addDays(4)->toDateString(),
+            'message' => 'Consulta',
+        ])->assertSessionHasErrors('entry_date');
+
+        $this->assertDatabaseCount('reservations', 1);
+    }
+
+    public function test_submission_over_a_pending_reservation_is_allowed(): void
+    {
+        Mail::fake();
+
+        Reservation::factory()->create([
+            'entry_date' => Carbon::now()->addWeek()->toDateString(),
+            'out_date' => Carbon::now()->addWeek()->addDays(3)->toDateString(),
+        ]);
+
+        $this->post(route('reservations.store'), [
+            'name' => 'Ada Lovelace',
+            'email' => 'ada@example.com',
+            'entry_date' => Carbon::now()->addWeek()->addDay()->toDateString(),
+            'out_date' => Carbon::now()->addWeek()->addDays(4)->toDateString(),
+            'message' => 'Consulta',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertDatabaseCount('reservations', 2);
+    }
+
+    public function test_submission_adjacent_to_a_confirmed_reservation_is_allowed(): void
+    {
+        Mail::fake();
+
+        Reservation::factory()->confirmed()->create([
+            'entry_date' => Carbon::now()->addWeek()->toDateString(),
+            'out_date' => Carbon::now()->addWeek()->addDays(3)->toDateString(),
+        ]);
+
+        $this->post(route('reservations.store'), [
+            'name' => 'Ada Lovelace',
+            'email' => 'ada@example.com',
+            'entry_date' => Carbon::now()->addWeek()->addDays(3)->toDateString(),
+            'out_date' => Carbon::now()->addWeek()->addDays(5)->toDateString(),
+            'message' => 'Consulta',
+        ])->assertSessionHasNoErrors();
+
+        $this->assertDatabaseCount('reservations', 2);
     }
 }

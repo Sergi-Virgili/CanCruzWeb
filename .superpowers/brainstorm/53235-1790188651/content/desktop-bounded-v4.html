@@ -1,0 +1,85 @@
+<style>
+  .viewport-demo { padding: 28px; overflow: auto; border-radius: 18px; background: #283029; }
+  .site-frame { width: min(100%, 1180px); margin: 0 auto; overflow: hidden; border-radius: 12px; background: #f3efe6; color: #2c382f; box-shadow: 0 25px 70px rgba(0,0,0,.28); }
+  .site-frame * { box-sizing: border-box; }
+  .nav-shell { background:#f3efe6; }
+  .nav-inner { max-width: 1060px; height: 58px; margin: 0 auto; padding: 0 24px; display:flex; align-items:center; justify-content:space-between; font:700 8px Arial,sans-serif; letter-spacing:.12em; text-transform:uppercase; }
+  .brand { font:500 19px Georgia,serif; letter-spacing:-.04em; text-transform:none; }
+  .nav-items { display:flex; gap:17px; align-items:center; }
+  .reserve { padding:9px 13px; border-radius:99px; background:#3d523f; color:white; }
+  .hero { position:relative; height:380px; background:url('http://localhost:8080/img/bg-Imagen.jpg') center 60%/cover; color:#fff9ed; }
+  .hero:before { content:''; position:absolute; inset:0; background:linear-gradient(90deg,rgba(27,38,30,.88),rgba(27,38,30,.12) 72%); }
+  .hero-inner { position:relative; z-index:1; max-width:1060px; margin:0 auto; padding:62px 24px 0; }
+  .hero-copy { max-width:540px; }
+  .kicker { font:700 8px Arial,sans-serif; letter-spacing:.19em; text-transform:uppercase; color:#d99b6d; }
+  .hero h1 { margin:15px 0 14px; max-width:520px; font:500 54px/.93 Georgia,serif; letter-spacing:-.055em; }
+  .hero p { max-width:420px; font:12px/1.6 Arial,sans-serif; color:rgba(255,249,237,.83); }
+  .hero-facts { display:flex; gap:18px; margin-top:20px; font:600 9px Arial,sans-serif; }
+  .hero-facts span { padding-left:10px; border-left:1px solid rgba(255,255,255,.35); }
+  .booking-wrap { position:relative; z-index:3; max-width:960px; margin:-72px auto 0; padding:0 24px; }
+  .booking { display:grid; grid-template-columns:190px 1fr; min-height:176px; overflow:hidden; border-radius:14px; background:#fffdf8; box-shadow:0 18px 48px rgba(22,29,23,.24); }
+  .booking-side { padding:22px; background:#3d523f; color:white; }
+  .booking-side h3 { margin:9px 0 16px; font:500 21px/1 Georgia,serif; }
+  .date-row { display:grid; grid-template-columns:1fr 1fr; gap:6px; }
+  .date-row div { padding:8px; border:1px solid rgba(255,255,255,.2); border-radius:7px; }
+  .date-row small { display:block; margin-bottom:3px; color:#d99b6d; font:700 7px Arial,sans-serif; }
+  .date-row strong { font:500 11px Georgia,serif; }
+  .calendar { padding:16px 20px; }
+  .month { display:flex; justify-content:space-between; margin-bottom:9px; font:700 11px Arial,sans-serif; }
+  .cal-grid { display:grid; grid-template-columns:repeat(7,1fr); gap:2px; text-align:center; font:8px Arial,sans-serif; }
+  .cal-grid b { padding:3px; color:#938d82; }
+  .cal-grid span { padding:5px 2px; border-radius:5px; }
+  .busy { color:#aaa49a; text-decoration:line-through; }
+  .range { border-radius:0!important; background:#e8ded2; }
+  .edge { background:#bd704b!important; color:white; }
+  .booking-footer { display:flex; justify-content:space-between; align-items:center; margin-top:7px; font:8px Arial,sans-serif; color:#7c776e; }
+  .booking-footer strong { padding:7px 11px; border-radius:99px; background:#bd704b; color:white; }
+  .content-shell { max-width:1060px; margin:0 auto; padding:62px 24px; }
+  .story { display:grid; grid-template-columns:.85fr 1.15fr; gap:56px; align-items:center; }
+  .story h2 { margin:8px 0 14px; font:500 36px/1 Georgia,serif; letter-spacing:-.04em; }
+  .story p { font:11px/1.65 Arial,sans-serif; color:#696b63; }
+  .story-img { min-height:238px; border-radius:90px 10px 10px 10px; background:url('http://localhost:8080/img/habita.jpg') center/cover; }
+  .boundary-notes { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-top:22px; }
+  .boundary-note { padding:13px; border:1px solid #ded8cd; border-radius:10px; background:white; }
+  .boundary-note strong { display:block; margin-bottom:4px; font-size:11px; }
+  .boundary-note span { font-size:10px; color:#726c63; }
+  .measure { display:inline-flex; align-items:center; gap:7px; margin-bottom:12px; padding:6px 9px; border-radius:99px; background:#fff; font:700 9px Arial,sans-serif; color:#445348; }
+  .measure:before { content:''; width:36px; border-top:1px solid #bd704b; }
+  @media(max-width:760px){
+    .viewport-demo{padding:8px}.site-frame{border-radius:7px}.nav-items span{display:none}.hero{height:440px}.hero h1{font-size:42px}.booking-wrap{margin-top:-105px;padding:0 14px}.booking{grid-template-columns:1fr}.booking-side{padding:16px}.content-shell{padding:48px 20px}.story{grid-template-columns:1fr;gap:24px}.boundary-notes{grid-template-columns:1fr 1fr}
+  }
+</style>
+
+<h2>Desktop con límites reales</h2>
+<p class="subtitle">La página respira, pero ningún contenido crece sin control. El fondo puede llegar a los bordes; la interfaz no.</p>
+
+<div class="measure">Vista simulada dentro de un monitor ancho</div>
+<div class="viewport-demo">
+  <div class="site-frame">
+    <div class="nav-shell"><div class="nav-inner"><div class="brand">Masia Can Cruz</div><div class="nav-items"><span>La casa</span><span>Experiencia</span><span>Montseny</span><span>Contacto</span><b class="reserve">Reservar</b></div></div></div>
+    <section class="hero">
+      <div class="hero-inner"><div class="hero-copy"><div class="kicker">Casa completa · Montseny</div><h1>Una casa con raíces. Un lugar para estar juntos.</h1><p>Una masía para familias y grupos de hasta 8 personas, rodeada de naturaleza y cerca de Barcelona.</p><div class="hero-facts"><span>Hasta 8 personas</span><span>Casa completa</span><span>Reserva directa</span></div></div></div>
+    </section>
+    <div class="booking-wrap">
+      <div class="booking">
+        <div class="booking-side"><div class="kicker">Disponibilidad</div><h3>Elige tu estancia</h3><div class="date-row"><div><small>START</small><strong>12 OCT</strong></div><div><small>END</small><strong>15 OCT</strong></div></div></div>
+        <div class="calendar"><div class="month"><span>Octubre 2026</span><span>← &nbsp; →</span></div><div class="cal-grid"><b>L</b><b>M</b><b>X</b><b>J</b><b>V</b><b>S</b><b>D</b><span>1</span><span>2</span><span>3</span><span class="busy">4</span><span class="busy">5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span><span>11</span><span class="edge">12</span><span class="range">13</span><span class="range">14</span><span class="edge">15</span><span>16</span><span class="busy">17</span><span class="busy">18</span><span>19</span><span>20</span><span>21</span></div><div class="booking-footer"><span>3 noches · Tachado = ocupado</span><strong>Continuar</strong></div></div>
+      </div>
+    </div>
+    <div class="content-shell"><div class="story"><div><div class="kicker">La casa</div><h2>Espacio para compartir sin renunciar a la calma.</h2><p>Texto contenido a una medida cómoda de lectura. La imagen acompaña, pero tampoco se estira fuera de la retícula.</p></div><div class="story-img"></div></div></div>
+  </div>
+</div>
+
+<div class="boundary-notes">
+  <div class="boundary-note"><strong>Marco general</strong><span>Máximo 1280px.</span></div>
+  <div class="boundary-note"><strong>Contenido</strong><span>Máximo 1120px.</span></div>
+  <div class="boundary-note"><strong>Calendario</strong><span>Máximo 960-1040px.</span></div>
+  <div class="boundary-note"><strong>Texto</strong><span>Máximo 520-680px.</span></div>
+</div>
+
+<div class="options" style="margin-top:22px">
+  <div class="option" data-choice="aprobar-desktop-limitado" onclick="toggleSelect(this)">
+    <div class="letter">✓</div>
+    <div class="content"><h3>Estas proporciones encajan</h3><p>Mantener estos límites para la nueva home.</p></div>
+  </div>
+</div>

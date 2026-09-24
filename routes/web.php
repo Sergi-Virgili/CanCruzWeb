@@ -1,13 +1,16 @@
 <?php
 
+use App\Http\Controllers\Admin\CalendarController;
 use App\Http\Controllers\Admin\ReservationController as AdminReservationController;
 use App\Http\Controllers\Admin\ReservationStatusController;
 use App\Http\Controllers\Auth\AuthenticatedSessionController;
+use App\Http\Controllers\AvailabilityController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReservationController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', HomeController::class)->name('home');
+Route::get('/availability', AvailabilityController::class)->name('availability');
 Route::get('/reservations/create', [ReservationController::class, 'create'])
     ->name('reservations.create');
 Route::post('/reservations', [ReservationController::class, 'store'])
@@ -24,6 +27,8 @@ Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])
     ->name('logout');
 
 Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): void {
+    Route::get('/dashboard', [AdminReservationController::class, 'dashboard'])
+        ->name('dashboard');
     Route::get('/reservations', [AdminReservationController::class, 'index'])
         ->name('reservations.index');
     Route::get('/reservations/{reservation}/edit', [AdminReservationController::class, 'edit'])
@@ -34,4 +39,15 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): v
         ->name('reservations.confirm');
     Route::post('/reservations/{reservation}/cancel', [ReservationStatusController::class, 'cancel'])
         ->name('reservations.cancel');
+
+    Route::get('/calendar', [CalendarController::class, 'index'])
+        ->name('calendar.index');
+    Route::get('/calendar/events', [CalendarController::class, 'events'])
+        ->name('calendar.events');
+    Route::post('/calendar/blocks', [CalendarController::class, 'store'])
+        ->name('calendar.blocks.store');
+    Route::patch('/calendar/blocks/{block}', [CalendarController::class, 'update'])
+        ->name('calendar.blocks.update');
+    Route::delete('/calendar/blocks/{block}', [CalendarController::class, 'destroy'])
+        ->name('calendar.blocks.destroy');
 });

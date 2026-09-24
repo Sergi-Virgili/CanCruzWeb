@@ -2,7 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Enums\ReservationStatus;
+use App\Models\Reservation;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
+use Illuminate\Validation\Validator;
 
 class UpdateReservationRequest extends FormRequest
 {
@@ -45,6 +49,37 @@ class UpdateReservationRequest extends FormRequest
             'out_date.after' => 'La :attribute debe ser posterior a la fecha de entrada.',
             'message.required' => 'El :attribute es obligatorio.',
             'message.max' => 'El :attribute no puede superar los 2000 caracteres.',
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                $reservation = $this->route('reservation');
+
+                if (! $reservation instanceof Reservation
+                    || $reservation->status !== ReservationStatus::Confirmed
+                    || $validator->errors()->isNotEmpty()) {
+                    return;
+                }
+
+                $entry = Carbon::parse($this->input('entry_date'));
+                $out = Carbon::parse($this->input('out_date'));
+
+                if ($out->lessThanOrEqualTo($entry)) {
+                    return;
+                }
+
+                $conflict = Reservation::query()
+                    ->confirmed()
+                    ->overlapping($entry, $out, $reservation->id)
+                    ->exists();
+
+                if ($conflict) {
+                    $validator->errors()->add('entry_date', 'Esas fechas ya están ocupadas. Elige otras.');
+                }
+            },
         ];
     }
 }

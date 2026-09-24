@@ -4,7 +4,9 @@ namespace App\Models;
 
 use App\Enums\ReservationStatus;
 use Database\Factories\ReservationFactory;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -23,5 +25,21 @@ class Reservation extends Model
             'confirmed_at' => 'datetime',
             'cancelled_at' => 'datetime',
         ];
+    }
+
+    public function scopeConfirmed(Builder $query): Builder
+    {
+        return $query->where('status', ReservationStatus::Confirmed);
+    }
+
+    /**
+     * Deliberately has no status filter: callers chain confirmed(), and the confirm path matches all statuses to lock overlapping rows.
+     */
+    public function scopeOverlapping(Builder $query, DateTimeInterface $entry, DateTimeInterface $out, ?int $exceptId = null): Builder
+    {
+        return $query
+            ->where('entry_date', '<', $out)
+            ->where('out_date', '>', $entry)
+            ->when($exceptId !== null, fn (Builder $query): Builder => $query->whereKeyNot($exceptId));
     }
 }

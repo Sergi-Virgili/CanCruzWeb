@@ -25,22 +25,45 @@ export function futureDate(daysFromToday) {
     return formatLocalDate(date);
 }
 
-export async function login(page) {
+export async function login(page, { toDashboard = false } = {}) {
     await page.goto('/login');
-    await page.getByLabel('Email').fill(admin.email);
-    await page.getByLabel('Password').fill(admin.password);
+    await page.getByRole('textbox', { name: 'Email' }).fill(admin.email);
+    await page.getByRole('textbox', { name: 'Password' }).fill(admin.password);
     await page.getByRole('button', { name: 'Sign In' }).click();
     await page.waitForURL(/admin\/reservations/);
+    if (toDashboard) {
+        await page.goto('/admin/dashboard');
+        await page.waitForSelector('h1:text("Dashboard")');
+    }
 }
 
-export async function submitReservation(page, name, { entry = 7, out = 10 } = {}) {
+export async function submitReservation(
+    page,
+    name,
+    { entry = 7, out = 10, expectSuccess = true } = {},
+) {
     await page.goto('/');
-    await page.getByLabel('Nombre completo').fill(name);
-    await page.getByLabel('Correo electrónico').fill('qa@example.com');
     await page.getByLabel('Fecha de entrada').fill(futureDate(entry));
     await page.getByLabel('Fecha de salida').fill(futureDate(out));
+
+    const continueButton = page.locator('[data-booking-continue]');
+    if (await continueButton.isVisible()) {
+        await continueButton.click();
+    }
+
+    await page.getByLabel('Nombre completo').fill(name);
+    await page.getByLabel('Correo electrónico').fill('qa@example.com');
     await page.getByLabel('Mensaje').fill('Reserva creada por la suite e2e.');
+    const submission = page.waitForResponse((response) => {
+        return response.request().method() === 'POST' && new URL(response.url()).pathname === '/reservations';
+    });
+
     await page.getByRole('button', { name: 'Enviar solicitud' }).click();
+    await submission;
+
+    if (expectSuccess) {
+        await page.getByText('Hemos recibido tu solicitud de reserva.').waitFor({ state: 'visible' });
+    }
 }
 
 export function reservationRow(page, name) {

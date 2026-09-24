@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\Models\Reservation;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Carbon;
+use Illuminate\Validation\Validator;
 
 class StoreReservationRequest extends FormRequest
 {
@@ -19,6 +22,33 @@ class StoreReservationRequest extends FormRequest
             'entry_date' => ['required', 'date', 'after_or_equal:today'],
             'out_date' => ['required', 'date', 'after:entry_date'],
             'message' => ['required', 'string', 'max:2000'],
+        ];
+    }
+
+    public function after(): array
+    {
+        return [
+            function (Validator $validator): void {
+                if ($validator->errors()->isNotEmpty()) {
+                    return;
+                }
+
+                $entry = Carbon::parse($this->input('entry_date'));
+                $out = Carbon::parse($this->input('out_date'));
+
+                if ($out->lessThanOrEqualTo($entry)) {
+                    return;
+                }
+
+                $conflict = Reservation::query()
+                    ->confirmed()
+                    ->overlapping($entry, $out)
+                    ->exists();
+
+                if ($conflict) {
+                    $validator->errors()->add('entry_date', 'Esas fechas ya están ocupadas. Elige otras.');
+                }
+            },
         ];
     }
 
