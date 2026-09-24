@@ -10,11 +10,11 @@ test.describe('Administración de reservas', () => {
 
     test('credenciales inválidas muestran un error', async ({ page }) => {
         await page.goto('/login');
-        await page.getByLabel('Email').fill('nadie@example.com');
-        await page.getByLabel('Password').fill('contraseña-incorrecta');
-        await page.getByRole('button', { name: 'Sign In' }).click();
+        await page.getByLabel('Correo electrónico').fill('nadie@example.com');
+        await page.getByLabel('Contraseña').fill('contraseña-incorrecta');
+        await page.getByRole('button', { name: 'Entrar al panel' }).click();
 
-        await expect(page.locator('.errors')).toContainText(
+        await expect(page.locator('.login-alert')).toContainText(
             'The provided credentials do not match our records.',
         );
     });
