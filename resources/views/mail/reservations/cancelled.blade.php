@@ -3,32 +3,48 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reserva cancelada</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Tu reserva ha sido cancelada</title>
 </head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; max-width: 600px; margin: 0 auto; padding: 20px;">
-    <h1 style="color: #ef4444;">Tu reserva ha sido cancelada</h1>
-
-    <p>Hola <strong>{{ e($reservation->name) }}</strong>,</p>
-
-    <p>Lamentamos informarte que tu reserva ha sido <strong style="color: #ef4444;">cancelada</strong>. Aquí tienes los detalles:</p>
-
-    <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+<body style="margin: 0; padding: 0; background-color: #eee9e1; font-family: Arial, Helvetica, sans-serif; color: #30342f;">
+    <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #eee9e1;">
         <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9fafb;">Fecha de entrada</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->entryDate) }}</td>
-        </tr>
-        <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9fafb;">Fecha de salida</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">{{ e($reservation->outDate) }}</td>
+            <td align="center" style="padding-top: 28px; padding-right: 16px; padding-bottom: 28px; padding-left: 16px;">
+                <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width: 600px; background-color: #fffdf9;">
+                    <tr>
+                        <td style="padding-top: 32px; padding-right: 36px; padding-bottom: 30px; padding-left: 36px; background-color: #e9dfd2;">
+                            <p style="margin: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 21px; line-height: 28px; color: #4c5948;">Masia Can Cruz</p>
+                            <p style="margin-top: 38px; margin-bottom: 0; font-size: 11px; line-height: 16px; letter-spacing: 2px; text-transform: uppercase; color: #a86f50;">Actualización de la reserva</p>
+                            <h1 style="margin-top: 10px; margin-bottom: 0; font-family: Georgia, 'Times New Roman', serif; font-size: 32px; line-height: 36px; font-weight: normal; color: #30342f;">Tu reserva ha sido cancelada</h1>
+                            <p style="margin-top: 18px; margin-bottom: 0; font-size: 16px; line-height: 25px; color: #62665e;">Lamentamos informarte de que no podremos mantener esta estancia.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 30px; padding-right: 36px; padding-bottom: 30px; padding-left: 36px;">
+                            <p style="margin-top: 0; margin-bottom: 16px; font-size: 16px; line-height: 25px; color: #30342f;">Hola <strong>{{ e($reservation->name) }}</strong>,</p>
+                            <p style="margin-top: 0; margin-bottom: 22px; font-size: 15px; line-height: 24px; color: #62665e;">Estas eran las fechas asociadas a tu solicitud:</p>
+                            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top: 1px solid #d8d0c4; border-bottom: 1px solid #d8d0c4;">
+                                <tr>
+                                    <td style="padding-top: 16px; padding-bottom: 7px; font-size: 13px; line-height: 19px; color: #7c8078;">Entrada</td>
+                                    <td align="right" style="padding-top: 16px; padding-bottom: 7px; font-size: 13px; line-height: 19px; font-weight: bold; color: #30342f;">{{ e($reservation->entryDate) }}</td>
+                                </tr>
+                                <tr>
+                                    <td style="padding-top: 7px; padding-bottom: 16px; font-size: 13px; line-height: 19px; color: #7c8078;">Salida</td>
+                                    <td align="right" style="padding-top: 7px; padding-bottom: 16px; font-size: 13px; line-height: 19px; font-weight: bold; color: #30342f;">{{ e($reservation->outDate) }}</td>
+                                </tr>
+                            </table>
+                            <p style="margin-top: 22px; margin-bottom: 0; padding-top: 11px; padding-right: 14px; padding-bottom: 11px; padding-left: 14px; background-color: #f5efe7; font-size: 13px; line-height: 20px; color: #62665e;"><strong style="color: #a86f50;">¿Quieres intentarlo de nuevo?</strong> Responde a este correo y buscaremos otras fechas contigo.</p>
+                            <p style="margin-top: 26px; margin-bottom: 0; font-size: 13px; line-height: 20px; color: #7c8078;">Si tienes alguna pregunta, estamos aquí para ayudarte.</p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 18px; padding-right: 36px; padding-bottom: 18px; padding-left: 36px; background-color: #f5f1eb;">
+                            <p style="margin: 0; font-size: 11px; line-height: 17px; color: #81847b;">Masia Can Cruz · Parc Natural del Montseny<br>Este es un mensaje automático.</p>
+                        </td>
+                    </tr>
+                </table>
+            </td>
         </tr>
     </table>
-
-    <p>Si tienes alguna pregunta o deseas realizar una nueva reserva, no dudes en contactarnos.</p>
-
-    <hr style="border: none; border-top: 1px solid #ddd; margin: 30px 0;">
-
-    <p style="font-size: 0.875rem; color: #6b7280;">
-        Este es un mensaje automático, por favor no respondas directamente a esta dirección.
-    </p>
 </body>
 </html>
