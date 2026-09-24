@@ -124,6 +124,7 @@ A change is complete when `vendor/bin/pint --test`, `php artisan test`, `npm run
 - **State-changing routes:** non-GET with CSRF protection.
 - **Secrets:** never commit credentials; use `.env`.
 - **Comments:** only when they explain non-obvious intent.
+- **Documentation review:** after every important change, review `README.md` and `AGENTS.md` and update either file when the change affects setup, behavior, architecture, testing, deployment, or repository conventions.
 
 ## References
 
