@@ -12,6 +12,18 @@ test.describe('Interfaz pública responsive', () => {
         await expect(page.locator('[data-menu-toggle]')).toBeHidden();
     });
 
+    test('la home expone una llamada a reservar y un resultado accesible', async ({ page }) => {
+        await page.goto('/');
+
+        const heroBookingLink = page.getByRole('main').getByRole('link', { name: /reservar/i }).first();
+        await expect(heroBookingLink).toBeVisible();
+        await expect(heroBookingLink).toHaveAttribute('href', '#booking');
+
+        const flash = page.locator('#public-flash');
+        await expect(flash).toHaveAttribute('role', 'status');
+        await expect(flash).toHaveAttribute('aria-label', 'Resultado de la reserva');
+    });
+
     test('el menú móvil abre, cierra con Escape y devuelve el foco', async ({ page }) => {
         await page.setViewportSize({ width: 390, height: 844 });
         await page.goto('/');

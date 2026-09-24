@@ -46,4 +46,13 @@ class HomeTest extends TestCase
         $response->assertSee('type="date" id="out_date"', false);
         $response->assertSee('name="email"', false);
     }
+
+    public function test_the_home_page_has_a_hero_reservation_call_to_action(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertSee('href="#booking"', false);
+        $response->assertSee('Consultar disponibilidad y reservar');
+    }
 }

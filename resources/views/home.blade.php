@@ -29,6 +29,7 @@
                     <span>Casa completa</span>
                     <span>Reserva directa</span>
                 </div>
+                <a href="#booking" class="button button--light">Consultar disponibilidad y reservar</a>
             </div>
         </section>
 
@@ -39,7 +40,7 @@
                     <h2 id="booking-title">Elige tu estancia</h2>
                     <p>Selecciona la entrada y la salida. Después te pediremos los datos necesarios para enviar la solicitud.</p>
                 </div>
-                <div class="booking-form-panel">
+                <div id="booking" class="booking-form-panel">
                     <x-public-flash />
                     <x-reservation-form variant="public" :progressive="true" />
                 </div>
