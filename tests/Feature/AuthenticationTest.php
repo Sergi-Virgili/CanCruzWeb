@@ -80,4 +80,15 @@ class AuthenticationTest extends TestCase
             ->assertOk()
             ->assertViewIs('auth.login');
     }
+
+    public function test_login_view_presents_the_branded_admin_experience(): void
+    {
+        $this->get(route('login'))
+            ->assertOk()
+            ->assertSee('Área privada')
+            ->assertSee('Volver a la web')
+            ->assertSee('Recordarme')
+            ->assertSee('class="login-page"', false)
+            ->assertSee('name="remember"', false);
+    }
 }

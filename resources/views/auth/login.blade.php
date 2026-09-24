@@ -1,170 +1,91 @@
 <!DOCTYPE html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="es">
 <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Laravel') }} - Administrator Login</title>
+    <title>Can Cruz | Acceso</title>
 
-    <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        body {
-            font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
-            background-color: #f3f4f6;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 1rem;
-        }
-
-        .login-container {
-            background: white;
-            border-radius: 0.5rem;
-            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06);
-            padding: 2rem;
-            width: 100%;
-            max-width: 28rem;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 1.5rem;
-        }
-
-        .login-header h1 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: #111827;
-        }
-
-        .login-header p {
-            color: #6b7280;
-            margin-top: 0.5rem;
-        }
-
-        .form-group {
-            margin-bottom: 1rem;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.875rem;
-            font-weight: 500;
-            color: #374151;
-            margin-bottom: 0.375rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.5rem 0.75rem;
-            font-size: 1rem;
-            border: 1px solid #d1d5db;
-            border-radius: 0.375rem;
-            outline: none;
-            transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        }
-
-        .form-group input:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-        }
-
-        .form-group input::placeholder {
-            color: #9ca3af;
-        }
-
-        .errors {
-            background-color: #fef2f2;
-            border: 1px solid #fecaca;
-            color: #dc2626;
-            padding: 0.75rem;
-            border-radius: 0.375rem;
-            margin-bottom: 1rem;
-            font-size: 0.875rem;
-        }
-
-        .errors ul {
-            list-style: none;
-        }
-
-        .submit-btn {
-            width: 100%;
-            padding: 0.625rem 1rem;
-            font-size: 1rem;
-            font-weight: 500;
-            color: white;
-            background-color: #2563eb;
-            border: none;
-            border-radius: 0.375rem;
-            cursor: pointer;
-            transition: background-color 0.15s ease-in-out;
-        }
-
-        .submit-btn:hover {
-            background-color: #1d4ed8;
-        }
-
-        .submit-btn:focus {
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.3);
-        }
-    </style>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body>
-    <div class="login-container">
-        <div class="login-header">
-            <h1>{{ config('app.name', 'Laravel') }}</h1>
-            <p>Administrator Login</p>
-        </div>
+<body class="login-page">
+    <a class="login-page__skip-link" href="#login-form">Ir al formulario</a>
 
-        @if ($errors->any())
-            <div class="errors">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
+    <div class="login-page__shell">
+        <header class="login-page__header">
+            <a class="login-page__wordmark" href="{{ route('home') }}" aria-label="Can Cruz, volver a la web">
+                <span class="login-page__mark" aria-hidden="true">C</span>
+                <span>Can <em>Cruz</em></span>
+            </a>
 
-        <form method="POST" action="{{ route('login.store') }}">
-            @csrf
+            <a class="login-page__home-link" href="{{ route('home') }}">Volver a la web</a>
+        </header>
 
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    value="{{ old('email') }}"
-                    placeholder="admin@example.com"
-                    required
-                    autocomplete="email"
-                    autofocus
-                >
-            </div>
+        <main class="login-page__main">
+            <section class="login-card" aria-labelledby="login-title">
+                <div class="login-card__intro">
+                    <p class="login-card__eyebrow">Área privada</p>
+                    <h1 id="login-title">Bienvenido de nuevo</h1>
+                    <p>Accede al panel para gestionar las reservas de Can Cruz.</p>
+                </div>
 
-            <div class="form-group">
-                <label for="password">Password</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="••••••••"
-                    required
-                    autocomplete="current-password"
-                >
-            </div>
+                @if ($errors->any())
+                    <div class="login-alert" id="login-errors" role="alert" aria-live="polite">
+                        <p>Revisa los datos e inténtalo de nuevo.</p>
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
 
-            <button type="submit" class="submit-btn">Sign In</button>
-        </form>
+                <form class="login-form" id="login-form" method="POST" action="{{ route('login.store') }}">
+                    @csrf
+
+                    <div class="login-form__field">
+                        <label for="email">Correo electrónico</label>
+                        <input
+                            type="email"
+                            id="email"
+                            name="email"
+                            value="{{ old('email') }}"
+                            placeholder="admin@ejemplo.com"
+                            required
+                            autocomplete="email"
+                            @if ($errors->has('email')) aria-invalid="true" aria-describedby="login-errors" @endif
+                        >
+                    </div>
+
+                    <div class="login-form__field">
+                        <label for="password">Contraseña</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="Tu contraseña"
+                            required
+                            autocomplete="current-password"
+                            @if ($errors->has('password')) aria-invalid="true" aria-describedby="login-errors" @endif
+                        >
+                    </div>
+
+                    <label class="login-form__remember" for="remember">
+                        <input type="checkbox" id="remember" name="remember" value="1" @checked(old('remember'))>
+                        <span>Recordarme en este dispositivo</span>
+                    </label>
+
+                    <button type="submit" class="login-form__submit">Entrar al panel</button>
+                </form>
+            </section>
+        </main>
+
+        <footer class="login-page__footer">
+            <span>Gestión privada de reservas</span>
+            <span aria-hidden="true">·</span>
+            <a href="{{ route('home') }}">Masia Can Cruz</a>
+        </footer>
     </div>
 </body>
 </html>
