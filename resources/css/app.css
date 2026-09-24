@@ -1234,7 +1234,7 @@ body.admin-menu-open {
 
     .booking-date-grid,
     .booking-contact-grid {
-        grid-template-columns: 1fr 1fr;
+        grid-template-columns: 1fr;
     }
 
     .booking-calendar-meta {

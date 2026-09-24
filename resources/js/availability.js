@@ -115,15 +115,23 @@ async function initializeAvailabilityCalendars() {
         }
 
         if (form.hasAttribute('data-progressive-booking') && dateStep && contactStep && continueButton) {
+            const focusFirstInvalid = (step, fallback) => {
+                const invalidControl = step.querySelector('[aria-invalid="true"]');
+
+                (invalidControl ?? fallback).focus();
+            };
             const showContactStep = () => {
                 dateStep.hidden = true;
                 contactStep.hidden = false;
-                form.querySelector('[name="name"]')?.focus();
+                const nameInput = form.querySelector('[name="name"]');
+                if (nameInput) {
+                    focusFirstInvalid(contactStep, nameInput);
+                }
             };
             const showDateStep = () => {
                 dateStep.hidden = false;
                 contactStep.hidden = true;
-                entryInput.focus();
+                focusFirstInvalid(dateStep, entryInput);
             };
 
             continueButton.hidden = false;
@@ -166,11 +174,13 @@ async function initializeAvailabilityCalendars() {
         } else {
             pickers.forEach(({ status }) => {
                 status.textContent = 'No se pudo cargar la disponibilidad; las fechas se verificarán al enviar.';
+                status.focus();
             });
         }
     } catch {
         pickers.forEach(({ status }) => {
             status.textContent = 'No se pudo cargar la disponibilidad; las fechas se verificarán al enviar.';
+            status.focus();
         });
     }
 }

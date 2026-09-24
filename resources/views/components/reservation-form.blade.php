@@ -71,8 +71,8 @@
                 <span><i class="booking-legend__available"></i>Disponible</span>
                 <span><i class="booking-legend__occupied"></i>Ocupado</span>
             </div>
-            <p class="{{ $hintClass }}" data-availability-status role="status" aria-live="polite">Cargando disponibilidad...</p>
-            <p class="{{ $hintClass }}" data-availability-summary>Selecciona una entrada y una salida.</p>
+            <p class="{{ $hintClass }}" data-availability-status role="status" tabindex="-1" aria-live="polite">Cargando disponibilidad...</p>
+            <p class="{{ $hintClass }}" data-availability-summary aria-live="polite" aria-atomic="true">Selecciona una entrada y una salida.</p>
         </div>
 
         @if ($progressive)

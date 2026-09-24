@@ -28,6 +28,7 @@ class HomeTest extends TestCase
         $response->assertSee('href="#informacion"', false);
         $response->assertSee('href="#reserva"', false);
         $response->assertSee('<main', false);
+        $response->assertSee('aria-label="Resultado de la reserva"', false);
     }
 
     public function test_the_home_page_renders_an_availability_first_reservation_flow(): void
@@ -45,5 +46,14 @@ class HomeTest extends TestCase
         $response->assertSee('type="date" id="entry_date"', false);
         $response->assertSee('type="date" id="out_date"', false);
         $response->assertSee('name="email"', false);
+    }
+
+    public function test_the_home_page_has_a_hero_reservation_call_to_action(): void
+    {
+        $response = $this->get('/');
+
+        $response->assertOk();
+        $response->assertSee('href="#booking"', false);
+        $response->assertSee('Consultar disponibilidad y reservar');
     }
 }
