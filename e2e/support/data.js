@@ -27,9 +27,9 @@ export function futureDate(daysFromToday) {
 
 export async function login(page, { toDashboard = false } = {}) {
     await page.goto('/login');
-    await page.getByRole('textbox', { name: 'Email' }).fill(admin.email);
-    await page.getByRole('textbox', { name: 'Password' }).fill(admin.password);
-    await page.getByRole('button', { name: 'Sign In' }).click();
+    await page.getByRole('textbox', { name: 'Correo electrónico' }).fill(admin.email);
+    await page.getByRole('textbox', { name: 'Contraseña' }).fill(admin.password);
+    await page.getByRole('button', { name: 'Entrar al panel' }).click();
     await page.waitForURL(/admin\/reservations/);
     if (toDashboard) {
         await page.goto('/admin/dashboard');
