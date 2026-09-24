@@ -25,12 +25,12 @@ export function futureDate(daysFromToday) {
     return formatLocalDate(date);
 }
 
-export async function login(page) {
+export async function login(page, { toDashboard = false } = {}) {
     await page.goto('/login');
     await page.getByLabel('Email').fill(admin.email);
     await page.getByLabel('Password').fill(admin.password);
     await page.getByRole('button', { name: 'Sign In' }).click();
-    await page.waitForURL(/admin\/reservations/);
+    await page.waitForURL(toDashboard ? /admin\/dashboard/ : /admin\/reservations/);
 }
 
 export async function submitReservation(page, name, { entry = 7, out = 10 } = {}) {
