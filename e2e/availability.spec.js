@@ -71,4 +71,14 @@ test.describe('Disponibilidad de reservas', () => {
         await expect(page.getByText('3 noches')).toBeVisible();
         await expect(page.getByText(/Entrada:.*Salida:/)).toBeVisible();
     });
+
+    test('explica que la validación del servidor sigue disponible si falla la disponibilidad', async ({ page }) => {
+        await page.route('**/availability', (route) => route.fulfill({ status: 503, body: 'Unavailable' }));
+        await page.goto('/');
+
+        const status = page.locator('[data-availability-status]').first();
+
+        await expect(status).toHaveText('No se pudo cargar la disponibilidad; las fechas se verificarán al enviar.');
+        await expect(status).toBeFocused();
+    });
 });

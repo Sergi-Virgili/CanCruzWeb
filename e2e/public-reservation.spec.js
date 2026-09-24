@@ -2,6 +2,32 @@ import { expect, test } from '@playwright/test';
 import { futureDate, submitReservation, uniqueGuestName } from './support/data.js';
 
 test.describe('Flujo público de reservas (desde la home)', () => {
+    test('en móvil apila los campos y mueve el foco entre los pasos', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.goto('/');
+
+        const dateGrid = page.locator('.booking-date-grid');
+        const contactGrid = page.locator('.booking-contact-grid');
+
+        await expect(dateGrid).toHaveCSS('grid-template-columns', /^(?!.*\s).+$/);
+        await expect(contactGrid).toHaveCSS('grid-template-columns', /^(?!.*\s).+$/);
+        await expect.poll(async () => {
+            return page.locator('.booking-form').evaluate((form) => ({
+                formFits: form.scrollWidth <= form.clientWidth,
+                dateFits: form.querySelector('.booking-date-grid').scrollWidth <= form.querySelector('.booking-date-grid').clientWidth,
+                contactFits: form.querySelector('.booking-contact-grid').scrollWidth <= form.querySelector('.booking-contact-grid').clientWidth,
+            }));
+        }).toEqual({ formFits: true, dateFits: true, contactFits: true });
+
+        await page.getByLabel('Fecha de entrada').fill(futureDate(7));
+        await page.getByLabel('Fecha de salida').fill(futureDate(10));
+        await page.locator('[data-booking-continue]').click();
+
+        await expect(page.getByLabel('Nombre completo').first()).toBeFocused();
+        await page.locator('[data-booking-back]').click();
+        await expect(page.getByLabel('Fecha de entrada').first()).toBeFocused();
+    });
+
     test('la home muestra primero la disponibilidad y después los datos de contacto', async ({ page }) => {
         await page.goto('/');
 
