@@ -50,7 +50,12 @@ export async function submitReservation(page, name, { entry = 7, out = 10 } = {}
     await page.getByLabel('Nombre completo').fill(name);
     await page.getByLabel('Correo electrónico').fill('qa@example.com');
     await page.getByLabel('Mensaje').fill('Reserva creada por la suite e2e.');
+    const submission = page.waitForResponse((response) => {
+        return response.request().method() === 'POST' && new URL(response.url()).pathname === '/reservations';
+    });
+
     await page.getByRole('button', { name: 'Enviar solicitud' }).click();
+    await submission;
 }
 
 export function reservationRow(page, name) {
