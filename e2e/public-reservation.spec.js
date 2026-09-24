@@ -55,6 +55,28 @@ test.describe('Flujo público de reservas (desde la home)', () => {
         await expect(page.getByText('Hemos recibido tu solicitud de reserva.')).toBeVisible();
     });
 
+    test('en móvil completa la reserva desde la llamada a reservar hasta el resultado anunciado', async ({ page }) => {
+        await page.setViewportSize({ width: 390, height: 844 });
+        await page.goto('/');
+
+        await page.getByRole('main').getByRole('link', { name: /reservar/i }).first().click();
+        await expect(page.locator('#booking')).toBeVisible();
+
+        await page.getByLabel('Fecha de entrada').fill(futureDate(14));
+        await page.getByLabel('Fecha de salida').fill(futureDate(17));
+        await page.locator('[data-booking-continue]').click();
+
+        await expect(page.locator('[data-contact-step]')).toBeVisible();
+        await expect(page.getByLabel('Nombre completo').first()).toBeFocused();
+
+        await page.getByLabel('Nombre completo').fill(uniqueGuestName());
+        await page.getByLabel('Correo electrónico').fill('qa@example.com');
+        await page.getByLabel('Mensaje').fill('Reserva creada por la suite e2e.');
+        await page.getByRole('button', { name: 'Enviar solicitud' }).click();
+
+        await expect(page.locator('#public-flash')).toHaveText('Hemos recibido tu solicitud de reserva.');
+    });
+
     test('mueve el foco al primer campo inválido tras la validación del servidor', async ({ page }) => {
         await page.goto('/');
         await page.getByLabel('Fecha de entrada').fill(futureDate(200));

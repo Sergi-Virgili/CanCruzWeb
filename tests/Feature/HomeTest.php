@@ -28,6 +28,7 @@ class HomeTest extends TestCase
         $response->assertSee('href="#informacion"', false);
         $response->assertSee('href="#reserva"', false);
         $response->assertSee('<main', false);
+        $response->assertSee('aria-label="Resultado de la reserva"', false);
     }
 
     public function test_the_home_page_renders_an_availability_first_reservation_flow(): void
