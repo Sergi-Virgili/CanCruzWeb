@@ -1,15 +1,5 @@
 <x-layouts.app>
     <div class="max-w-7xl mx-auto">
-        <nav aria-label="Navegación de administración" class="flex gap-4 mb-6">
-            <a href="{{ route('admin.dashboard') }}" class="text-indigo-600 hover:text-indigo-900 text-sm">Dashboard</a>
-            <a href="{{ route('admin.reservations.index') }}" class="text-indigo-600 hover:text-indigo-900 text-sm">Reservas</a>
-            <a href="{{ route('admin.calendar.index') }}" class="text-indigo-600 hover:text-indigo-900 text-sm">Calendario</a>
-            <form method="POST" action="{{ route('logout') }}" class="ml-auto">
-                @csrf
-                <button type="submit" class="text-sm text-gray-600 hover:text-gray-900 border-none bg-transparent p-0 cursor-pointer">Cerrar sesión</button>
-            </form>
-        </nav>
-
         @if ($reservations->isEmpty())
             <div class="bg-gray-50 border border-gray-200 rounded-lg p-8 text-center">
                 <p class="text-gray-600">No hay reservas registradas.</p>

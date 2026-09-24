@@ -27,10 +27,14 @@ export function futureDate(daysFromToday) {
 
 export async function login(page, { toDashboard = false } = {}) {
     await page.goto('/login');
-    await page.getByLabel('Email').fill(admin.email);
-    await page.getByLabel('Password').fill(admin.password);
+    await page.getByRole('textbox', { name: 'Email' }).fill(admin.email);
+    await page.getByRole('textbox', { name: 'Password' }).fill(admin.password);
     await page.getByRole('button', { name: 'Sign In' }).click();
-    await page.waitForURL(toDashboard ? /admin\/dashboard/ : /admin\/reservations/);
+    await page.waitForURL(/admin\/reservations/);
+    if (toDashboard) {
+        await page.goto('/admin/dashboard');
+        await page.waitForSelector('h1:text("Dashboard")');
+    }
 }
 
 export async function submitReservation(page, name, { entry = 7, out = 10 } = {}) {

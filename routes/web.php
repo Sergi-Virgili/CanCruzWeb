@@ -42,6 +42,8 @@ Route::prefix('admin')->name('admin.')->middleware('auth')->group(function (): v
 
     Route::get('/calendar', [CalendarController::class, 'index'])
         ->name('calendar.index');
+    Route::get('/calendar/events', [CalendarController::class, 'events'])
+        ->name('calendar.events');
     Route::post('/calendar/blocks', [CalendarController::class, 'store'])
         ->name('calendar.blocks.store');
     Route::patch('/calendar/blocks/{block}', [CalendarController::class, 'update'])

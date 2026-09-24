@@ -22,7 +22,7 @@ test.describe('Administración de reservas', () => {
     test('el administrador inicia sesión y ve el listado', async ({ page }) => {
         await login(page);
 
-        await expect(page.getByRole('heading', { name: 'Administración de Reservas' })).toBeVisible();
+        await expect(page.getByRole('link', { name: 'Reservas', exact: true })).toBeVisible();
         await expect(page.getByRole('button', { name: 'Cerrar sesión' })).toBeVisible();
     });
 

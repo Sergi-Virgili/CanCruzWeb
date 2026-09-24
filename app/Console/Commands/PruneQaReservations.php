@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Models\DateBlock;
 use App\Models\Reservation;
 use Illuminate\Console\Command;
 
@@ -23,7 +24,11 @@ class PruneQaReservations extends Command
             ->where('name', 'like', 'QA E2E%')
             ->delete();
 
-        $this->info("Deleted {$deleted} QA reservation(s).");
+        $blockDeleted = DateBlock::query()
+            ->where('reason', 'like', '%e2e%')
+            ->delete();
+
+        $this->info("Deleted {$deleted} QA reservation(s) and {$blockDeleted} QA block(s).");
 
         return self::SUCCESS;
     }

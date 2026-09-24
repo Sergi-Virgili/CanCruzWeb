@@ -29,6 +29,10 @@ body.menu-open {
     overflow: hidden;
 }
 
+body.admin-menu-open {
+    overflow: hidden;
+}
+
 .public-home {
     margin: 0;
     overflow-x: clip;
@@ -987,6 +991,387 @@ body.menu-open {
     }
 }
 
+.admin-shell {
+    --admin-sidebar-width: 15rem;
+    --admin-sidebar-compact-width: 4.25rem;
+    display: flex;
+    min-height: 100vh;
+    background: var(--linen);
+    color: var(--ink);
+    font-family: var(--font-sans);
+}
+
+.admin-sidebar {
+    position: sticky;
+    top: 0;
+    z-index: 80;
+    display: flex;
+    width: var(--admin-sidebar-width);
+    height: 100vh;
+    flex-shrink: 0;
+    flex-direction: column;
+    background: var(--forest-deep);
+    color: var(--paper);
+    transition: width 180ms ease, transform 180ms ease;
+}
+
+.admin-sidebar[data-collapsed='true'] {
+    width: var(--admin-sidebar-compact-width);
+}
+
+.admin-sidebar__brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin: 1rem 0.75rem 1.25rem;
+    border-bottom: 1px solid rgb(255 255 255 / 16%);
+    padding: 0 0.4rem 1.25rem;
+}
+
+.admin-sidebar__wordmark {
+    display: flex;
+    min-width: 0;
+    align-items: center;
+    gap: 0.55rem;
+    color: inherit;
+    font-family: var(--font-serif);
+    font-size: 1.35rem;
+    text-decoration: none;
+}
+
+.admin-sidebar__mark,
+.admin-sidebar__account-mark {
+    display: grid;
+    width: 2rem;
+    height: 2rem;
+    flex-shrink: 0;
+    place-items: center;
+    border-radius: 0.5rem;
+    background: var(--clay);
+    color: white;
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    font-weight: 800;
+}
+
+.admin-sidebar__brand-name em {
+    font-weight: 400;
+}
+
+.admin-sidebar__toggle,
+.admin-header__mobile-toggle {
+    display: grid;
+    place-items: center;
+    border: 0;
+    background: transparent;
+    color: rgb(255 253 248 / 72%);
+    cursor: pointer;
+    font-size: 1.4rem;
+}
+
+.admin-sidebar__toggle {
+    width: 2rem;
+    height: 2rem;
+    margin-left: auto;
+    border-radius: 0.35rem;
+}
+
+.admin-sidebar__toggle:hover,
+.admin-sidebar__toggle:focus-visible {
+    background: rgb(255 255 255 / 12%);
+    color: white;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__brand {
+    justify-content: center;
+    margin-inline: 0.5rem;
+    padding-inline: 0;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__brand-name,
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__label,
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__link span:not(.admin-sidebar__badge),
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__account-copy,
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__logout span {
+    display: none;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__toggle {
+    margin-left: 0;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__toggle span {
+    display: inline-block;
+    transform: rotate(180deg);
+}
+
+.admin-sidebar__navigation {
+    padding-inline: 0.75rem;
+}
+
+.admin-sidebar__label,
+.admin-header__eyebrow {
+    margin: 0 0 0.45rem 0.5rem;
+    color: rgb(255 255 255 / 56%);
+    font-size: 0.65rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.admin-sidebar__link,
+.admin-sidebar__logout {
+    display: flex;
+    min-height: 2.75rem;
+    align-items: center;
+    gap: 0.7rem;
+    border-radius: 0.45rem;
+    color: rgb(255 253 248 / 76%);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: background-color 150ms ease, color 150ms ease;
+}
+
+.admin-sidebar__link {
+    position: relative;
+    padding: 0.55rem 0.65rem;
+}
+
+.admin-sidebar__link:hover,
+.admin-sidebar__link:focus-visible,
+.admin-sidebar__logout:hover,
+.admin-sidebar__logout:focus-visible {
+    background: rgb(255 255 255 / 10%);
+    color: white;
+}
+
+.admin-sidebar__link.is-active {
+    background: #dfeade;
+    color: var(--forest-deep);
+}
+
+.admin-sidebar__link svg,
+.admin-sidebar__logout svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    flex-shrink: 0;
+    fill: none;
+    stroke: currentColor;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    stroke-width: 1.6;
+}
+
+.admin-sidebar__badge {
+    min-width: 1.25rem;
+    margin-left: auto;
+    border-radius: 999px;
+    background: var(--clay);
+    padding: 0.15rem 0.35rem;
+    color: white;
+    font-size: 0.65rem;
+    text-align: center;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__link {
+    justify-content: center;
+    padding-inline: 0;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__badge {
+    position: absolute;
+    top: 0.2rem;
+    right: 0.15rem;
+    min-width: 0.85rem;
+    padding: 0.1rem;
+    font-size: 0.55rem;
+}
+
+.admin-sidebar__footer {
+    margin-top: auto;
+    border-top: 1px solid rgb(255 255 255 / 14%);
+    padding: 1rem 0.75rem;
+}
+
+.admin-sidebar__account {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    margin: 0 0.4rem 0.75rem;
+}
+
+.admin-sidebar__account-copy {
+    display: grid;
+    min-width: 0;
+    gap: 0.15rem;
+}
+
+.admin-sidebar__account-copy strong,
+.admin-sidebar__account-copy small {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.admin-sidebar__account-copy strong {
+    font-size: 0.72rem;
+}
+
+.admin-sidebar__account-copy small {
+    color: rgb(255 253 248 / 55%);
+    font-size: 0.62rem;
+}
+
+.admin-sidebar__logout {
+    width: 100%;
+    border: 0;
+    background: transparent;
+    padding: 0.55rem 0.4rem;
+    cursor: pointer;
+    text-align: left;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__footer {
+    padding-inline: 0.5rem;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__account {
+    justify-content: center;
+    margin-inline: 0;
+}
+
+.admin-sidebar[data-collapsed='true'] .admin-sidebar__logout {
+    justify-content: center;
+    padding-inline: 0;
+}
+
+.admin-main {
+    min-width: 0;
+    flex: 1;
+}
+
+.admin-header {
+    display: flex;
+    min-height: 5.6rem;
+    align-items: center;
+    gap: 0.75rem;
+    border-bottom: 1px solid var(--stone);
+    padding: 1.25rem clamp(1.25rem, 4vw, 3.5rem);
+    background: rgb(255 253 248 / 70%);
+}
+
+.admin-header__eyebrow {
+    margin: 0 0 0.25rem;
+    color: var(--clay-dark);
+    font-size: 0.62rem;
+}
+
+.admin-header__title {
+    margin: 0;
+    color: var(--forest-deep);
+    font-family: var(--font-serif);
+    font-size: clamp(1.55rem, 3vw, 2.15rem);
+    font-weight: 500;
+    letter-spacing: -0.04em;
+}
+
+.admin-header__mobile-toggle {
+    display: none;
+    width: 2.4rem;
+    height: 2.4rem;
+    border-radius: 0.45rem;
+    background: var(--forest-deep);
+    color: white;
+    font-size: 1rem;
+}
+
+.admin-content {
+    width: min(100%, 92rem);
+    margin-inline: auto;
+    padding: clamp(1.25rem, 3vw, 2.75rem) clamp(1.25rem, 4vw, 3.5rem);
+}
+
+.admin-shell__overlay {
+    display: none;
+}
+
+@media (max-width: 899px) {
+    .admin-sidebar {
+        position: fixed;
+        left: 0;
+        transform: translateX(-100%);
+    }
+
+    .admin-sidebar[data-mobile-open='true'] {
+        transform: translateX(0);
+    }
+
+    .admin-sidebar[data-collapsed='true'] {
+        width: var(--admin-sidebar-width);
+    }
+
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__brand-name,
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__label,
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__link span:not(.admin-sidebar__badge),
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__account-copy,
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__logout span {
+        display: inline;
+    }
+
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__brand {
+        justify-content: initial;
+        margin-inline: 0.75rem;
+        padding-inline: 0.4rem;
+    }
+
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__toggle {
+        margin-left: auto;
+    }
+
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__toggle span {
+        transform: none;
+    }
+
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__link,
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__logout {
+        justify-content: initial;
+        padding-inline: 0.65rem;
+    }
+
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__badge {
+        position: static;
+        min-width: 1.25rem;
+        padding: 0.15rem 0.35rem;
+        font-size: 0.65rem;
+    }
+
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__footer {
+        padding-inline: 0.75rem;
+    }
+
+    .admin-sidebar[data-collapsed='true'] .admin-sidebar__account {
+        justify-content: initial;
+        margin-inline: 0.4rem;
+    }
+
+    .admin-header__mobile-toggle {
+        display: grid;
+    }
+
+    .admin-shell__overlay {
+        position: fixed;
+        inset: 0;
+        z-index: 70;
+        border: 0;
+        background: rgb(30 47 38 / 45%);
+    }
+
+    .admin-shell__overlay:not([hidden]) {
+        display: block;
+    }
+}
+
 /* Custom scrollbar */
 ::-webkit-scrollbar {
     width: 6px;
@@ -1001,6 +1386,243 @@ body.menu-open {
 }
 ::-webkit-scrollbar-thumb:hover {
     background: var(--muted);
+}
+
+.admin-calendar-page {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 18rem;
+    gap: 1.5rem;
+}
+
+.admin-calendar-page__aside {
+    display: grid;
+    align-content: start;
+    gap: 1.5rem;
+}
+
+.admin-card {
+    border: 1px solid rgb(222 215 203 / 72%);
+    border-radius: 1.25rem;
+    background: var(--paper);
+    box-shadow: 0 1rem 2.5rem rgb(51 72 58 / 7%);
+}
+
+.admin-calendar-card {
+    padding: clamp(1rem, 2vw, 1.5rem);
+}
+
+.admin-calendar-card__intro {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.admin-eyebrow {
+    margin: 0 0 0.35rem;
+    color: var(--clay-dark);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+}
+
+.admin-section-title {
+    margin: 0;
+    color: var(--forest-deep);
+    font-size: 1.1rem;
+    font-weight: 800;
+}
+
+.admin-calendar-card__hint {
+    max-width: 22rem;
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.78rem;
+    line-height: 1.5;
+    text-align: right;
+}
+
+#admin-calendar {
+    --fc-border-color: rgb(222 215 203 / 70%);
+    --fc-button-bg-color: var(--forest);
+    --fc-button-border-color: var(--forest);
+    --fc-button-hover-bg-color: var(--clay-dark);
+    --fc-button-hover-border-color: var(--clay-dark);
+    --fc-button-active-bg-color: var(--clay);
+    --fc-button-active-border-color: var(--clay);
+    --fc-today-bg-color: rgb(184 103 67 / 8%);
+    color: var(--ink);
+    font-size: 0.82rem;
+}
+
+#admin-calendar .fc-toolbar-title {
+    color: var(--forest-deep);
+    font-size: clamp(1rem, 2vw, 1.35rem);
+    font-weight: 800;
+}
+
+#admin-calendar .fc-button {
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 800;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+#admin-calendar .fc-daygrid-day-frame {
+    min-height: 6.4rem;
+}
+
+#admin-calendar .fc-daygrid-day-number {
+    color: var(--muted);
+    font-weight: 700;
+}
+
+#admin-calendar .fc-event {
+    cursor: pointer;
+    border: 0;
+    border-radius: 0.4rem;
+    padding: 0.18rem 0.35rem;
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+#admin-calendar .calendar-event--pending {
+    background: #d89b55;
+    color: #312318;
+}
+
+#admin-calendar .calendar-event--confirmed {
+    background: var(--forest);
+    color: white;
+}
+
+#admin-calendar .calendar-event--block {
+    background: var(--clay-dark);
+    color: white;
+}
+
+.admin-calendar-drawer[hidden] {
+    display: none;
+}
+
+.admin-calendar-drawer {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+}
+
+.admin-calendar-drawer__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgb(30 47 38 / 42%);
+}
+
+.admin-calendar-drawer__panel {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: flex;
+    flex-direction: column;
+    width: min(100%, 27rem);
+    height: 100%;
+    overflow-y: auto;
+    background: var(--paper);
+    box-shadow: -1.5rem 0 3rem rgb(30 47 38 / 18%);
+}
+
+.admin-calendar-drawer__header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    border-bottom: 1px solid var(--stone);
+    padding: 1.5rem;
+}
+
+.admin-calendar-drawer__close {
+    display: grid;
+    width: 2.25rem;
+    height: 2.25rem;
+    place-items: center;
+    border: 1px solid var(--stone);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--forest-deep);
+    font-size: 1.5rem;
+    line-height: 1;
+}
+
+.admin-calendar-drawer__content,
+.admin-calendar-block-form {
+    display: grid;
+    gap: 1rem;
+    padding: 1.5rem;
+}
+
+.admin-calendar-drawer__content:empty {
+    display: none;
+}
+
+.admin-calendar-drawer__description {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.86rem;
+    line-height: 1.55;
+}
+
+.admin-calendar-detail__label {
+    color: var(--muted);
+    font-size: 0.68rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.admin-calendar-detail__value {
+    margin-top: 0.2rem;
+    color: var(--ink);
+    font-size: 0.95rem;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.button--danger {
+    background: #8d3d31;
+}
+
+@media (max-width: 900px) {
+    .admin-calendar-page {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 640px) {
+    .admin-calendar-card__intro {
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .admin-calendar-card__hint {
+        text-align: left;
+    }
+
+    #admin-calendar .fc-toolbar {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    #admin-calendar .fc-toolbar-chunk {
+        display: flex;
+        gap: 0.35rem;
+    }
+
+    #admin-calendar .fc-daygrid-day-frame {
+        min-height: 4.5rem;
+    }
 }
 
 @media (prefers-reduced-motion: reduce) {

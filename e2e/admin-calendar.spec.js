@@ -11,16 +11,16 @@ test.describe('Dashboard administrativo', () => {
     test('el dashboard muestra estadísticas', async ({ page }) => {
         await login(page, { toDashboard: true });
 
-        await expect(page.getByText('Pendientes')).toBeVisible();
-        await expect(page.getByText('Confirmadas')).toBeVisible();
-        await expect(page.getByText('Entradas esta semana')).toBeVisible();
-        await expect(page.getByText('Ocupación este mes')).toBeVisible();
+        await expect(page.getByText('Pendientes', { exact: true })).toBeVisible();
+        await expect(page.getByText('Confirmadas', { exact: true })).toBeVisible();
+        await expect(page.getByText('Entradas esta semana', { exact: true })).toBeVisible();
+        await expect(page.getByText('Ocupación este mes', { exact: true })).toBeVisible();
     });
 
     test('el dashboard enlaza al calendario', async ({ page }) => {
         await login(page, { toDashboard: true });
 
-        await page.getByText('Calendario').first().click();
+        await page.getByRole('link', { name: /Ver calendario completo/ }).click();
         await expect(page).toHaveURL(/\/admin\/calendar/);
     });
 });
@@ -40,20 +40,24 @@ test.describe('Calendario administrativo', () => {
 
         const today = new Date();
         const entry = new Date(today);
-        entry.setDate(entry.getDate() + 30);
+        entry.setDate(entry.getDate() + 10);
         const out = new Date(entry);
         out.setDate(out.getDate() + 2);
+        const entryDate = entry.toISOString().split('T')[0];
 
         await page.goto('/admin/calendar');
 
-        const entryInput = page.locator('input[name="entry_date"]');
-        const outInput = page.locator('input[name="out_date"]');
-        const reasonInput = page.locator('textarea[name="reason"]');
+        await page.locator(`td[data-date="${entryDate}"]`).click();
 
-        await entryInput.fill(entry.toISOString().split('T')[0]);
+        const drawer = page.getByRole('dialog', { name: 'Crear bloqueo' });
+        const entryInput = drawer.locator('input[name="entry_date"]');
+        const outInput = drawer.locator('input[name="out_date"]');
+        const reasonInput = drawer.locator('textarea[name="reason"]');
+
+        await entryInput.fill(entryDate);
         await outInput.fill(out.toISOString().split('T')[0]);
         await reasonInput.fill('Bloqueo de mantenimiento e2e');
-        await page.getByRole('button', { name: 'Bloquear fechas' }).click();
+        await drawer.getByRole('button', { name: 'Bloquear fechas' }).click();
 
         await expect(page.getByText('El bloque de fechas se ha creado correctamente.')).toBeVisible();
     });
@@ -65,25 +69,41 @@ test.describe('Calendario administrativo', () => {
 
         await page.goto('/admin/calendar');
 
-        const blockCountBefore = await page.locator('li').filter({ hasText: 'Bloqueado' }).count();
+        const blockDate = new Date();
+        blockDate.setDate(blockDate.getDate() + 14);
+        const blockDateString = blockDate.toISOString().split('T')[0];
+        const outDate = new Date(blockDate);
+        outDate.setDate(outDate.getDate() + 2);
 
-        const firstBlock = page.locator('li').filter({ hasText: 'Bloqueado' }).first();
-        if (blockCountBefore > 0) {
-            await firstBlock.getByRole('button', { name: 'Eliminar' }).click();
-            await page.once('dialog', (dialog) => dialog.accept());
+        await page.locator(`td[data-date="${blockDateString}"]`).click();
+        const createDrawer = page.getByRole('dialog', { name: 'Crear bloqueo' });
+        await createDrawer.locator('input[name="entry_date"]').fill(blockDateString);
+        await createDrawer.locator('input[name="out_date"]').fill(outDate.toISOString().split('T')[0]);
+        await createDrawer.locator('textarea[name="reason"]').fill('Bloqueo para eliminar e2e');
+        await createDrawer.getByRole('button', { name: 'Bloquear fechas' }).click();
+        await expect(page.getByText('El bloque de fechas se ha creado correctamente.')).toBeVisible();
 
-            await expect(page.getByText('El bloque de fechas se ha eliminado.')).toBeVisible();
-        }
+        const blockEvent = page.locator('.calendar-event--block').first();
+        await expect(blockEvent).toBeVisible();
+        await blockEvent.click();
+        const detailDrawer = page.getByRole('dialog', { name: 'Detalle del bloqueo' });
+        await page.once('dialog', (dialog) => dialog.accept());
+        await detailDrawer.getByRole('button', { name: 'Eliminar bloqueo' }).click();
+
+        await expect(page.getByText('El bloque de fechas se ha eliminado.')).toBeVisible();
     });
 
-    test('el calendario muestra reservas confirmadas', async ({ page }) => {
+    test('el calendario muestra una reserva y su estado', async ({ page }) => {
         const name = uniqueGuestName();
         await submitReservation(page, name);
         await login(page);
 
         await page.goto('/admin/calendar');
 
-        await expect(page.getByText('Confirmado')).toBeVisible();
+        const event = page.locator('.fc-event').filter({ hasText: name });
+        await expect(event).toBeVisible();
+        await event.click();
+        await expect(page.getByRole('dialog', { name: 'Detalle de la reserva' })).toContainText('Pendiente');
     });
 
     test('el calendario permite navegar entre meses', async ({ page }) => {
