@@ -1,4 +1,6 @@
 .git
+.worktrees
+.superpowers
 .env
 .env.local
 .env.*.local
